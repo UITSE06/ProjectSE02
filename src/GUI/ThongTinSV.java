@@ -623,7 +623,7 @@ public class ThongTinSV extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jXLabel1.setForeground(new java.awt.Color(153, 204, 255));
+        jXLabel1.setForeground(new java.awt.Color(51, 153, 255));
         jXLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jXLabel1.setText("THÔNG TIN SINH VIÊN");
         jXLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
