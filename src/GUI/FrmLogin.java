@@ -6,8 +6,6 @@
 package GUI;
 
 import DAL.Crypter;
-import GUI.SQLServerConnector;
-import GUI.frmMain;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -31,7 +29,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public FrmLogin() {
         initComponents();
         lbThongBao.setVisible(false);
-        connect = new SQLServerConnector("HUNGNGOC",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
+        connect = new SQLServerConnector("58.186.191.67",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
     }
 
     /**
