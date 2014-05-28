@@ -86,7 +86,7 @@ public class ThongTinSV extends javax.swing.JPanel {
     }
 
     public void LoadData() throws Exception {
-        connect = new SQLServerConnector("HUNGNGOC", 1433, "sa", "789", "QUANLYDANGKYMONHOC");
+        connect = new SQLServerConnector("58.186.191.67",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
         ///-- Lay du lieu voi Store Procedure
         rs = connect.excuteStore("{call LoadSV}");
 
