@@ -29,7 +29,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public FrmLogin() {
         initComponents();
         lbThongBao.setVisible(false);
-        connect = new SQLServerConnector("58.186.191.67",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
+        connect = new SQLServerConnector("JOHNTRAN",1433,"","","QUANLYDANGKYMONHOC");
     }
 
     /**
