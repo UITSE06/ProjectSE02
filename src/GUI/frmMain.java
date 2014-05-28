@@ -82,6 +82,7 @@ public class frmMain extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
@@ -256,6 +257,14 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem6);
+
+        jMenuItem14.setText("Danh sách Ngành học");
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem14ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem14);
 
         jMenuBar1.add(jMenu2);
 
@@ -437,6 +446,21 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        DanhSachNganh dsNganh = new DanhSachNganh();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Danh sách ngành   ", null, dsNganh, "dsNganh");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Danh sách ngành   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Danh sách ngành   ", null, dsNganh, "dsNganh");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách ngành   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách ngành   "));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
     private void setClocks() {
 
         Thread clock = new Thread() {
@@ -517,6 +541,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

@@ -5,9 +5,9 @@
 package GUI;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,7 +65,7 @@ public class SQLServerConnector {
                 ds.setUser(this.userName);
                 ds.setPassword(this.password);
                 this.connect = ds.getConnection();
-            } catch (java.sql.SQLException e) {
+            } catch (SQLServerException e) {
                 throw new Exception("Khong the ket noi den Database Server. " + e.getSQLState());
             }
         }
@@ -130,7 +130,7 @@ public class SQLServerConnector {
         try {
             //Thuc thi cau lenh
             res = getCallableStatement(Store).executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {
@@ -144,7 +144,7 @@ public class SQLServerConnector {
     {
         try {
             this.result = state.executeQuery();
-        } catch (Exception e) {
+        } catch (SQLException e) {
         }
         return this.result;
     }
@@ -155,7 +155,7 @@ public class SQLServerConnector {
         try {
             //Thuc thi cau lenh
             res = state.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {
