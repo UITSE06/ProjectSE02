@@ -9,11 +9,13 @@ import DAL.Crypter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import BLL.*;
+import PUBLIC.*;
+
 
 /**
  *
@@ -24,12 +26,12 @@ public class FrmLogin extends javax.swing.JFrame {
     /**
      * Creates new form FrmLogin
      */
-    private final SQLServerConnector connect;
-
+    private DangNhapBLL dnBLL = new DangNhapBLL();
+    private NhanVienPublic nvP = new NhanVienPublic();
+    
     public FrmLogin() {
         initComponents();
         lbThongBao.setVisible(false);
-        connect = new SQLServerConnector("JOHNTRAN",1433,"","","QUANLYDANGKYMONHOC");
     }
 
     /**
@@ -223,10 +225,8 @@ public class FrmLogin extends javax.swing.JFrame {
     private void Login() throws SQLException, Exception {
         try {
             // Lay du lieu voi Store Procedure co tham so
-            String strCall = "{call GetPassByUserName(?)}";
-            CallableStatement cabCmd = connect.getCallableStatement(strCall);
-            cabCmd.setString(1, txtTenDangNhap.getText().trim());
-            ResultSet rs = connect.excuteStore_Para(cabCmd);
+            nvP.setTenDN(txtTenDangNhap.getText().trim());
+            ResultSet rs = dnBLL.GetPassByUserName(nvP);
             if (rs.next()) {
                 String matkhau = rs.getString("MatKhau");
                 if (Crypter.encryptMD5(new String(passMatKhau.getPassword())).equals(matkhau)) {

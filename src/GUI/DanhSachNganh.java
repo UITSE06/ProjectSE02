@@ -40,11 +40,11 @@ public class DanhSachNganh extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox();
         jSpinner1 = new javax.swing.JSpinner();
         ControlPanel = new org.jdesktop.swingx.JXPanel();
-        btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnThem = new org.jdesktop.swingx.JXButton();
+        btnCapNhat = new org.jdesktop.swingx.JXButton();
+        btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXuatDS = new org.jdesktop.swingx.JXButton();
         btnLuu = new org.jdesktop.swingx.JXButton();
-        btnCapNhat = new org.jdesktop.swingx.JXButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         MhDuocDKi = new org.jdesktop.swingx.JXTable();
         TopPanel = new org.jdesktop.swingx.JXPanel();
@@ -132,45 +132,20 @@ public class DanhSachNganh extends javax.swing.JPanel {
 
         ControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Điều khiển"));
 
-        btnLamMoi.setText("Làm Mới");
-
         btnThem.setText("Thêm");
+        ControlPanel.add(btnThem);
+
+        btnCapNhat.setText("Cập Nhật");
+        ControlPanel.add(btnCapNhat);
+
+        btnLamMoi.setText("Làm Mới");
+        ControlPanel.add(btnLamMoi);
 
         btnXuatDS.setText("Xuất Danh Sách");
+        ControlPanel.add(btnXuatDS);
 
         btnLuu.setText("Làm Mới");
-
-        btnCapNhat.setText("Làm Mới");
-
-        javax.swing.GroupLayout ControlPanelLayout = new javax.swing.GroupLayout(ControlPanel);
-        ControlPanel.setLayout(ControlPanelLayout);
-        ControlPanelLayout.setHorizontalGroup(
-            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ControlPanelLayout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
-        );
-        ControlPanelLayout.setVerticalGroup(
-            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0))
-        );
+        ControlPanel.add(btnLuu);
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách ngành học"));
 

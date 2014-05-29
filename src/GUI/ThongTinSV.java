@@ -46,7 +46,7 @@ public class ThongTinSV extends javax.swing.JPanel {
     /**
      * Creates new form DangKyMon
      */
-    private SQLServerConnector connect;
+    //private SQLServerConnector connect;
     private ResultSet rs;
     private DefaultTableModel dtm;
     private DefaultTableModel model;
@@ -86,9 +86,9 @@ public class ThongTinSV extends javax.swing.JPanel {
     }
 
     public void LoadData() throws Exception {
-        connect = new SQLServerConnector("58.186.191.67",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
+        //connect = new SQLServerConnector("58.186.191.67",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
         ///-- Lay du lieu voi Store Procedure
-        rs = connect.excuteStore("{call LoadSV}");
+        //rs = connect.excuteStore("{call LoadSV}");
 
         // Lay du lieu voi Store Procedure co tham so
 //        String strCall = "{call LoadSV_MSSV(?)}";
@@ -177,15 +177,15 @@ public class ThongTinSV extends javax.swing.JPanel {
     }
 
     public void Fillcombo() {
-        try {
-            ResultSet x = connect.excuteStore("{call LoadDT}");
-            while (x.next()) {
-                String dTuong = x.getString(2);
-                cbxDoiTuong.addItem(dTuong);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            //ResultSet x = connect.excuteStore("{call LoadDT}");
+//            while (x.next()) {
+//                String dTuong = x.getString(2);
+//                cbxDoiTuong.addItem(dTuong);
+//            }
+//        } catch (Exception ex) {
+//            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -705,14 +705,12 @@ public class ThongTinSV extends javax.swing.JPanel {
             PreparedStatement pstmt;
 
             query = ("Update SINHVIEN set HinhDaiDien = ? where HoTen = N'Nguyễn Thành Thái'");
-            pstmt = connect.getPrepareStatement(query);
+            //pstmt = connect.getPrepareStatement(query);
 
             // Method used to insert a stream of bytes
-            pstmt.setBinaryStream(1, fin, len);
+            //pstmt.setBinaryStream(1, fin, len);
 
-            pstmt.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            //pstmt.executeUpdate();
         } catch (IOException ex) {
             Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

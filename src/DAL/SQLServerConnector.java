@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package DAL;
 
+import GUI.*;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +36,8 @@ public class SQLServerConnector {
     CallableStatement callableSta = null; // Khoi tao callableStatement
     ResultSet result = null;            // Khoi tao ResultSet de chua du lieu sau khi thuc thi cau lenh sql
 
+    LayChuoiKetNoiDAL lcknDAL = null;
+    
     // Ham khoi tao.
     public SQLServerConnector(String Server, int PortNumber, String UserName, String Password, String DatabaseName) {
         this.server = Server;
@@ -42,7 +46,7 @@ public class SQLServerConnector {
         this.password = Password;
         this.databaseName = DatabaseName;
     }
-
+    
     // Ham kiem tra driver co ton tai hay k
     protected void driverTest() throws Exception {
         try {
@@ -51,21 +55,77 @@ public class SQLServerConnector {
             throw new Exception("SQLServer JDBC Driver not found.");
         }
     }
+    
+    public SQLServerConnector() throws ClassNotFoundException, Exception
+    {
+        // Kiem tra connect da ton tai hay chua
+        if (this.connect == null) {
+            driverTest();
+            try {
+                // new
+                lcknDAL = new LayChuoiKetNoiDAL();
+                if ("".equals(lcknDAL.userName) || "".equals(lcknDAL.password)) {
+                    //String url = "jdbc:sqlserver://" + this.server + ";databaseName=" + this.databaseName + ";integratedSecurity=true";
+                    // new
+                    String url = "jdbc:sqlserver://" + lcknDAL.server + ";databaseName=" + lcknDAL.databaseName + ";integratedSecurity=true";
+                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                    this.connect = DriverManager.getConnection(url);
+                } else {
+                    // Tao Connection thong qua DataSource
+//                    SQLServerDataSource ds = new SQLServerDataSource();
+//                    ds.setServerName(this.server);
+//                    ds.setPortNumber(this.portNumber);
+//                    ds.setDatabaseName(this.databaseName);
+//                    ds.setUser(this.userName);
+//                    ds.setPassword(this.password);
+                    
+                    // new LayChuoiKetNoiDAL
+                    SQLServerDataSource ds = new SQLServerDataSource();
+                    ds.setServerName(lcknDAL.server);
+                    ds.setPortNumber(lcknDAL.portNumber);
+                    ds.setDatabaseName(lcknDAL.databaseName);
+                    ds.setUser(lcknDAL.userName);
+                    ds.setPassword(lcknDAL.password);
+                    this.connect = ds.getConnection();
+                }
+            } catch (java.sql.SQLException e) {
+                throw new Exception("Khong the ket noi den Database Server. " + e.getSQLState());
+            }
+        }
+    }
 
     protected Connection getConnect() throws Exception {
         // Kiem tra connect da ton tai hay chua
         if (this.connect == null) {
             driverTest();
             try {
-                // Tao Connection thong qua DataSource
-                SQLServerDataSource ds = new SQLServerDataSource();
-                ds.setServerName(this.server);
-                ds.setPortNumber(this.portNumber);
-                ds.setDatabaseName(this.databaseName);
-                ds.setUser(this.userName);
-                ds.setPassword(this.password);
-                this.connect = ds.getConnection();
-            } catch (SQLServerException e) {
+                // new
+                lcknDAL = new LayChuoiKetNoiDAL();
+                if (lcknDAL.userName == "" || lcknDAL.password == "") {
+                    //String url = "jdbc:sqlserver://" + this.server + ";databaseName=" + this.databaseName + ";integratedSecurity=true";
+                    // new
+                    String url = "jdbc:sqlserver://" + lcknDAL.server + ";databaseName=" + lcknDAL.databaseName + ";integratedSecurity=true";
+                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                    this.connect = DriverManager.getConnection(url);
+                } else {
+                    // Tao Connection thong qua DataSource
+//                    SQLServerDataSource ds = new SQLServerDataSource();
+//                    ds.setServerName(this.server);
+//                    ds.setPortNumber(this.portNumber);
+//                    ds.setDatabaseName(this.databaseName);
+//                    ds.setUser(this.userName);
+//                    ds.setPassword(this.password);
+                    
+                    // new LayChuoiKetNoiDAL
+                    SQLServerDataSource ds = new SQLServerDataSource();
+                    ds.setServerName(lcknDAL.server);
+                    ds.setPortNumber(lcknDAL.portNumber);
+                    ds.setDatabaseName(lcknDAL.databaseName);
+                    ds.setUser(lcknDAL.userName);
+                    ds.setPassword(lcknDAL.password);
+                    this.connect = ds.getConnection();
+                }
+            } catch (java.sql.SQLException e) {
                 throw new Exception("Khong the ket noi den Database Server. " + e.getSQLState());
             }
         }
@@ -95,9 +155,9 @@ public class SQLServerConnector {
         }
         return this.callableSta;
     }
+
     // Tao Prepare Statement de thuc thi cau lenh SQL voi tham so
-    protected PreparedStatement getPrepareStatement(String sql) throws SQLException, Exception
-    {
+    protected PreparedStatement getPrepareStatement(String sql) throws SQLException, Exception {
         // Kiem tra statement co null hoac da bi dong hay chua
         if (this.preState == null ? true : this.preState.isClosed()) {
             this.preState = this.getConnect().prepareStatement(sql);
@@ -105,6 +165,7 @@ public class SQLServerConnector {
         // Tra Statement ra ngoai.
         return this.preState;
     }
+
     // Ham thuc thi cau lenh Select de lay du lieu
     public ResultSet excuteQuery(String Query) throws Exception {
         try {
@@ -120,17 +181,18 @@ public class SQLServerConnector {
         try {
             this.result = this.getConnect().prepareCall(Store).executeQuery();
         } catch (Exception e) {
-            throw new Exception("Error: " + JOptionPane.showConfirmDialog(null, e.getMessage(), "Lỗi", 1));
+            throw new Exception("Error: " + e.getMessage());
         }
         return this.result;
     }
+
     //// Ham Insert, Update, Delete voi Store Procedure
     public int excuteUpdateStore(String Store) throws Exception {
         int res = Integer.MIN_VALUE;
         try {
             //Thuc thi cau lenh
             res = getCallableStatement(Store).executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {
@@ -138,24 +200,24 @@ public class SQLServerConnector {
         }
         return res;
     }
-    
+
     //////// Ham thuc thi cau lenh bang Store Procedure voi tham so
-    public ResultSet excuteStore_Para(CallableStatement state)
-    {
+    public ResultSet excuteStore_Para(CallableStatement state) throws Exception {
         try {
             this.result = state.executeQuery();
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            throw new Exception("Error: " + e.getMessage());
         }
         return this.result;
     }
-    
+
     ///// Ham thuc thi Insert, Update, Delete voi Store Procedure co tham so
     public int excuteUpdateStorePara(CallableStatement state) throws Exception {
         int res = Integer.MIN_VALUE;
         try {
             //Thuc thi cau lenh
             res = state.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {
@@ -163,7 +225,7 @@ public class SQLServerConnector {
         }
         return res;
     }
-    
+
     // Ham thuc thi cac cau lenh Insert, Update, Delete binh thuong
     public int excuteUpdate(String Query) throws Exception {
         int res = Integer.MIN_VALUE;
@@ -185,11 +247,22 @@ public class SQLServerConnector {
             this.result.close();
             this.result = null;
         }
-        // Kiem tra Statement
-        if (this.statement != null && this.statement.isClosed()) {
-            this.statement.close();
-            this.statement = null;
-        }
+//        // Kiem tra Statement
+//        if (this.statement != null && this.statement.isClosed()) {
+//            this.statement.close();
+//            this.statement = null;
+//        }
+//        // Kiem tra callable
+//        if (this.callableSta == null ? true : this.callableSta.isClosed()) {
+//            this.callableSta.close();
+//            this.callableSta = null;
+//        }
+//        // Kiem tra
+//        if (this.preState == null ? true : this.preState.isClosed())
+//        {
+//            this.preState.close();
+//            this.preState = null;
+//        }
         // Kiem tra connection
         if (this.connect != null && this.connect.isClosed()) {
             this.connect.close();
