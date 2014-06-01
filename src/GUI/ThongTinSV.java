@@ -604,6 +604,11 @@ public class ThongTinSV extends javax.swing.JPanel {
         topPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnTaoMoi18.setText("Tạo mới");
+        btnTaoMoi18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoMoi18ActionPerformed(evt);
+            }
+        });
 
         btnChinhSua18.setText("Chỉnh sửa");
 
@@ -735,6 +740,10 @@ public class ThongTinSV extends javax.swing.JPanel {
 //            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
 //        }
     }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void btnTaoMoi18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoMoi18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTaoMoi18ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

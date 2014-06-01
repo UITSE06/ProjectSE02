@@ -55,7 +55,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="ControlPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="225" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="155" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -85,7 +85,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Th&#xf4;ng Tin Ng&#xe0;nh"/>
+                    <TitledBorder title="Th&#xf4;ng Tin Khoa"/>
                   </Border>
                 </Property>
               </Properties>
@@ -108,21 +108,21 @@
                                   <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtMaNganh" min="-2" pref="113" max="-2" attributes="0"/>
-                              <Component id="txtSoHK" min="-2" pref="56" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="txtMaKhoa" min="-2" pref="113" max="-2" attributes="0"/>
+                              <Component id="txtSoNganhHT" min="-2" pref="113" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="lbHoTen2" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="HoTen" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="HoTen" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbHoTen2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtTenNganh" max="32767" attributes="0"/>
-                              <Component id="cboKhoa" pref="178" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtTenKhoa" min="-2" pref="178" max="-2" attributes="0"/>
+                              <Component id="txtVietTat" min="-2" pref="178" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="431" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -131,16 +131,16 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbMSSV" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="txtMaNganh" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtTenNganh" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtMaKhoa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtTenKhoa" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="HoTen" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbHoTen2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="lbHoTen1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="cboKhoa" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtSoHK" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtSoNganhHT" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtVietTat" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -148,27 +148,27 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="org.jdesktop.swingx.JXTextField" name="txtMaNganh">
+                <Component class="org.jdesktop.swingx.JXTextField" name="txtMaKhoa">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbMSSV">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="M&#xe3; Ng&#xe0;nh:"/>
+                    <Property name="text" type="java.lang.String" value="M&#xe3; Khoa:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXTextField" name="txtTenNganh">
+                <Component class="org.jdesktop.swingx.JXTextField" name="txtTenKhoa">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbHoTen1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="S&#x1ed1; h&#x1ecd;c k&#xec;:"/>
+                    <Property name="text" type="java.lang.String" value="S&#x1ed1; ng&#xe0;nh hi&#x1ec7;n t&#x1ea1;i:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
@@ -176,7 +176,7 @@
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbHoTen2">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Thu&#x1ed9;c Khoa:"/>
+                    <Property name="text" type="java.lang.String" value="Vi&#x1ebf;t t&#x1eaf;t:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
@@ -184,26 +184,18 @@
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="HoTen">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="T&#xea;n Ng&#xe0;nh:"/>
+                    <Property name="text" type="java.lang.String" value="T&#xea;n Khoa:"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="cboKhoa">
+                <Component class="org.jdesktop.swingx.JXTextField" name="txtSoNganhHT">
                   <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="4">
-                        <StringItem index="0" value="Item 1"/>
-                        <StringItem index="1" value="Item 2"/>
-                        <StringItem index="2" value="Item 3"/>
-                        <StringItem index="3" value="Item 4"/>
-                      </StringArray>
-                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXTextField" name="txtSoHK">
+                <Component class="org.jdesktop.swingx.JXTextField" name="txtVietTat">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -278,7 +270,7 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Danh s&#xe1;ch ng&#xe0;nh h&#x1ecd;c"/>
+                <TitledBorder title="Danh s&#xe1;ch khoa"/>
               </Border>
             </Property>
           </Properties>
@@ -288,7 +280,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="org.jdesktop.swingx.JXTable" name="tblDSNganh">
+            <Component class="org.jdesktop.swingx.JXTable" name="tblDSKhoa">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
@@ -309,7 +301,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="Title" alignment="0" pref="955" max="32767" attributes="0"/>
+              <Component id="Title" alignment="0" pref="602" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -326,7 +318,7 @@
         <Component class="org.jdesktop.swingx.JXLabel" name="Title">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="DANH S&#xc1;CH NG&#xc0;NH H&#x1ecc;C"/>
+            <Property name="text" type="java.lang.String" value="DANH S&#xc1;CH KHOA"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="36" style="1"/>
             </Property>

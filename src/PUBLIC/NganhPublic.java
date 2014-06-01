@@ -14,6 +14,7 @@ public class NganhPublic {
     private String maNganh;
     private String tenNganh;
     private String maKhoa;
+    private int soHK;
 
     /**
      * @return the maNganh
@@ -55,5 +56,19 @@ public class NganhPublic {
      */
     public void setMaKhoa(String maKhoa) {
         this.maKhoa = maKhoa;
+    }
+
+    /**
+     * @return the soHK
+     */
+    public int getSoHK() {
+        return soHK;
+    }
+
+    /**
+     * @param soHK the soHK to set
+     */
+    public void setSoHK(int soHK) {
+        this.soHK = soHK;
     }
 }

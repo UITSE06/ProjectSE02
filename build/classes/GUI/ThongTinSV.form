@@ -679,6 +679,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#x1edb;i"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTaoMoi18ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnChinhSua18">
           <Properties>

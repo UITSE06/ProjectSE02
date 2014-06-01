@@ -4,7 +4,6 @@
  */
 package DAL;
 
-import GUI.*;
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.sql.CallableStatement;
@@ -101,7 +100,7 @@ public class SQLServerConnector {
             try {
                 // new
                 lcknDAL = new LayChuoiKetNoiDAL();
-                if (lcknDAL.userName == "" || lcknDAL.password == "") {
+                if ("".equals(lcknDAL.userName) || "".equals(lcknDAL.password)) {
                     //String url = "jdbc:sqlserver://" + this.server + ";databaseName=" + this.databaseName + ";integratedSecurity=true";
                     // new
                     String url = "jdbc:sqlserver://" + lcknDAL.server + ";databaseName=" + lcknDAL.databaseName + ";integratedSecurity=true";
@@ -176,7 +175,7 @@ public class SQLServerConnector {
         return this.result;
     }
 
-    ////////////////// Ham thuc thi cau lenh bang store procedure
+    // Ham thuc thi cau lenh select bang store procedure khong tham so
     public ResultSet excuteStore(String Store) throws Exception {
         try {
             this.result = this.getConnect().prepareCall(Store).executeQuery();
@@ -186,13 +185,13 @@ public class SQLServerConnector {
         return this.result;
     }
 
-    //// Ham Insert, Update, Delete voi Store Procedure
+    //// Ham Insert, Update, Delete voi Store Procedure khong tham so
     public int excuteUpdateStore(String Store) throws Exception {
         int res = Integer.MIN_VALUE;
         try {
             //Thuc thi cau lenh
             res = getCallableStatement(Store).executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {
@@ -201,23 +200,23 @@ public class SQLServerConnector {
         return res;
     }
 
-    //////// Ham thuc thi cau lenh bang Store Procedure voi tham so
+    // Ham thuc thi cau lenh bang Store Procedure voi tham so
     public ResultSet excuteStore_Para(CallableStatement state) throws Exception {
         try {
             this.result = state.executeQuery();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new Exception("Error: " + e.getMessage());
         }
         return this.result;
     }
 
-    ///// Ham thuc thi Insert, Update, Delete voi Store Procedure co tham so
+    // Ham thuc thi Insert, Update, Delete voi Store Procedure co tham so
     public int excuteUpdateStorePara(CallableStatement state) throws Exception {
         int res = Integer.MIN_VALUE;
         try {
             //Thuc thi cau lenh
             res = state.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new Exception("Error: " + e.getMessage());
         } // Sau khi thuc hien cau lenh se tien hanh dong ket noi.
         finally {

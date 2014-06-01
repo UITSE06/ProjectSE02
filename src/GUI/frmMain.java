@@ -83,6 +83,7 @@ public class frmMain extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem14 = new javax.swing.JMenuItem();
+        jMenuItem15 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
@@ -258,13 +259,21 @@ public class frmMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem6);
 
-        jMenuItem14.setText("Danh sách Ngành học");
+        jMenuItem14.setText("Danh sách ngành học");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);
             }
         });
         jMenu2.add(jMenuItem14);
+
+        jMenuItem15.setText("Danh sách khoa");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem15);
 
         jMenuBar1.add(jMenu2);
 
@@ -461,6 +470,21 @@ public class frmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        DanhSachKhoa dsKhoa = new DanhSachKhoa();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Danh sách khoa   ", null, dsKhoa, "dsKhoa");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Danh sách khoa   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Danh sách khoa   ", null, dsKhoa, "dsKhoa");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách khoa   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách khoa   "));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
     private void setClocks() {
 
         Thread clock = new Thread() {
@@ -542,6 +566,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

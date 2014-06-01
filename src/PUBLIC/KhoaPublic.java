@@ -13,6 +13,7 @@ package PUBLIC;
 public class KhoaPublic {
     private String maKhoa;
     private String tenKhoa;
+    private String vietTat;
 
     /**
      * @return the maKhoa
@@ -40,5 +41,19 @@ public class KhoaPublic {
      */
     public void setTenKhoa(String tenKhoa) {
         this.tenKhoa = tenKhoa;
+    }
+
+    /**
+     * @return the vietTat
+     */
+    public String getVietTat() {
+        return vietTat;
+    }
+
+    /**
+     * @param vietTat the vietTat to set
+     */
+    public void setVietTat(String vietTat) {
+        this.vietTat = vietTat;
     }
 }
