@@ -37,7 +37,6 @@ public class ThongTinSV extends javax.swing.JPanel {
     /**
      * Creates new form DangKyMon
      */
-    private SQLServerConnector connect;
     private ResultSet rs;
     private DefaultTableModel dtm;
     private DefaultTableModel model;
