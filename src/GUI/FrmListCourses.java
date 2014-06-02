@@ -41,8 +41,8 @@ public final class FrmListCourses extends javax.swing.JPanel {
 
     public void Load() {
         setTable();
-        LoadData();
         FillCombo();
+        LoadData();
     }
 
     public void setTable() {
@@ -54,7 +54,23 @@ public final class FrmListCourses extends javax.swing.JPanel {
 
     public void LoadData() {
         try {
+            setTable();
+            Item_Cbx item = (Item_Cbx) cbxNganh.getSelectedItem();
+            maNg = item.getId();
             rs = mhBLL.LoadMonHoc();
+            ngP.setIdMayjors(maNg);
+            // Load mon hoc ly thuyet
+            rs = mhBLL.LoadMH_Nganh(ngP);
+            while (rs.next()) {
+                Vector data_rows = new Vector();
+                data_rows.add(rs.getObject(1));
+                data_rows.add(rs.getObject(2));
+                data_rows.add(rs.getObject(3));
+                data_rows.add(rs.getObject(4));
+                dtmMH.addRow(data_rows);
+            }
+            // Load mon hoc thuc hanh
+            rs = mhBLL.LoadMHTH_Nganh(ngP);
             while (rs.next()) {
                 Vector data_rows = new Vector();
                 data_rows.add(rs.getObject(1));
@@ -74,34 +90,12 @@ public final class FrmListCourses extends javax.swing.JPanel {
             while (x.next()) {
                 cbxNganh.addItem(new Item_Cbx(x.getString(1), x.getString(2)));
             }
-            Item_Cbx item = (Item_Cbx) cbxNganh.getSelectedItem();
-            maNg = item.getDescription();
+            
             cbxNganh.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        setTable();
-                        Item_Cbx item = (Item_Cbx) cbxNganh.getSelectedItem();
-                        maNg = item.getId();
-                        ngP.setIdMayjors(maNg);
-                        rs = mhBLL.LoadMH_Nganh(ngP);
-                        while (rs.next()) {
-                            Vector data_rows = new Vector();
-                            data_rows.add(rs.getObject(1));
-                            data_rows.add(rs.getObject(2));
-                            data_rows.add(rs.getObject(3));
-                            data_rows.add(rs.getObject(4));
-                            dtmMH.addRow(data_rows);
-                        }
-                        rs = mhBLL.LoadMHTH_Nganh(ngP);
-                        while (rs.next()) {
-                            Vector data_rows = new Vector();
-                            data_rows.add(rs.getObject(1));
-                            data_rows.add(rs.getObject(2));
-                            data_rows.add(rs.getObject(3));
-                            data_rows.add(rs.getObject(4));
-                            dtmMH.addRow(data_rows);
-                        }
+                        LoadData();
                     } catch (Exception ex) {
                         Logger.getLogger(FrmListCourses.class.getName()).log(Level.SEVERE, null, ex);
                     }
