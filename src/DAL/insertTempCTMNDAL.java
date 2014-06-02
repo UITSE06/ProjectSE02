@@ -17,7 +17,7 @@ public class insertTempCTMNDAL {
     SQLServerConnector connect;
     CallableStatement cabCmd;
 
-    public int insertTempCTMN(MonHocPublic p) throws Exception {
+    public int insertTempCTMN(clsCourses_Public p) throws Exception {
         connect = new SQLServerConnector();
         cabCmd = connect.getCallableStatement("{call insertTempCTMN(?)}");
         cabCmd.setString(1, p.getMaMon());

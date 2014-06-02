@@ -10,7 +10,7 @@ package PUBLIC;
  *
  * @author John
  */
-public class MonHocPublic {
+public class clsCourses_Public {
     private String maMon;
     private String tenMon;
     private int soTinChi;

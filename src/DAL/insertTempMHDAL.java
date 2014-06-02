@@ -17,7 +17,7 @@ public class insertTempMHDAL {
     SQLServerConnector connect;
     CallableStatement cabCmd;
 
-    public int inserttempMH(MonHocPublic p) throws Exception {
+    public int inserttempMH(clsCourses_Public p) throws Exception {
         connect = new SQLServerConnector();
         cabCmd = connect.getCallableStatement("{call insertTempMH1(?, ?, ?, ?, ?)}");
         cabCmd.setString(1, "");

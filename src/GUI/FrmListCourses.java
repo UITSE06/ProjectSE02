@@ -7,6 +7,7 @@ package GUI;
 
 import BLL.Item_Cbx;
 import BLL.*;
+import PUBLIC.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -21,11 +22,12 @@ import javax.swing.table.DefaultTableModel;
  * @author John
  */
 public final class FrmListCourses extends javax.swing.JPanel {
-    
+
     private ResultSet rs;
     private DefaultTableModel dtmMH;
-    
-    private MonHocBLL mhBLL = new MonHocBLL();
+
+    private clsCourses_BLL mhBLL = new clsCourses_BLL();
+    private clsMayjors_Public ngP = new clsMayjors_Public();
     private clsMayjors_BLL nBLL = new clsMayjors_BLL();
     private String maNg = "";
 
@@ -36,20 +38,20 @@ public final class FrmListCourses extends javax.swing.JPanel {
         initComponents();
         Load();
     }
-    
+
     public void Load() {
         setTable();
         LoadData();
         FillCombo();
     }
-    
+
     public void setTable() {
         String[] titleMH = {"Mã môn học", "Tên môn học", "Loại môn học", "Số tín chỉ"};
         dtmMH = new DefaultTableModel(titleMH, 0);
         tbMonHoc.setModel(dtmMH);
         tbMonHoc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
-    
+
     public void LoadData() {
         try {
             rs = mhBLL.LoadMonHoc();
@@ -65,7 +67,7 @@ public final class FrmListCourses extends javax.swing.JPanel {
             Logger.getLogger(FrmListCourses.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void FillCombo() {
         try {
             ResultSet x = nBLL.LoadNganh();
@@ -77,17 +79,39 @@ public final class FrmListCourses extends javax.swing.JPanel {
             cbxNganh.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Item_Cbx item = (Item_Cbx) cbxNganh.getSelectedItem();
-                    maNg = item.getDescription();
-                    
-                    
+                    try {
+                        setTable();
+                        Item_Cbx item = (Item_Cbx) cbxNganh.getSelectedItem();
+                        maNg = item.getId();
+                        ngP.setIdMayjors(maNg);
+                        rs = mhBLL.LoadMH_Nganh(ngP);
+                        while (rs.next()) {
+                            Vector data_rows = new Vector();
+                            data_rows.add(rs.getObject(1));
+                            data_rows.add(rs.getObject(2));
+                            data_rows.add(rs.getObject(3));
+                            data_rows.add(rs.getObject(4));
+                            dtmMH.addRow(data_rows);
+                        }
+                        rs = mhBLL.LoadMHTH_Nganh(ngP);
+                        while (rs.next()) {
+                            Vector data_rows = new Vector();
+                            data_rows.add(rs.getObject(1));
+                            data_rows.add(rs.getObject(2));
+                            data_rows.add(rs.getObject(3));
+                            data_rows.add(rs.getObject(4));
+                            dtmMH.addRow(data_rows);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(FrmListCourses.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     /**

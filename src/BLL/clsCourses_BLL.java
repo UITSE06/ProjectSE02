@@ -13,19 +13,23 @@ import PUBLIC.*;
  *
  * @author Nguyen Thanh Thai
  */
-public class MonHocBLL {
+public class clsCourses_BLL {
 
-    MonHocDAL mhDAL = new MonHocDAL();
+    clsCourses_DAL mhDAL = new clsCourses_DAL();
 
     public ResultSet LoadMonHoc() throws Exception {
-        return mhDAL.LoadMonHoc();
+        return mhDAL.LoadCourses();
     }
 
     public int InsertMH() throws Exception {
         return mhDAL.InsertMH();
     }
 
-    public ResultSet LoadMHbyNganh(clsMayjors_Public p) throws Exception {
-        return mhDAL.LoadMHbyNganh(p);
+    public ResultSet LoadMH_Nganh(clsMayjors_Public p) throws Exception {
+        return mhDAL.LoadMH_Nganh(p);
+    }
+    
+    public ResultSet LoadMHTH_Nganh(clsMayjors_Public p) throws Exception {
+        return mhDAL.LoadMHTH_Nganh(p);
     }
 }

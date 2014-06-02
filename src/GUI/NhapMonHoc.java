@@ -47,11 +47,11 @@ public class NhapMonHoc extends javax.swing.JFrame {
     private JComboBox comboBox;
 
     private final CT_NganhPublic ctNganhP = new CT_NganhPublic();
-    private final MonHocPublic mhP = new MonHocPublic();
+    private final clsCourses_Public mhP = new clsCourses_Public();
 
     private final LoaiMonHocBLL lmhBLL = new LoaiMonHocBLL();
     private final clsMayjors_BLL nBLL = new clsMayjors_BLL();
-    private final MonHocBLL mhBLL = new MonHocBLL();
+    private final clsCourses_BLL mhBLL = new clsCourses_BLL();
     private final CT_NganhBLL ctnBLL = new CT_NganhBLL();
     private final insertTempCTMNBLL inCTMNBLL = new insertTempCTMNBLL();
     private final insertTempMHBLL inMHLL = new insertTempMHBLL();

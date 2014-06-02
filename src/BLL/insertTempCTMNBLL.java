@@ -15,7 +15,7 @@ import PUBLIC.*;
 public class insertTempCTMNBLL {
     insertTempCTMNDAL inCTMN = new insertTempCTMNDAL();
     
-    public int insertTempCTMN(MonHocPublic p) throws Exception
+    public int insertTempCTMN(clsCourses_Public p) throws Exception
     {
         return inCTMN.insertTempCTMN(p);
     }

@@ -13,12 +13,12 @@ import java.sql.ResultSet;
  *
  * @author Nguyen Thanh Thai
  */
-public class MonHocDAL {
+public class clsCourses_DAL {
 
     SQLServerConnector connect;
     CallableStatement cabCmd;
 
-    public ResultSet LoadMonHoc() throws Exception {
+    public ResultSet LoadCourses() throws Exception {
         connect = new SQLServerConnector();
         return connect.excuteStore("{call LoadMonHoc}");
     }
@@ -28,9 +28,16 @@ public class MonHocDAL {
         return connect.excuteUpdateStore("{call InsertMH}");
     }
 
-    public ResultSet LoadMHbyNganh(clsMayjors_Public p) throws Exception {
+    public ResultSet LoadMH_Nganh(clsMayjors_Public p) throws Exception {
         connect = new SQLServerConnector();
         cabCmd = connect.getCallableStatement("{call LoadMHbyNganh(?)}");
+        cabCmd.setString(1, p.getIdMayjors());
+        return connect.excuteStore_Para(cabCmd);
+    }
+    
+    public ResultSet LoadMHTH_Nganh(clsMayjors_Public p) throws Exception {
+        connect = new SQLServerConnector();
+        cabCmd = connect.getCallableStatement("{call LoadMHTH_Nganh(?)}");
         cabCmd.setString(1, p.getIdMayjors());
         return connect.excuteStore_Para(cabCmd);
     }
