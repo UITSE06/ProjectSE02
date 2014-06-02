@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -120,7 +119,7 @@ public class SQLServerConnector {
         try {
             this.result = this.getConnect().prepareCall(Store).executeQuery();
         } catch (Exception e) {
-            throw new Exception("Error: " + JOptionPane.showConfirmDialog(null, e.getMessage(), "Lỗi", 1));
+            throw new Exception("Error: " + e.getMessage());
         }
         return this.result;
     }

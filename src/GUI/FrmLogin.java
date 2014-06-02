@@ -5,8 +5,10 @@
  */
 package GUI;
 
+import BLL.*;
+import PUBLIC.*;
 import DAL.Crypter;
-import GUI.SQLServerConnector;
+import DAL.SQLServerConnector;
 import GUI.frmMain;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -27,7 +29,9 @@ public class FrmLogin extends javax.swing.JFrame {
      * Creates new form FrmLogin
      */
     private final SQLServerConnector connect;
-
+    private LoginBLL lgBLL = new LoginBLL();
+    private NhanVienPublic nvP = new NhanVienPublic();
+    
     public FrmLogin() {
         initComponents();
         lbThongBao.setVisible(false);
@@ -123,7 +127,7 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        jXLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Culcheth_High_School_Logo1.png"))); // NOI18N
+        jXLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Culcheth_High_School_Logo3.png"))); // NOI18N
 
         javax.swing.GroupLayout jXPanel2Layout = new javax.swing.GroupLayout(jXPanel2);
         jXPanel2.setLayout(jXPanel2Layout);
@@ -183,7 +187,7 @@ public class FrmLogin extends javax.swing.JFrame {
                         .addContainerGap())))
         );
 
-        jXLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/TAOTAIKHOANDANGNHAPHT.png"))); // NOI18N
+        jXLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dnhtthahuco.png"))); // NOI18N
 
         javax.swing.GroupLayout jXPanel3Layout = new javax.swing.GroupLayout(jXPanel3);
         jXPanel3.setLayout(jXPanel3Layout);
@@ -266,10 +270,11 @@ public class FrmLogin extends javax.swing.JFrame {
     private void Login() throws SQLException, Exception {
         try {
             // Lay du lieu voi Store Procedure co tham so
-            String strCall = "{call GetPassByUserName(?)}";
-            CallableStatement cabCmd = connect.getCallableStatement(strCall);
-            cabCmd.setString(1, txtTenDangNhap.getText().trim());
-            ResultSet rs = connect.excuteStore_Para(cabCmd);
+//            String strCall = "{call GetPassByUserName(?)}";
+//            CallableStatement cabCmd = connect.getCallableStatement(strCall);
+//            cabCmd.setString(1, txtTenDangNhap.getText().trim());
+            nvP.setTenDN(txtTenDangNhap.getText().trim());
+            ResultSet rs = lgBLL.GetPassByUserName(nvP);
             if (rs.next()) {
                 String matkhau = rs.getString("MatKhau");
                 if (Crypter.encryptMD5(new String(passMatKhau.getPassword())).equals(matkhau)) {
@@ -345,7 +350,7 @@ public class FrmLogin extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -362,6 +367,8 @@ public class FrmLogin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+              System.out.println(Math.cbrt((double)('q' - 10 * 28)));
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

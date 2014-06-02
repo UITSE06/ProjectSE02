@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author John
  */
-public class SinhVienPublic {
+public class clsStudent_Public {
     private String mssv;
     private String hoTen;
     private Date ngaySinh;

@@ -214,7 +214,7 @@
             <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel4">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/Culcheth_High_School_Logo1.png"/>
+                  <Image iconType="3" name="/Images/Culcheth_High_School_Logo3.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -241,7 +241,7 @@
             <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/TAOTAIKHOANDANGNHAPHT.png"/>
+                  <Image iconType="3" name="/Images/dnhtthahuco.png"/>
                 </Property>
               </Properties>
             </Component>
