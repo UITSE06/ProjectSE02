@@ -56,6 +56,11 @@
                       <Component id="jXPanel2" max="32767" attributes="0"/>
                   </Group>
               </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="lbThongBao" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -65,7 +70,9 @@
                   <Component id="jXPanel3" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jXPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lbThongBao" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,52 +83,75 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lbThongBao" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
+                              <Component id="jXHyperlink1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnDangNhap" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnThoat" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="txtTenDangNhap" min="-2" pref="221" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jXLabel2" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="passMatKhau" min="-2" pref="221" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Component id="jXLabel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jXLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="txtTenDangNhap" min="-2" pref="221" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jXLabel2" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="chk_RememberPassUser" min="-2" max="-2" attributes="0"/>
+                                          <Component id="passMatKhau" min="-2" pref="221" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="31" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtTenDangNhap" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="passMatKhau" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnThoat" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnDangNhap" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lbThongBao" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="txtTenDangNhap" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="passMatKhau" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="chk_RememberPassUser" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jXLabel4" pref="91" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jXHyperlink1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="btnThoat" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnDangNhap" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -165,17 +195,26 @@
                 <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="txtTenDangNhapPropertyChange"/>
               </Events>
             </Component>
-            <Component class="org.jdesktop.swingx.JXLabel" name="lbThongBao">
+            <Component class="javax.swing.JCheckBox" name="chk_RememberPassUser">
               <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Sai t&#xea;n &#x111;&#x103;ng nh&#x1ead;p ho&#x1eb7;c m&#x1ead;t kh&#x1ea9;u"/>
-                <Property name="foregroundPainter" type="org.jdesktop.swingx.painter.Painter" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="null"/>
-                </Property>
-                <Property name="textAlignment" type="org.jdesktop.swingx.JXLabel$TextAlignment" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="CENTER"/>
+                <Property name="text" type="java.lang.String" value="Nh&#x1edb; t&#xea;n &#x111;&#x103;ng nh&#x1ead;p v&#xe0; m&#x1ead;t kh&#x1ea9;u"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chk_RememberPassUserActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXHyperlink" name="jXHyperlink1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="DATABASE: QUANLYDANGKYMONHOC"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jXHyperlink1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel4">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/Culcheth_High_School_Logo3.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -202,12 +241,26 @@
             <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Images/TAOTAIKHOANDANGNHAPHT.png"/>
+                  <Image iconType="3" name="/Images/dnhtthahuco.png"/>
                 </Property>
               </Properties>
             </Component>
           </SubComponents>
         </Container>
+        <Component class="org.jdesktop.swingx.JXLabel" name="lbThongBao">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="ff" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Sai t&#xea;n &#x111;&#x103;ng nh&#x1ead;p ho&#x1eb7;c m&#x1ead;t kh&#x1ea9;u"/>
+            <Property name="foregroundPainter" type="org.jdesktop.swingx.painter.Painter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+              <ComponentRef name="null"/>
+            </Property>
+            <Property name="textAlignment" type="org.jdesktop.swingx.JXLabel$TextAlignment" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="CENTER"/>
+            </Property>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

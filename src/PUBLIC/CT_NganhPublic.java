@@ -13,7 +13,7 @@ package PUBLIC;
 public class CT_NganhPublic {
     private String maHocKiNganh;
     private String maNganh;
-    private String hocKi;
+    private int hocKi;
 
     /**
      * @return the maHocKiNganh
@@ -46,14 +46,14 @@ public class CT_NganhPublic {
     /**
      * @return the hocKi
      */
-    public String getHocKi() {
+    public int getHocKi() {
         return hocKi;
     }
 
     /**
      * @param hocKi the hocKi to set
      */
-    public void setHocKi(String hocKi) {
+    public void setHocKi(int hocKi) {
         this.hocKi = hocKi;
     }
 }

@@ -389,6 +389,9 @@
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbImage">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Images/Culcheth_High_School_Logo3.png"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="cbxKhoa">
@@ -663,6 +666,7 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="columnSelectionAllowed" type="boolean" value="true"/>
                     <Property name="name" type="java.lang.String" value="" noResource="true"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
@@ -693,7 +697,7 @@
                   <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
                   <Component id="btnChinhSua18" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                  <Component id="btnXuaDS18" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnXuaDS" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="361" max="32767" attributes="0"/>
                   <Component id="jXSearchField1" min="-2" pref="215" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -707,7 +711,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnTaoMoi18" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnChinhSua18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnXuaDS18" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnXuaDS" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jXSearchField1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -726,10 +730,13 @@
             <Property name="text" type="java.lang.String" value="Ch&#x1ec9;nh s&#x1eed;a"/>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="btnXuaDS18">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnXuaDS">
           <Properties>
             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t danh s&#xe1;ch"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXuaDSActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
           <Properties>
@@ -758,7 +765,7 @@
         <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
           <Properties>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="cc" red="99" type="rgb"/>
+              <Color blue="ff" green="99" red="33" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="TH&#xd4;NG TIN SINH VI&#xca;N"/>
