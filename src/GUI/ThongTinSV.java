@@ -30,7 +30,7 @@ import jxl.read.biff.BiffException;
 
 /**
  *
- * @author Hung New aaaa
+ * @author Thanh Thai Nguyen
  */
 public class ThongTinSV extends javax.swing.JPanel {
 
