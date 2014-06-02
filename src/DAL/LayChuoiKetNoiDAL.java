@@ -18,10 +18,10 @@ public class LayChuoiKetNoiDAL {
     String databaseName = "";           // Ten CSDL
 
     public LayChuoiKetNoiDAL() {
-        this.server = "HUNGNGOC";
+        this.server = "THANHTHAINGUYEN\\SQLEXPRESS";
         this.portNumber = 1433;
-        this.userName = "hunghn";
-        this.password = "uit123";
+        this.userName = "sa";
+        this.password = "123";
         this.databaseName = "QUANLYDANGKYMONHOC";
     }
 

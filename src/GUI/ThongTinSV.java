@@ -5,10 +5,8 @@
  */
 package GUI;
 
-import BLL.DoiTuongBLL;
-import BLL.clsStudent_BLL;
-import DAL.SQLServerConnector;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.formatDate;
+import DAL.*;
+import BLL.*;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -16,33 +14,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import jxl.*;
 import jxl.read.biff.BiffException;
 
 /**
  *
- * @author Hung
+ * @author Hung New aaaa
  */
 public class ThongTinSV extends javax.swing.JPanel {
 
@@ -59,11 +49,8 @@ public class ThongTinSV extends javax.swing.JPanel {
     private clsStudent_BLL svBLL = new clsStudent_BLL();
     private DoiTuongBLL dtBLL = new DoiTuongBLL();
     private SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-    
 
     public ThongTinSV() throws Exception {
-        
-        
         initComponents();
         setComponents();
         LoadData();
@@ -75,12 +62,12 @@ public class ThongTinSV extends javax.swing.JPanel {
         tb_Excel.setModel(model);
     }
 
-    public void setComponents() {
+    private void setComponents() {
         txtHoTen.setEditable(false);
         txtMSSV.setEditable(false);
         jradioNam.setEnabled(false);
         jradioNu.setEnabled(false);
-        dateNgaySinh.setEditable(false);
+        dateNgaySinh.setEditable(true);
         txtTinh.setEditable(false);
         txtHuyen.setEditable(false);
         //cbxDoiTuong.setEnabled(false);
@@ -91,8 +78,9 @@ public class ThongTinSV extends javax.swing.JPanel {
         dateNgaySinh.setFormats(formatDate);
     }
 
-    public void LoadData() throws Exception {
-         rs = svBLL.LoadSV();
+    private void LoadData() throws Exception {
+        
+        rs = svBLL.LoadSV();
         
         // Lay du lieu voi Store Procedure co tham so
 //        String strCall = "{call LoadSV_MSSV(?)}";
@@ -182,7 +170,7 @@ public class ThongTinSV extends javax.swing.JPanel {
 
     public void Fillcombo() {
         try {
-            ResultSet x = connect.excuteStore("{call LoadDT}");
+            ResultSet x = dtBLL.LoadDT();
             while (x.next()) {
                 String dTuong = x.getString(2);
                 cbxDoiTuong.addItem(dTuong);
@@ -244,7 +232,7 @@ public class ThongTinSV extends javax.swing.JPanel {
         topPanel18 = new org.jdesktop.swingx.JXPanel();
         btnTaoMoi18 = new org.jdesktop.swingx.JXButton();
         btnChinhSua18 = new org.jdesktop.swingx.JXButton();
-        btnXuaDS = new org.jdesktop.swingx.JXButton();
+        btnXuaDS18 = new org.jdesktop.swingx.JXButton();
         jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
@@ -309,7 +297,6 @@ public class ThongTinSV extends javax.swing.JPanel {
         });
 
         lbImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Culcheth_High_School_Logo3.png"))); // NOI18N
 
         btnTim.setText("Tìm");
         btnTim.addActionListener(new java.awt.event.ActionListener() {
@@ -337,8 +324,8 @@ public class ThongTinSV extends javax.swing.JPanel {
                         .addGap(10, 10, 10)
                         .addComponent(txtHuyen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
-                        .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnTim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -348,8 +335,8 @@ public class ThongTinSV extends javax.swing.JPanel {
                             .addComponent(lbLop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxLop, 0, 138, Short.MAX_VALUE)
-                            .addComponent(cbxDoiTuong, 0, 138, Short.MAX_VALUE))))
+                            .addComponent(cbxLop, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxDoiTuong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -382,7 +369,7 @@ public class ThongTinSV extends javax.swing.JPanel {
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(lefttopPanelLayout.createSequentialGroup()
                                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(txtMSSV, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                                    .addComponent(txtMSSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(lefttopPanelLayout.createSequentialGroup()
                                         .addGap(3, 3, 3)
                                         .addComponent(lbMSSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -390,9 +377,9 @@ public class ThongTinSV extends javax.swing.JPanel {
                                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(lefttopPanelLayout.createSequentialGroup()
                                         .addGap(3, 3, 3)
-                                        .addComponent(lbHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, 19, Short.MAX_VALUE))
+                                        .addComponent(lbHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(lefttopPanelLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -401,22 +388,22 @@ public class ThongTinSV extends javax.swing.JPanel {
                             .addGroup(lefttopPanelLayout.createSequentialGroup()
                                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                                     .addComponent(jradioNam)
-                                    .addComponent(lbGioiTinh, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                                    .addComponent(lbGioiTinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jradioNu))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(lefttopPanelLayout.createSequentialGroup()
                                         .addGap(5, 5, 5)
-                                        .addComponent(lbNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
+                                        .addComponent(lbNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(dateNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(10, 10, 10))
                             .addGroup(lefttopPanelLayout.createSequentialGroup()
                                 .addGap(14, 14, 14)
                                 .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
-                        .addComponent(lbImage, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                        .addGap(13, 13, 13)))
+                        .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbTinh, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
@@ -441,13 +428,13 @@ public class ThongTinSV extends javax.swing.JPanel {
 
         tb_Excel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "STT", "Họ và Tên", "Tuổi", "Địa chỉ", "Mã số sinh viên"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         table.setViewportView(tb_Excel);
@@ -552,7 +539,7 @@ public class ThongTinSV extends javax.swing.JPanel {
                 "MSSV", "Họ tên", "Ngày sinh", "Giới tính", "Tỉnh", "Ngành", "Đối tượng", "Năm nhập học"
             }
         ));
-        tbSinhVien.setColumnSelectionAllowed(true);
+        tbSinhVien.setEditable(false);
         tbSinhVien.setName(""); // NOI18N
         tbSinhVien.getTableHeader().setReorderingAllowed(false);
         tableThongTin.setViewportView(tbSinhVien);
@@ -596,10 +583,10 @@ public class ThongTinSV extends javax.swing.JPanel {
 
         btnChinhSua18.setText("Chỉnh sửa");
 
-        btnXuaDS.setText("Xuất danh sách");
-        btnXuaDS.addActionListener(new java.awt.event.ActionListener() {
+        btnXuaDS18.setText("Xuất danh sách");
+        btnXuaDS18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXuaDSActionPerformed(evt);
+                btnXuaDS18ActionPerformed(evt);
             }
         });
 
@@ -617,7 +604,7 @@ public class ThongTinSV extends javax.swing.JPanel {
                 .addGap(75, 75, 75)
                 .addComponent(btnChinhSua18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(66, 66, 66)
-                .addComponent(btnXuaDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXuaDS18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 361, Short.MAX_VALUE)
                 .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -629,12 +616,11 @@ public class ThongTinSV extends javax.swing.JPanel {
                 .addGroup(topPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTaoMoi18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChinhSua18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXuaDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXuaDS18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jXLabel1.setForeground(new java.awt.Color(51, 153, 255));
         jXLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jXLabel1.setText("THÔNG TIN SINH VIÊN");
         jXLabel1.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
@@ -737,8 +723,8 @@ public class ThongTinSV extends javax.swing.JPanel {
        // jFChooser.setFileFilter(new FileNameExtensionFilter(null,"xls"));
         int add = jFChooser.showOpenDialog(jFChooser);
         if (add == JFileChooser.APPROVE_OPTION) {
-            File addFile = jFChooser.getSelectedFile();
             try {
+                File addFile = jFChooser.getSelectedFile();
                 Workbook excel = Workbook.getWorkbook(addFile);
                 for (int sheets = 0; sheets < excel.getNumberOfSheets(); sheets++) {
                     Sheet sheet = excel.getSheet(sheets);
@@ -760,10 +746,11 @@ public class ThongTinSV extends javax.swing.JPanel {
                 btnXoa.setEnabled(true);
                 btnHuy.setEnabled(true);
                 btnLuuDS.setEnabled(true);
-                } catch (IOException | BiffException ex) {
-                    Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
-                    JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại định dạng file");
-                }
+            } catch (IOException ex) {
+                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (BiffException ex) {
+                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }//GEN-LAST:event_btnNhapExcelActionPerformed
@@ -797,7 +784,7 @@ public class ThongTinSV extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnXuaDSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuaDSActionPerformed
+    private void btnXuaDS18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuaDS18ActionPerformed
         // TODO add your handling code here:
         clsExportExcel clsE = new clsExportExcel();
         
@@ -807,7 +794,7 @@ public class ThongTinSV extends javax.swing.JPanel {
         } catch (IOException ex) {
             Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnXuaDSActionPerformed
+    }//GEN-LAST:event_btnXuaDS18ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -819,7 +806,7 @@ public class ThongTinSV extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnTaoMoi18;
     private org.jdesktop.swingx.JXButton btnTim;
     private org.jdesktop.swingx.JXButton btnXoa;
-    private org.jdesktop.swingx.JXButton btnXuaDS;
+    private org.jdesktop.swingx.JXButton btnXuaDS18;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbxDoiTuong;
     private javax.swing.JComboBox cbxKhoa;
