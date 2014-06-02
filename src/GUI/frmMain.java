@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import GUI.Report.rpRegisterSub;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
@@ -82,8 +83,13 @@ public class frmMain extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        mnTinhTrangDangKy = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem14 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu8 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         mnInfoStudent = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -92,6 +98,10 @@ public class frmMain extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jMenuItem17 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
@@ -110,7 +120,7 @@ public class frmMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("PHẦN MỀM QUẢN LÝ ĐĂNG KÝ MÔN HỌC VÀ THU HỌC PHÍ");
 
-        st_Info.setBackground(new java.awt.Color(153, 204, 255));
+        st_Info.setBackground(java.awt.SystemColor.activeCaption);
 
         jXLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Misc-Web-Database-icon.png"))); // NOI18N
         jXLabel1.setText("Database: ");
@@ -124,6 +134,7 @@ public class frmMain extends javax.swing.JFrame {
         jXLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         st_Info.add(jXLabel4);
 
+        jXLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jXLabel5.setText("Huỳnh Ngọc Hưng");
         jXLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         st_Info.add(jXLabel5);
@@ -257,14 +268,46 @@ public class frmMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem6);
 
+        mnTinhTrangDangKy.setText("Tình trạng đăng ký môn học");
+        mnTinhTrangDangKy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnTinhTrangDangKyActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mnTinhTrangDangKy);
+
+        jMenuItem18.setText("Danh sách ngành");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem18);
+
+        jMenuItem19.setText("Danh sách khoa");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem19);
+
         jMenuBar1.add(jMenu2);
 
         jMenu5.setText("Kế Hoạch - Tài Chính");
         jMenu5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenuItem14.setText("jMenuItem14");
+        jMenu5.add(jMenuItem14);
+
         jMenuBar1.add(jMenu5);
 
         jMenu3.setText("Nhân Viên");
         jMenu3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jMenu8.setText("jMenu8");
+        jMenu3.add(jMenu8);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Sinh Viên");
@@ -316,6 +359,19 @@ public class frmMain extends javax.swing.JFrame {
 
         jMenuItem11.setText("Quy định");
         jMenu6.add(jMenuItem11);
+
+        jMenu9.setText("Giao diện");
+
+        jMenuItem15.setText("Mặc định");
+        jMenu9.add(jMenuItem15);
+
+        jMenuItem16.setText("Metal");
+        jMenu9.add(jMenuItem16);
+
+        jMenuItem17.setText("Nimbus");
+        jMenu9.add(jMenuItem17);
+
+        jMenu6.add(jMenu9);
 
         jMenuBar1.add(jMenu6);
 
@@ -419,7 +475,7 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        DanhSachMonHoc dsMonHoc = new DanhSachMonHoc();
+        FrmListCourses dsMonHoc = new FrmListCourses();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Danh sách môn học   ", null, dsMonHoc, "dsMonHoc");
         } else {
@@ -436,6 +492,52 @@ public class frmMain extends javax.swing.JFrame {
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void mnTinhTrangDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnTinhTrangDangKyActionPerformed
+        // TODO add your handling code here:
+        rpRegisterSub rpDKM = new rpRegisterSub();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Tình trạng đăng ký môn học   ", null, rpDKM, "rpDangKyMonHoc");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Tình trạng đăng ký môn học   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Tình trạng đăng ký môn học   ", null, rpDKM, "rpDangKyMonHoc");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đăng ký môn học   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đăng ký môn học   "));
+            }
+        }
+    }//GEN-LAST:event_mnTinhTrangDangKyActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        FrmListMayjors listMayjor = new FrmListMayjors();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Danh sách ngành   ", null, listMayjor, "listMayjor");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Danh sách ngành   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Danh sách ngành   ", null, listMayjor, "listMayjor");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách ngành   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách ngành   "));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        FrmListFaculty listFac = new FrmListFaculty();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Danh sách khoa   ", null, listFac, "listFac");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Danh sách khoa   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Danh sách khoa   ", null, listFac, "listFac");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách khoa   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách khoa   "));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
 
     private void setClocks() {
 
@@ -490,13 +592,13 @@ public class frmMain extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                frmMain frM = new frmMain();
-//                frM.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height-40);
-//                frM.setVisible(true);
-//            }
-//        });
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                frmMain frM = new frmMain();
+                frM.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height-40);
+                frM.setVisible(true);
+            }
+        });
 
     }
 
@@ -511,12 +613,20 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
+    private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -544,6 +654,7 @@ public class frmMain extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXLabel lb_Clock;
     private org.jdesktop.swingx.JXLabel lb_Date;
     private javax.swing.JMenuItem mnInfoStudent;
+    private javax.swing.JMenuItem mnTinhTrangDangKy;
     private org.jdesktop.swingx.JXStatusBar st_Info;
     // End of variables declaration//GEN-END:variables
 }

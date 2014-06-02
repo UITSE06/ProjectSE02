@@ -15,6 +15,15 @@ public class MonHocPublic {
     private String tenMon;
     private int soTinChi;
     private String maLoaiMH;
+    private String maMHTQ;
+
+    public void setMaMHTQ(String maMHTQ) {
+        this.maMHTQ = maMHTQ;
+    }
+
+    public String getMaMHTQ() {
+        return maMHTQ;
+    }
 
     /**
      * @return the maMon

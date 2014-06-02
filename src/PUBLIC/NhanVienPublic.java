@@ -18,6 +18,8 @@ public class NhanVienPublic {
     private Date ngaySinh;
     private int gioiTinh;
     private String diaChi;
+    private String TenDN;
+    private String MatKhau;
 
     /**
      * @return the maNV
@@ -87,5 +89,33 @@ public class NhanVienPublic {
      */
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
+    }
+
+    /**
+     * @return the TenDN
+     */
+    public String getTenDN() {
+        return TenDN;
+    }
+
+    /**
+     * @param TenDN the TenDN to set
+     */
+    public void setTenDN(String TenDN) {
+        this.TenDN = TenDN;
+    }
+
+    /**
+     * @return the MatKhau
+     */
+    public String getMatKhau() {
+        return MatKhau;
+    }
+
+    /**
+     * @param MatKhau the MatKhau to set
+     */
+    public void setMatKhau(String MatKhau) {
+        this.MatKhau = MatKhau;
     }
 }
