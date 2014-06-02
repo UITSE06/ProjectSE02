@@ -719,6 +719,12 @@
       <SubComponents>
         <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel1">
           <Properties>
+<<<<<<< HEAD
+=======
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="99" red="33" type="rgb"/>
+            </Property>
+>>>>>>> 4ec7f131436ae121ac737874858f4aa764f32043
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="TH&#xd4;NG TIN SINH VI&#xca;N"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">

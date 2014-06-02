@@ -492,7 +492,7 @@ public class frmMain extends javax.swing.JFrame {
                 for (;;) {
                     Calendar cal = Calendar.getInstance();
                     cal.getTime();
-                    SimpleDateFormat sdfDate = new SimpleDateFormat("E, MM/dd/yyyy");
+                    SimpleDateFormat sdfDate = new SimpleDateFormat("E, dd/MM/yyyy");
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                     lb_Clock.setText(sdf.format(cal.getTime()));
                     lb_Date.setText(sdfDate.format(cal.getTime()));
