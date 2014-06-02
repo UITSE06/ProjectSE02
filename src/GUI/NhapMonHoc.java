@@ -112,6 +112,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
             rs = mhBLL.LoadMonHoc();
             while (rs.next()) {
                 cboMHTienQuyet.addItem(new Item_Cbx(rs.getString(1), rs.getString(2)));
+                cboMHLT.addItem(new Item_Cbx(rs.getString(1), rs.getString(2)));
             }
 
             //
@@ -289,9 +290,9 @@ public class NhapMonHoc extends javax.swing.JFrame {
         tbMhTq = new org.jdesktop.swingx.JXTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbNganh = new org.jdesktop.swingx.JXTable();
-        cboLoaiMH1 = new javax.swing.JComboBox();
+        cboKhoa = new javax.swing.JComboBox();
         lbHoTen3 = new org.jdesktop.swingx.JXLabel();
-        cboLoaiMH2 = new javax.swing.JComboBox();
+        cboMHLT = new javax.swing.JComboBox();
         lbLoaiMonHoc1 = new org.jdesktop.swingx.JXLabel();
         topPanel = new org.jdesktop.swingx.JXPanel();
         btnLuu = new org.jdesktop.swingx.JXButton();
@@ -391,12 +392,12 @@ public class NhapMonHoc extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tbNganh);
 
-        cboLoaiMH1.setName("cboLoaiMH"); // NOI18N
+        cboKhoa.setName("cboLoaiMH"); // NOI18N
 
         lbHoTen3.setText("Thuộc khoa:");
         lbHoTen3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        cboLoaiMH2.setName("cboLoaiMH"); // NOI18N
+        cboMHLT.setName("cboLoaiMH"); // NOI18N
 
         lbLoaiMonHoc1.setText("Thuộc môn lý thuyết:");
         lbLoaiMonHoc1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -418,7 +419,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
                                         .addComponent(lbTenMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cboLoaiMH2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cboMHLT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cboLoaiMH, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtTenMonHoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGap(68, 68, 68))
@@ -431,7 +432,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
                                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(cboNganhHoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                                    .addComponent(cboLoaiMH1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboKhoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(ThongTinMHLayout.createSequentialGroup()
                                         .addComponent(lbLoaiMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -469,9 +470,9 @@ public class NhapMonHoc extends javax.swing.JFrame {
                         .addComponent(lbHoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cboLoaiMH2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboMHLT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbLoaiMonHoc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboLoaiMH1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDSMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -624,9 +625,9 @@ public class NhapMonHoc extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXButton btnHuy;
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
+    private javax.swing.JComboBox cboKhoa;
     private javax.swing.JComboBox cboLoaiMH;
-    private javax.swing.JComboBox cboLoaiMH1;
-    private javax.swing.JComboBox cboLoaiMH2;
+    private javax.swing.JComboBox cboMHLT;
     private javax.swing.JComboBox cboMHTienQuyet;
     private javax.swing.JComboBox cboNganhHoc;
     private org.jdesktop.swingx.JXPanel fullPanel;
