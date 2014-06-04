@@ -12,9 +12,13 @@ import BLL.Item_Cbx;
 import PUBLIC.clsFaculty_Public;
 import PUBLIC.clsMayjors_Public;
 import PUBLIC.clsStudent_Public;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -22,6 +26,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import org.jdesktop.swingx.JXComboBox;
 
 /**
  *
@@ -31,16 +36,22 @@ import javax.swing.table.DefaultTableModel;
 public class rpRegisterSub extends javax.swing.JPanel {
 
     private ResultSet rs;
-    private clsFacultyBLL clsFaBLL = new clsFacultyBLL();
+    private clsFacultyBLL FaBLL = new clsFacultyBLL();
     private clsMayjors_BLL MaBLL = new clsMayjors_BLL();
     private clsMayjors_Public mayjorsPublic = new clsMayjors_Public();
-    private clsFaculty_Public faPublic;
+    private clsFaculty_Public faPublic = new clsFaculty_Public();
     private String idFaculty = "";
     private String idMayjors = "";
-    private clsStudent_BLL stBLL;
-    private clsStudent_Public stPublic;
+    private clsStudent_BLL stBLL = new clsStudent_BLL();
+    private clsStudent_Public stPublic = new clsStudent_Public();
     private ArrayList<clsFaculty_Public> listFaculty;
     private DefaultTableModel dtmListStudent;
+    private Item_Cbx itemFaculty;
+    private Item_Cbx itemMayjors;
+    private Item_Cbx itemYearApply;
+    final DefaultComboBoxModel dfModel = new DefaultComboBoxModel();
+    DefaultComboBoxModel modelMayjors;
+    DefaultComboBoxModel modelYearApply;
 
     /**
      * Creates new form rpDangKyMonHoc
@@ -56,12 +67,12 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
     private void Load() throws Exception {
         try {
+            this.modelMayjors = new DefaultComboBoxModel(fAddtoArrr_fill_cbMayjors().toArray());
+            this.modelYearApply = new DefaultComboBoxModel(fAddtoArr_fill_cbYearApply().toArray());
             fFillCombobox_cbFaculty();
-            fFillCombobox_cbMayjors();
-            //bindingDataToCombobox();
-            FillCombobox_cbYearApply();
-            fSetTableListStudent();
             fFillDataToTBListStudent();
+            fFillCombobox_cbMayjors();
+            FillCombobox_cbYearApply();
         } catch (Exception ex) {
             throw ex;
         }
@@ -70,73 +81,131 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
     //Code cua Tinh Vo
     private void fBindingDataToCombobox() {
-        listFaculty = clsFaBLL.fGetInfoToArr();
+        listFaculty = FaBLL.fGetInfoToArr();
         DefaultComboBoxModel dfModel = new DefaultComboBoxModel(listFaculty.toArray());
         cbFaculty.setModel(dfModel);
     }
 
-    /*Load du lieu ten khoa tu store procudure
-     vao cbMayjors    
+    /* @Hung
+     * Tạo ra mảng để lưu các giá trị trong combobox
+     * để setModel mặc định giá trị ban đầu cho combobox
      */
-    private void fFillCombobox_cbMayjors() throws Exception {
-        mayjorsPublic = new clsMayjors_Public();
-        cbMayjors.removeAllItems();
-        cbMayjors.addItem(new Item_Cbx("01", "Tất cả"));
-        // Kiểm tra xem ngành đang chọn có phải là tất cả hay k
-        if (idFaculty == "01") {
-            // Ngành đanh chọn là tất cả, thì làm gì.
-            
-        } else {
+    private ArrayList<Item_Cbx> fAddtoArrr_fill_cbMayjors() {
+        ArrayList<Item_Cbx> arr = new ArrayList<>();
+        try {
             mayjorsPublic.setIdFaculty(idFaculty);
-            try {
-                rs = MaBLL.fLoadInfoMayjors_idFaculty(mayjorsPublic);
-                while (rs.next()) {
-                    cbMayjors.addItem(new Item_Cbx(rs.getNString(1), rs.getNString(2)));
-                }
-                Item_Cbx item = (Item_Cbx) cbMayjors.getSelectedItem();
-                idMayjors = item.getId();
-            } catch (Exception ex) {
-                throw ex;
+            rs = MaBLL.fLoadInfoMayjors_idFaculty(mayjorsPublic);
+            arr.add(new Item_Cbx("01", "Tất cả"));
+            while (rs.next()) {
+                arr.add(new Item_Cbx(rs.getNString(1), rs.getNString(2)));
+                cbMayjors.setModel(modelMayjors);
             }
+
+        } catch (Exception ex) {
+            Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return arr;
     }
 
-    /*Load du lieu ten khoa tu store procudure
-     vao cbFaculty    
-     */
-    private void fFillCombobox_cbFaculty() {
+    private ArrayList<Item_Cbx> fAddtoArr_fill_cbYearApply() {
+        ArrayList<Item_Cbx> cbYearArr = new ArrayList<>();
         try {
-            rs = clsFaBLL.fLoad_NameOfFaculty();
+            stBLL = new clsStudent_BLL();
+            rs = stBLL.fLoad_Year_Of_StudentApply();
+            cbYearArr.add(new Item_Cbx("Tất cả"));
             while (rs.next()) {
-                cbFaculty.addItem(new Item_Cbx(rs.getString(1), rs.getString(2)));
+                cbYearArr.add(new Item_Cbx(rs.getString(1)));
             }
-            cbFaculty.addItem(new Item_Cbx("01", "Tất cả"));
-            Item_Cbx item = (Item_Cbx) cbFaculty.getSelectedItem();
+        } catch (Exception ex) {
+            Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return cbYearArr;
+    }
 
-            if (item.getDescription() == "Tất cả") {
-                // neu chon nganh la tat cả, thì Id ngành k có gì
-                idFaculty = "01";
-            } else {
-                //Item_Cbx item = (Item_Cbx) cbFaculty.getSelectedItem();
-                idFaculty = item.getId();
-                cbFaculty.addActionListener(new ActionListener() {
+    /*
+     * @Hung
+     * Fill vào combobox của mục Ngành
+     */
+    private void fFillCombobox_cbMayjors() {
+        try {
+            modelMayjors = new DefaultComboBoxModel(fAddtoArrr_fill_cbMayjors().toArray());
+            cbMayjors.setModel(modelMayjors);
 
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        Item_Cbx item = (Item_Cbx) cbFaculty.getSelectedItem();
-                        idFaculty = item.getId();
+            itemMayjors = (Item_Cbx) cbMayjors.getSelectedItem();
+            itemMayjors.getId();
+            cbMayjors.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    itemMayjors = (Item_Cbx) cbMayjors.getSelectedItem();
+                    idMayjors = itemMayjors.getId();
+                    stPublic.setIdMayjors(idMayjors);
+                    modelYearApply=new DefaultComboBoxModel(fAddtoArr_fill_cbYearApply().toArray());
+                        cbYearApply.setModel(modelYearApply);
+                    System.out.println(idMayjors);
+                    if (idMayjors != "01") {
                         try {
-                            fFillCombobox_cbMayjors();
+                            rs = stBLL.LOAD_LISTST_IDMAYJORS(stPublic);
                             fSetTableListStudent();
                             fFillDataToTBListStudent();
                         } catch (Exception ex) {
                             Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                });
-            }
+                }
+            });
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /*@Hung
+     * Load du lieu ten khoa tu store procudure
+     * vao cbFaculty, Ham viet lai
+     */
+    private void fFillCombobox_cbFaculty() {
+        try {
+            rs = FaBLL.fLoad_NameOfFaculty();
+            while (rs.next()) {
+                dfModel.addElement(new Item_Cbx(rs.getNString(1), rs.getNString(2)));
+                cbFaculty.setModel(dfModel);
+            }
+            cbFaculty.addItem(new Item_Cbx("01", "Tất cả"));
+            itemFaculty = (Item_Cbx) cbFaculty.getSelectedItem();
+            idFaculty = itemFaculty.getId();
+            faPublic.setIdFaculty(idFaculty);
+            rs = FaBLL.fLOAD_LISTST_IDFACULTY(faPublic);
+            fSetTableListStudent();
+            fFillDataToTBListStudent();
+            System.out.println(idFaculty);
+            cbFaculty.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        itemFaculty = (Item_Cbx) cbFaculty.getSelectedItem();
+                        idFaculty = itemFaculty.getId();
+                        faPublic.setIdFaculty(idFaculty);
+                        rs = FaBLL.fLOAD_LISTST_IDFACULTY(faPublic);
+                        fSetTableListStudent();
+                        fFillDataToTBListStudent();
+                        modelMayjors = new DefaultComboBoxModel(fAddtoArrr_fill_cbMayjors().toArray());
+                        cbMayjors.setModel(modelMayjors);
+                        modelYearApply=new DefaultComboBoxModel(fAddtoArr_fill_cbYearApply().toArray());
+                        cbYearApply.setModel(modelYearApply);
+                        fFillCombobox_cbMayjors();
+                        if (idFaculty == "01") {
+                            
+                            rs = stBLL.fLOAD_LISTSTUDENT_RP();
+                            fFillDataToTBListStudent();
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+        } catch (Exception ex) {
+            Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -145,13 +214,9 @@ public class rpRegisterSub extends javax.swing.JPanel {
      */
     private void FillCombobox_cbYearApply() {
         try {
-            stBLL = new clsStudent_BLL();
-            ResultSet rsY;
-            rsY = stBLL.fLoad_Year_Of_StudentApply();
-            while (rsY.next()) {
-                cbYearApply.addItem(new Item_Cbx(rsY.getString(1)));
-            }
-            cbYearApply.addItem(new Item_Cbx("01", "Tất cả"));
+            modelYearApply = new DefaultComboBoxModel(fAddtoArr_fill_cbYearApply().toArray());
+            cbYearApply.setModel(modelYearApply);
+            
         } catch (Exception ex) {
             Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -166,9 +231,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
     private void fFillDataToTBListStudent() {
         try {
-            faPublic = new clsFaculty_Public();
-            faPublic.setIdFaculty(idFaculty);
-            rs = clsFaBLL.fLOAD_LISTST_IDFACULTY(faPublic);
             while (rs.next()) {
                 Vector data_Rows = new Vector();
                 data_Rows.add(rs.getObject(1));
@@ -228,7 +290,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
         jXLabel1.setForeground(new java.awt.Color(0, 153, 204));
         jXLabel1.setText("TÌNH TRẠNG ĐĂNG KÝ MÔN HỌC");
-        jXLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel1.add(jXLabel1);
 
         add(jPanel1, java.awt.BorderLayout.NORTH);
@@ -240,18 +302,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
         jXLabel3.setText("Khoa:");
 
         jXLabel4.setText("Ngành:");
-
-        cbMayjors.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbMayjorsItemStateChanged(evt);
-            }
-        });
-
-        cbFaculty.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbFacultyItemStateChanged(evt);
-            }
-        });
 
         jXLabel5.setText("Năm nhập học:");
 
@@ -297,7 +347,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jXLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbCoFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.WEST);
@@ -367,7 +417,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
         );
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Chi tiết sinh viên"));
@@ -447,15 +497,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
     private void sFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sFieldActionPerformed
-
-    private void cbFacultyItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbFacultyItemStateChanged
-
-    }//GEN-LAST:event_cbFacultyItemStateChanged
-
-    private void cbMayjorsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbMayjorsItemStateChanged
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_cbMayjorsItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

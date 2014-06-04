@@ -10,142 +10,144 @@ import java.util.Date;
 
 /**
  *
- * @author John
+ * @Hung
+ * Sua lai ten tieng Anh
+ * ca lop
  */
 public class clsStudent_Public {
-    private String mssv;
-    private String hoTen;
-    private Date ngaySinh;
-    private int gioiTinh;
-    private String huyen;
-    private String tinh;
-    private String namNhapHoc;
-    private String maDoiTuong;
-    private String maNganh;
+    private String idStudent;
+    private String name;
+    private Date birthday;
+    private int gender;
+    private String district;
+    private String provinces;
+    private String yearOfApply;
+    private String idObjects;
+    private String idMayjors;
 
     /**
-     * @return the mssv
+     * @return the idStudent
      */
-    public String getMssv() {
-        return mssv;
+    public String getIdStudent() {
+        return idStudent;
     }
 
     /**
-     * @param mssv the mssv to set
+     * @param idStudent the idStudent to set
      */
-    public void setMssv(String mssv) {
-        this.mssv = mssv;
+    public void setIdStudent(String idStudent) {
+        this.idStudent = idStudent;
     }
 
     /**
-     * @return the hoTen
+     * @return the name
      */
-    public String getHoTen() {
-        return hoTen;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param hoTen the hoTen to set
+     * @param name the name to set
      */
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * @return the ngaySinh
+     * @return the birthday
      */
-    public Date getNgaySinh() {
-        return ngaySinh;
+    public Date getBirthday() {
+        return birthday;
     }
 
     /**
-     * @param ngaySinh the ngaySinh to set
+     * @param birthday the birthday to set
      */
-    public void setNgaySinh(Date ngaySinh) {
-        this.ngaySinh = ngaySinh;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     /**
-     * @return the gioiTinh
+     * @return the gender
      */
-    public int getGioiTinh() {
-        return gioiTinh;
+    public int getGender() {
+        return gender;
     }
 
     /**
-     * @param gioiTinh the gioiTinh to set
+     * @param gender the gender to set
      */
-    public void setGioiTinh(int gioiTinh) {
-        this.gioiTinh = gioiTinh;
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 
     /**
-     * @return the huyen
+     * @return the district
      */
-    public String getHuyen() {
-        return huyen;
+    public String getDistrict() {
+        return district;
     }
 
     /**
-     * @param huyen the huyen to set
+     * @param district the district to set
      */
-    public void setHuyen(String huyen) {
-        this.huyen = huyen;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     /**
-     * @return the tinh
+     * @return the provinces
      */
-    public String getTinh() {
-        return tinh;
+    public String getProvinces() {
+        return provinces;
     }
 
     /**
-     * @param tinh the tinh to set
+     * @param provinces the provinces to set
      */
-    public void setTinh(String tinh) {
-        this.tinh = tinh;
+    public void setProvinces(String provinces) {
+        this.provinces = provinces;
     }
 
     /**
-     * @return the namNhapHoc
+     * @return the yearOfApply
      */
-    public String getNamNhapHoc() {
-        return namNhapHoc;
+    public String getYearOfApply() {
+        return yearOfApply;
     }
 
     /**
-     * @param namNhapHoc the namNhapHoc to set
+     * @param yearOfApply the yearOfApply to set
      */
-    public void setNamNhapHoc(String namNhapHoc) {
-        this.namNhapHoc = namNhapHoc;
+    public void setYearOfApply(String yearOfApply) {
+        this.yearOfApply = yearOfApply;
     }
 
     /**
-     * @return the maDoiTuong
+     * @return the idObjects
      */
-    public String getMaDoiTuong() {
-        return maDoiTuong;
+    public String getIdObjects() {
+        return idObjects;
     }
 
     /**
-     * @param maDoiTuong the maDoiTuong to set
+     * @param idObjects the idObjects to set
      */
-    public void setMaDoiTuong(String maDoiTuong) {
-        this.maDoiTuong = maDoiTuong;
+    public void setIdObjects(String idObjects) {
+        this.idObjects = idObjects;
     }
 
     /**
-     * @return the maNganh
+     * @return the idMayjors
      */
-    public String getMaNganh() {
-        return maNganh;
+    public String getIdMayjors() {
+        return idMayjors;
     }
 
     /**
-     * @param maNganh the maNganh to set
+     * @param idMayjors the idMayjors to set
      */
-    public void setMaNganh(String maNganh) {
-        this.maNganh = maNganh;
+    public void setIdMayjors(String idMayjors) {
+        this.idMayjors = idMayjors;
     }
 }

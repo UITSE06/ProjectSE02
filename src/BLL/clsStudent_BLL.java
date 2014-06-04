@@ -7,6 +7,7 @@
 package BLL;
 
 import DAL.*;
+import PUBLIC.*;
 import java.sql.ResultSet;
 /**
  *
@@ -22,5 +23,17 @@ public class clsStudent_BLL {
     
     public ResultSet fLoad_Year_Of_StudentApply() throws Exception{
         return stDAL.fLoad_Year_Of_StudentApply();
+    }
+    
+    /*@HungNgoc
+    * Date: 06/02/2014
+    * Description: Ham tra ve cua lop DAL: fLOAD_LISTSTUDENT_RP()
+    */
+    public ResultSet fLOAD_LISTSTUDENT_RP() throws Exception{
+        return  stDAL.fLOAD_LISTSTUDENT_RP();
+    }
+    
+    public ResultSet LOAD_LISTST_IDMAYJORS(clsStudent_Public sPublic) throws Exception{
+        return stDAL.LOAD_LISTST_IDMAYJORS(sPublic);
     }
 }
