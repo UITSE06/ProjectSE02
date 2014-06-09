@@ -5,11 +5,9 @@
         <group>
             <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/Report/rpRegisterSub.java</file>
             <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/frmMain.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/PUBLIC/clsFaculty_Public.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/clsMayjors_DAL.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/clsStudent_DAL.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/PUBLIC/clsStudent_Public.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/BLL/clsMayjors_BLL.java</file>
+            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/SQLServerConnector.java</file>
+            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/clsFaculty_DAL.java</file>
+            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/BLL/clsStudent_BLL.java</file>
         </group>
     </open-files>
 </project-private>

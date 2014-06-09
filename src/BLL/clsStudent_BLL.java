@@ -25,7 +25,7 @@ public class clsStudent_BLL {
         return stDAL.fLoad_Year_Of_StudentApply();
     }
     
-    /*@HungNgoc
+    /** @HungNgoc
     * Date: 06/02/2014
     * Description: Ham tra ve cua lop DAL: fLOAD_LISTSTUDENT_RP()
     */
@@ -36,4 +36,29 @@ public class clsStudent_BLL {
     public ResultSet LOAD_LISTST_IDMAYJORS(clsStudent_Public sPublic) throws Exception{
         return stDAL.LOAD_LISTST_IDMAYJORS(sPublic);
     }
+     
+     public ResultSet LOAD_LISTST_IDMAJORS_YEAR(clsStudent_Public sPublic) throws Exception{
+        return stDAL.LOAD_LISTST_IDMAYJORS_YEAR(sPublic);
+    }
+     
+     
+    /** @HungNgoc
+    * Date: 06/06/2014
+    * Description: Ham tra ve cua lop DAL
+    */
+     public ResultSet LOAD_LISTST_IDFACULTY_YEAR(clsStudent_Public stPublic) throws Exception{
+        return stDAL.LOAD_LISTST_IDFACULTY_YEAR(stPublic);
+    }
+     
+     public ResultSet LOAD_LISTST_NOTREGISTERED() throws Exception{
+         return stDAL.LOAD_LISTST_NOTREGISTERED();
+     }
+     
+     public ResultSet LOAD_LISTST_REGISTERED() throws Exception{
+         return stDAL.LOAD_LISTST_REGISTERED();
+     }
+     
+     public ResultSet LOA_LIST_STUDENT_DETAIL_ID(clsStudent_Public stPublic) throws Exception{
+         return stDAL.LOA_LIST_STUDENT_DETAIL_ID(stPublic);
+     }
 }

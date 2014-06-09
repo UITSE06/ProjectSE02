@@ -14,7 +14,7 @@ import java.util.Date;
  * Sua lai ten tieng Anh
  * ca lop
  */
-public class clsStudent_Public {
+public class clsStudent_Public  extends clsFaculty_Public{
     private String idStudent;
     private String name;
     private Date birthday;

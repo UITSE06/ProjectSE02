@@ -69,4 +69,6 @@ public class clsFaculty_DAL {
         return connect.excuteUpdateStorePara(cabCmd);
     }
     
+    
+    
 }
