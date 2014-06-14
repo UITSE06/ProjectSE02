@@ -67,27 +67,35 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jXLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jXLabel3" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
-                          <Component id="jXLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jXLabel9" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jXLabel6" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jXLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cbCoFilter" alignment="0" pref="223" max="32767" attributes="0"/>
-                          <Component id="cbYearApply" alignment="0" pref="223" max="32767" attributes="0"/>
-                          <Component id="cbMayjors" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cbFaculty" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jXLabel9" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jXLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jXLabel7" min="-2" max="-2" attributes="0"/>
                                   <Component id="jXLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jXLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel3" alignment="0" min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="jXLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jXLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="cbCoFilter" max="32767" attributes="0"/>
+                                  <Component id="cbYearApply" alignment="0" pref="243" max="32767" attributes="0"/>
+                                  <Component id="cbMayjors" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cbFaculty" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cbSemeter" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="cbScholastic" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -114,12 +122,22 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbCoFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jXLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbSemeter" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jXLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbScholastic" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="cbCoFilter" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jXLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="jXLabel9" min="-2" pref="25" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jXLabel10" min="-2" max="-2" attributes="0"/>
@@ -130,7 +148,7 @@
                               <Component id="jXLabel7" min="-2" pref="25" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="162" max="32767" attributes="0"/>
+                      <EmptySpace pref="103" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -170,11 +188,7 @@
             <Component class="org.jdesktop.swingx.JXComboBox" name="cbCoFilter">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="T&#x1ea5;t c&#x1ea3;"/>
-                    <StringItem index="1" value="&#x110;&#xe3; &#x111;&#x103;ng k&#xfd; t&#xed;n ch&#x1ec9;"/>
-                    <StringItem index="2" value="Ch&#x1b0;a &#x111;&#x103;ng k&#xfd; t&#xed;n ch&#x1ec9;"/>
-                  </StringArray>
+                  <StringArray count="0"/>
                 </Property>
               </Properties>
               <Events>
@@ -215,6 +229,30 @@
             <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel11">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sinh vi&#xea;n ch&#x1b0;a &#x111;&#x103;ng k&#xfd; m&#xf4;n h&#x1ecd;c"/>
+              </Properties>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel13">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="H&#x1ecd;c k&#x1ef3;:"/>
+              </Properties>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXComboBox" name="cbSemeter">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel14">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="N&#x103;m h&#x1ecd;c:"/>
+              </Properties>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXComboBox" name="cbScholastic">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -265,7 +303,7 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="97" max="32767" attributes="0"/>
+                          <EmptySpace pref="77" max="32767" attributes="0"/>
                           <Component id="jXLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="sField" min="-2" pref="110" max="-2" attributes="0"/>
@@ -354,9 +392,6 @@
                   <SubComponents>
                     <Component class="org.jdesktop.swingx.JXTable" name="tb_ListStudent">
                       <Properties>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {null, null, null, null, null, null},&#xa;        {null, null, null, null, null, null},&#xa;        {null, null, null, null, null, null},&#xa;        {null, null, null, null, null, null}&#xa;    },&#xa;    new String [] {&#xa;        &quot;MSSV&quot;, &quot;H&#x1ecd; v&#xe0; t&#xea;n&quot;, &quot;Kh&#xf3;a&quot;, &quot;Khoa&quot;, &quot;Ng&#xe0;nh&quot;, &quot;S&#x1ed1; t&#xed;n ch&#x1ec9; &#x111;&#x103;ng k&#xfd;&quot;&#xa;    }&#xa;)" type="code"/>
-                        </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -391,7 +426,6 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
-                        <Property name="showGrid" type="boolean" value="true"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
@@ -433,13 +467,6 @@
                   <SubComponents>
                     <Component class="org.jdesktop.swingx.JXTable" name="tbDetailStudent">
                       <Properties>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="3" rowCount="4">
-                            <Column editable="true" title="M&#xe3; m&#xf4;n h&#x1ecd;c" type="java.lang.Object"/>
-                            <Column editable="true" title="T&#xea;n m&#xf4;n h&#x1ecd;c" type="java.lang.Object"/>
-                            <Column editable="true" title="S&#x1ed1; t&#xed;n ch&#x1ec9; &#x111;&#x103;ng k&#xfd;" type="java.lang.Object"/>
-                          </Table>
-                        </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -490,18 +517,20 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace pref="651" max="32767" attributes="0"/>
+                  <EmptySpace pref="559" max="32767" attributes="0"/>
                   <Component id="btnXuatBaoCao" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnHuy" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnPrintFormDetail" min="-2" pref="174" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="btnHuy" alignment="1" min="-2" max="-2" attributes="0"/>
-              <Component id="btnXuatBaoCao" alignment="1" min="-2" max="-2" attributes="0"/>
+              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                  <Component id="btnPrintFormDetail" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnXuatBaoCao" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -509,12 +538,20 @@
         <Component class="org.jdesktop.swingx.JXButton" name="btnXuatBaoCao">
           <Properties>
             <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t b&#xe1;o c&#xe1;o"/>
+            <Property name="toolTipText" type="java.lang.String" value="Xu&#x1ea5;t b&#xe1;o c&#xe1;o t&#xec;nh tr&#x1ea1;ng &#x111;&#x103;ng k&#xfd; m&#xf4;n h&#x1ecd;c v&#x1edb;i c&#xe1;c t&#xf9;y ch&#x1ecd;n &#x1edf; tr&#xea;n."/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXuatBaoCaoActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="btnHuy">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnPrintFormDetail">
           <Properties>
-            <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
+            <Property name="text" type="java.lang.String" value="In phi&#x1ebf;u th&#xf4;ng tin &#x110;KMH"/>
+            <Property name="toolTipText" type="java.lang.String" value="Xu&#x1ea5;t phi&#x1ebf;u th&#xf4;ng tin &#x111;&#x103;ng k&#xfd; m&#xf4;n h&#x1ecd;c c&#x1ee7;a sinh vi&#xea;n"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrintFormDetailActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

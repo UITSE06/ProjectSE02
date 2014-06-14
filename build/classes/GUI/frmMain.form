@@ -126,10 +126,13 @@
             </Property>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem14">
+            <MenuItem class="javax.swing.JMenuItem" name="mnFee">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem14"/>
+                <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng &#x111;&#xf3;ng h&#x1ecd;c ph&#xed;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnFeeActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

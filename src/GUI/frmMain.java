@@ -6,6 +6,7 @@
 package GUI;
 
 import GUI.Report.rpRegisterSub;
+import GUI.Report.rpStateFee;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
@@ -87,7 +88,7 @@ public class frmMain extends javax.swing.JFrame {
         jMenuItem18 = new javax.swing.JMenuItem();
         jMenuItem19 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem14 = new javax.swing.JMenuItem();
+        mnFee = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
@@ -297,8 +298,13 @@ public class frmMain extends javax.swing.JFrame {
         jMenu5.setText("Kế Hoạch - Tài Chính");
         jMenu5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jMenuItem14.setText("jMenuItem14");
-        jMenu5.add(jMenuItem14);
+        mnFee.setText("Tình trạng đóng học phí");
+        mnFee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnFeeActionPerformed(evt);
+            }
+        });
+        jMenu5.add(mnFee);
 
         jMenuBar1.add(jMenu5);
 
@@ -539,6 +545,25 @@ public class frmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem19ActionPerformed
 
+    /** @HungNgoc
+    * Add tab tinh trang dong hoc phi cua sinh vien
+    */
+    private void mnFeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnFeeActionPerformed
+        // TODO add your handling code here:
+        rpStateFee listStateFee = new rpStateFee();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Tình trạng đóng học phí   ", null, listStateFee, "listStateFee");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Tình trạng đóng học phí   ", null, listStateFee, "listStateFee");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   "));
+            }
+        }
+    }//GEN-LAST:event_mnFeeActionPerformed
+
     private void setClocks() {
 
         Thread clock = new Thread() {
@@ -621,7 +646,6 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem17;
@@ -653,6 +677,7 @@ public class frmMain extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXLabel lb_Clock;
     private org.jdesktop.swingx.JXLabel lb_Date;
+    private javax.swing.JMenuItem mnFee;
     private javax.swing.JMenuItem mnInfoStudent;
     private javax.swing.JMenuItem mnTinhTrangDangKy;
     private org.jdesktop.swingx.JXStatusBar st_Info;

@@ -92,7 +92,7 @@ public class SQLServerConnector {
         }
     }
 
-    protected Connection getConnect() throws Exception {
+    public Connection getConnect() throws Exception {
         // Kiem tra connect da ton tai hay chua
         if (this.connect == null) {
             driverTest();
