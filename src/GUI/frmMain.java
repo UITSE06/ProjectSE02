@@ -7,6 +7,7 @@ package GUI;
 
 import GUI.Report.rpRegisterSub;
 import GUI.Report.rpStateFee;
+import PUBLIC.*;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
@@ -21,29 +22,64 @@ import javax.swing.*;
  */
 public class frmMain extends javax.swing.JFrame {
 
+    private ClsStaffLoginInfo_Public staffInfo = new ClsStaffLoginInfo_Public();
     /**
      * Creates new form frmMain
      */
     public frmMain() {
         initComponents();
-//        try {
-//             
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Metal".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(frmMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
         setClocks();
+        SetComponentByAccess();
+        lbStaffName.setText(staffInfo.getTenNV());
+        lbIdStaff.setText(staffInfo.getMaNV());
+        lbPosition.setText(staffInfo.getChucVu());
+    }
+    
+    private void SetComponentByAccess(){
+        String[] listAcc = staffInfo.getMaPhanQuyen().split("\\,");
+        for(int i = 0; i<listAcc.length;i++){
+            if("1".equals(listAcc[i])){
+                tabMinistry.setEnabled(true);
+            }
+            if("2".equals(listAcc[i])){
+                tabFinacial.setEnabled(true);
+            }
+            if("3".equals(listAcc[i])){
+                tabStudentManage.setEnabled(true);
+                miInfoStudent.setEnabled(false);
+                miRegisterCourse.setEnabled(false);
+                miInputScore.setEnabled(true);
+            }
+            if("4".equals(listAcc[i])){
+                tabStudentManage.setEnabled(true);
+                miInfoStudent.setEnabled(false);
+                miRegisterCourse.setEnabled(true);
+                miInputScore.setEnabled(false);
+            }
+            if("5".equals(listAcc[i])){
+                miListStaff.setEnabled(true);
+            }
+            if("6".equals(listAcc[i])){
+                tabAdministrator.setEnabled(true);
+                miSystemConfig.setEnabled(false);
+                miSetAccess.setEnabled(false);
+                miChangeRegulation.setEnabled(true);
+            }
+            if("7".equals(listAcc[i])){
+                tabStudentManage.setEnabled(true);
+                miRegisterCourse.setEnabled(false);
+                miInputScore.setEnabled(false);
+                miInfoStudent.setEnabled(true);
+            }
+            if("8".equals(listAcc[i])){
+                tabAdministrator.setEnabled(true);
+                miSystemConfig.setEnabled(true);
+                miSetAccess.setEnabled(false);
+                miChangeRegulation.setEnabled(false);
+                tabSystem.setEnabled(true);
+                miSetAccess.setEnabled(true);
+            }
+        }
     }
 
     /**
@@ -60,7 +96,11 @@ public class frmMain extends javax.swing.JFrame {
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
         jXLabel3 = new org.jdesktop.swingx.JXLabel();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
-        jXLabel5 = new org.jdesktop.swingx.JXLabel();
+        lbStaffName = new org.jdesktop.swingx.JXLabel();
+        jXLabel2 = new org.jdesktop.swingx.JXLabel();
+        lbIdStaff = new org.jdesktop.swingx.JXLabel();
+        lbPos = new org.jdesktop.swingx.JXLabel();
+        lbPosition = new org.jdesktop.swingx.JXLabel();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         lb_Clock = new org.jdesktop.swingx.JXLabel();
         lb_Date = new org.jdesktop.swingx.JXLabel();
@@ -72,40 +112,38 @@ public class frmMain extends javax.swing.JFrame {
         jXButton6 = new org.jdesktop.swingx.JXButton();
         jXButton7 = new org.jdesktop.swingx.JXButton();
         jXButton8 = new org.jdesktop.swingx.JXButton();
-        jXButton9 = new org.jdesktop.swingx.JXButton();
+        btnLogOut = new org.jdesktop.swingx.JXButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabbedPaneMain = new GUI.ClosableTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        tabSystem = new javax.swing.JMenu();
+        miBackUp = new javax.swing.JMenuItem();
+        miRestore = new javax.swing.JMenuItem();
+        tabMinistry = new javax.swing.JMenu();
+        miListCourse = new javax.swing.JMenuItem();
         mnTinhTrangDangKy = new javax.swing.JMenuItem();
-        jMenuItem18 = new javax.swing.JMenuItem();
-        jMenuItem19 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        mnFee = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        mnInfoStudent = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenu9 = new javax.swing.JMenu();
-        jMenuItem15 = new javax.swing.JMenuItem();
-        jMenuItem16 = new javax.swing.JMenuItem();
-        jMenuItem17 = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenuItem13 = new javax.swing.JMenuItem();
+        miListMayjor = new javax.swing.JMenuItem();
+        miListFacuty = new javax.swing.JMenuItem();
+        miOpenCourses = new javax.swing.JMenuItem();
+        miTypeOfCourse = new javax.swing.JMenuItem();
+        miHumanSubject = new javax.swing.JMenuItem();
+        tabFinacial = new javax.swing.JMenu();
+        miGetFee = new javax.swing.JMenuItem();
+        mnStateFee = new javax.swing.JMenuItem();
+        tabStaffManage = new javax.swing.JMenu();
+        miListStaff = new javax.swing.JMenuItem();
+        miStaffInfo = new javax.swing.JMenuItem();
+        tabStudentManage = new javax.swing.JMenu();
+        miInfoStudent = new javax.swing.JMenuItem();
+        miInputScore = new javax.swing.JMenuItem();
+        miRegisterCourse = new javax.swing.JMenuItem();
+        tabAdministrator = new javax.swing.JMenu();
+        miSystemConfig = new javax.swing.JMenuItem();
+        miChangeRegulation = new javax.swing.JMenuItem();
+        miSetAccess = new javax.swing.JMenuItem();
+        tabHelp = new javax.swing.JMenu();
+        miSoftwareInfo = new javax.swing.JMenuItem();
+        miGuide = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout jXFrame1Layout = new javax.swing.GroupLayout(jXFrame1.getContentPane());
         jXFrame1.getContentPane().setLayout(jXFrame1Layout);
@@ -135,10 +173,24 @@ public class frmMain extends javax.swing.JFrame {
         jXLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         st_Info.add(jXLabel4);
 
-        jXLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jXLabel5.setText("Huỳnh Ngọc Hưng");
-        jXLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        st_Info.add(jXLabel5);
+        lbStaffName.setForeground(new java.awt.Color(255, 0, 0));
+        lbStaffName.setText("Huỳnh Ngọc Hưng");
+        lbStaffName.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        st_Info.add(lbStaffName);
+
+        jXLabel2.setText("Mã nhân viên:");
+        st_Info.add(jXLabel2);
+
+        lbIdStaff.setForeground(new java.awt.Color(255, 0, 0));
+        lbIdStaff.setText("NV0001");
+        st_Info.add(lbIdStaff);
+
+        lbPos.setText("Chức vụ:");
+        st_Info.add(lbPos);
+
+        lbPosition.setForeground(new java.awt.Color(255, 0, 0));
+        lbPosition.setText("admin");
+        st_Info.add(lbPosition);
 
         jXPanel1.setBackground(java.awt.SystemColor.activeCaption);
 
@@ -174,8 +226,13 @@ public class frmMain extends javax.swing.JFrame {
         jXButton8.setBackground(new java.awt.Color(255, 255, 255));
         jXButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register-icon.png"))); // NOI18N
 
-        jXButton9.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout-icon.png"))); // NOI18N
+        btnLogOut.setBackground(new java.awt.Color(255, 255, 255));
+        btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout-icon.png"))); // NOI18N
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
@@ -199,7 +256,7 @@ public class frmMain extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lb_Date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -213,7 +270,7 @@ public class frmMain extends javax.swing.JFrame {
                     .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lb_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lb_Clock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,45 +286,37 @@ public class frmMain extends javax.swing.JFrame {
 
         jMenuBar1.setFont(jMenuBar1.getFont().deriveFont(jMenuBar1.getFont().getStyle() | java.awt.Font.BOLD, 13));
 
-        jMenu1.setForeground(new java.awt.Color(255, 0, 0));
-        jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/System-icon.png"))); // NOI18N
-        jMenu1.setText("Hệ Thống");
-        jMenu1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tabSystem.setForeground(new java.awt.Color(255, 0, 0));
+        tabSystem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/System-icon.png"))); // NOI18N
+        tabSystem.setText("Hệ Thống");
+        tabSystem.setEnabled(false);
+        tabSystem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jMenuItem1.setText("Đăng nhập");
-        jMenu1.add(jMenuItem1);
+        miBackUp.setText("Sao lưu CSDL");
+        tabSystem.add(miBackUp);
 
-        jMenuItem2.setText("Đăng xuất");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        miRestore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
+        miRestore.setText("Phục hồi CSDL");
+        miRestore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                miRestoreActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        tabSystem.add(miRestore);
 
-        jMenuItem3.setText("Sao lưu CSDL");
-        jMenu1.add(jMenuItem3);
+        jMenuBar1.add(tabSystem);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
-        jMenuItem4.setText("Phục hồi CSDL");
-        jMenu1.add(jMenuItem4);
+        tabMinistry.setText("Giáo Vụ");
+        tabMinistry.setEnabled(false);
+        tabMinistry.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
-        jMenuItem5.setText("Đóng");
-        jMenu1.add(jMenuItem5);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Giáo Vụ");
-        jMenu2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jMenuItem6.setText("Danh sách môn học");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        miListCourse.setText("Danh sách môn học");
+        miListCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                miListCourseActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem6);
+        tabMinistry.add(miListCourse);
 
         mnTinhTrangDangKy.setText("Tình trạng đăng ký môn học");
         mnTinhTrangDangKy.addActionListener(new java.awt.event.ActionListener() {
@@ -275,129 +324,173 @@ public class frmMain extends javax.swing.JFrame {
                 mnTinhTrangDangKyActionPerformed(evt);
             }
         });
-        jMenu2.add(mnTinhTrangDangKy);
+        tabMinistry.add(mnTinhTrangDangKy);
 
-        jMenuItem18.setText("Danh sách ngành");
-        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+        miListMayjor.setText("Danh sách ngành");
+        miListMayjor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem18ActionPerformed(evt);
+                miListMayjorActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem18);
+        tabMinistry.add(miListMayjor);
 
-        jMenuItem19.setText("Danh sách khoa");
-        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+        miListFacuty.setText("Danh sách khoa");
+        miListFacuty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem19ActionPerformed(evt);
+                miListFacutyActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem19);
+        tabMinistry.add(miListFacuty);
 
-        jMenuBar1.add(jMenu2);
-
-        jMenu5.setText("Kế Hoạch - Tài Chính");
-        jMenu5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        mnFee.setText("Tình trạng đóng học phí");
-        mnFee.addActionListener(new java.awt.event.ActionListener() {
+        miOpenCourses.setText("Mở môn học");
+        miOpenCourses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnFeeActionPerformed(evt);
+                miOpenCoursesActionPerformed(evt);
             }
         });
-        jMenu5.add(mnFee);
+        tabMinistry.add(miOpenCourses);
 
-        jMenuBar1.add(jMenu5);
-
-        jMenu3.setText("Nhân Viên");
-        jMenu3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jMenu8.setText("jMenu8");
-        jMenu3.add(jMenu8);
-
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Sinh Viên");
-        jMenu4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        mnInfoStudent.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        mnInfoStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/personal-information-icon.png"))); // NOI18N
-        mnInfoStudent.setText("Thông tin sinh viên");
-        mnInfoStudent.addActionListener(new java.awt.event.ActionListener() {
+        miTypeOfCourse.setText("Loại môn học");
+        miTypeOfCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnInfoStudentActionPerformed(evt);
+                miTypeOfCourseActionPerformed(evt);
             }
         });
-        jMenu4.add(mnInfoStudent);
+        tabMinistry.add(miTypeOfCourse);
 
-        jMenuItem8.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search-Results.png"))); // NOI18N
-        jMenuItem8.setText("Kết quả học tập");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        miHumanSubject.setText("Quản lý đối tượng");
+        miHumanSubject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                miHumanSubjectActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem8);
+        tabMinistry.add(miHumanSubject);
 
-        jMenuItem7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dk.png"))); // NOI18N
-        jMenuItem7.setText("Đăng ký môn học");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.add(tabMinistry);
+
+        tabFinacial.setText("Kế Hoạch - Tài Chính");
+        tabFinacial.setEnabled(false);
+        tabFinacial.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        miGetFee.setText("Thu học phí");
+        miGetFee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                miGetFeeActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem7);
+        tabFinacial.add(miGetFee);
 
-        jMenuItem9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/money.png"))); // NOI18N
-        jMenuItem9.setText("Thông tin học phí");
-        jMenu4.add(jMenuItem9);
-
-        jMenuBar1.add(jMenu4);
-
-        jMenu6.setText("Quản Trị");
-        jMenu6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jMenuItem10.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem10.setText("Cấu hình hệ thống");
-        jMenu6.add(jMenuItem10);
-
-        jMenuItem11.setText("Quy định");
-        jMenu6.add(jMenuItem11);
-
-        jMenu9.setText("Giao diện");
-
-        jMenuItem15.setText("Mặc định");
-        jMenu9.add(jMenuItem15);
-
-        jMenuItem16.setText("Metal");
-        jMenu9.add(jMenuItem16);
-
-        jMenuItem17.setText("Nimbus");
-        jMenu9.add(jMenuItem17);
-
-        jMenu6.add(jMenu9);
-
-        jMenuBar1.add(jMenu6);
-
-        jMenu7.setText("Trợ Giúp");
-        jMenu7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jMenuItem12.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem12.setText("Thông tin phần mềm");
-        jMenu7.add(jMenuItem12);
-
-        jMenuItem13.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        jMenuItem13.setText("Hướng dẫn sử dụng");
-        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+        mnStateFee.setText("Tình trạng thu học phí");
+        mnStateFee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem13ActionPerformed(evt);
+                mnStateFeeActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem13);
+        tabFinacial.add(mnStateFee);
 
-        jMenuBar1.add(jMenu7);
+        jMenuBar1.add(tabFinacial);
+
+        tabStaffManage.setText("Nhân Viên");
+        tabStaffManage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        miListStaff.setText("Danh sách nhân viên");
+        miListStaff.setEnabled(false);
+        miListStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miListStaffActionPerformed(evt);
+            }
+        });
+        tabStaffManage.add(miListStaff);
+
+        miStaffInfo.setText("Thông tin nhân viên");
+        miStaffInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miStaffInfoActionPerformed(evt);
+            }
+        });
+        tabStaffManage.add(miStaffInfo);
+
+        jMenuBar1.add(tabStaffManage);
+
+        tabStudentManage.setText("Sinh Viên");
+        tabStudentManage.setEnabled(false);
+        tabStudentManage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        miInfoStudent.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miInfoStudent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/personal-information-icon.png"))); // NOI18N
+        miInfoStudent.setText("Thông tin sinh viên");
+        miInfoStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miInfoStudentActionPerformed(evt);
+            }
+        });
+        tabStudentManage.add(miInfoStudent);
+
+        miInputScore.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miInputScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search-Results.png"))); // NOI18N
+        miInputScore.setText("Kết quả học tập");
+        miInputScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miInputScoreActionPerformed(evt);
+            }
+        });
+        tabStudentManage.add(miInputScore);
+
+        miRegisterCourse.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miRegisterCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dk.png"))); // NOI18N
+        miRegisterCourse.setText("Đăng ký môn học");
+        miRegisterCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miRegisterCourseActionPerformed(evt);
+            }
+        });
+        tabStudentManage.add(miRegisterCourse);
+
+        jMenuBar1.add(tabStudentManage);
+
+        tabAdministrator.setText("Quản Trị");
+        tabAdministrator.setEnabled(false);
+        tabAdministrator.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        miSystemConfig.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miSystemConfig.setText("Cấu hình hệ thống");
+        tabAdministrator.add(miSystemConfig);
+
+        miChangeRegulation.setText("Quy định");
+        miChangeRegulation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miChangeRegulationActionPerformed(evt);
+            }
+        });
+        tabAdministrator.add(miChangeRegulation);
+
+        miSetAccess.setText("Phân quyền");
+        miSetAccess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSetAccessActionPerformed(evt);
+            }
+        });
+        tabAdministrator.add(miSetAccess);
+
+        jMenuBar1.add(tabAdministrator);
+
+        tabHelp.setText("Trợ Giúp");
+        tabHelp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        miSoftwareInfo.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miSoftwareInfo.setText("Thông tin phần mềm");
+        tabHelp.add(miSoftwareInfo);
+
+        miGuide.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miGuide.setText("Hướng dẫn sử dụng");
+        miGuide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miGuideActionPerformed(evt);
+            }
+        });
+        tabHelp.add(miGuide);
+
+        jMenuBar1.add(tabHelp);
 
         setJMenuBar(jMenuBar1);
 
@@ -426,11 +519,7 @@ public class frmMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void mnInfoStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnInfoStudentActionPerformed
+    private void miInfoStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInfoStudentActionPerformed
         try {
             ThongTinSV ttSinhVien = new ThongTinSV();
             int index = 0;
@@ -448,25 +537,25 @@ public class frmMain extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_mnInfoStudentActionPerformed
+    }//GEN-LAST:event_miInfoStudentActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        ThongTinLop ttLopHoc = new ThongTinLop();
+    private void miInputScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInputScoreActionPerformed
+        FrmManageScore frmBangDiem = new FrmManageScore();
         if (TabbedPaneMain.getTabCount() == 0) {
-            TabbedPaneMain.addTab("Thông tin lớp học   ", null, ttLopHoc, "thongtinLH");
+            TabbedPaneMain.addTab("Bảng điểm sinh viên  ", null, frmBangDiem, "frmBangDiem");
         } else {
-            int index = TabbedPaneMain.indexOfTab("Thông tin lớp học   ");
+            int index = TabbedPaneMain.indexOfTab("Bảng điểm sinh viên  ");
             if (index < 0) {
-                TabbedPaneMain.addTab("Thông tin lớp học   ", null, ttLopHoc, "thongtinLH");
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thông tin lớp học   "));
+                TabbedPaneMain.addTab("Bảng điểm sinh viên  ", null, frmBangDiem, "frmBangDiem");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Bảng điểm sinh viên  "));
             } else {
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thông tin lớp học   "));
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Bảng điểm sinh viên  "));
             }
         }
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_miInputScoreActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        DangKiMonHoc2 dkMonHoc = new DangKiMonHoc2();
+    private void miRegisterCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRegisterCourseActionPerformed
+        FrmRegisterCourses dkMonHoc = new FrmRegisterCourses();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Đăng kí môn học   ", null, dkMonHoc, "dkMonHoc");
         } else {
@@ -478,9 +567,9 @@ public class frmMain extends javax.swing.JFrame {
                 TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Đăng kí môn học   "));
             }
         }
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_miRegisterCourseActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void miListCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListCourseActionPerformed
         FrmListCourses dsMonHoc = new FrmListCourses();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Danh sách môn học   ", null, dsMonHoc, "dsMonHoc");
@@ -493,11 +582,11 @@ public class frmMain extends javax.swing.JFrame {
                 TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách môn học   "));
             }
         }
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_miListCourseActionPerformed
 
-    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+    private void miGuideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuideActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem13ActionPerformed
+    }//GEN-LAST:event_miGuideActionPerformed
 
     private void mnTinhTrangDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnTinhTrangDangKyActionPerformed
         // TODO add your handling code here:
@@ -515,7 +604,7 @@ public class frmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnTinhTrangDangKyActionPerformed
 
-    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+    private void miListMayjorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListMayjorActionPerformed
         FrmListMayjors listMayjor = new FrmListMayjors();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Danh sách ngành   ", null, listMayjor, "listMayjor");
@@ -528,9 +617,9 @@ public class frmMain extends javax.swing.JFrame {
                 TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách ngành   "));
             }
         }
-    }//GEN-LAST:event_jMenuItem18ActionPerformed
+    }//GEN-LAST:event_miListMayjorActionPerformed
 
-    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+    private void miListFacutyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListFacutyActionPerformed
         FrmListFaculty listFac = new FrmListFaculty();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Danh sách khoa   ", null, listFac, "listFac");
@@ -543,26 +632,162 @@ public class frmMain extends javax.swing.JFrame {
                 TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách khoa   "));
             }
         }
-    }//GEN-LAST:event_jMenuItem19ActionPerformed
-
-    /** @HungNgoc
-    * Add tab tinh trang dong hoc phi cua sinh vien
-    */
-    private void mnFeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnFeeActionPerformed
-        // TODO add your handling code here:
-        rpStateFee listStateFee = new rpStateFee();
+    }//GEN-LAST:event_miListFacutyActionPerformed
+    /*@AnhQuan
+     *gọi form quy định
+     */
+    private void miChangeRegulationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miChangeRegulationActionPerformed
+        FrmRegulation regulation = new FrmRegulation();
         if (TabbedPaneMain.getTabCount() == 0) {
-            TabbedPaneMain.addTab("Tình trạng đóng học phí   ", null, listStateFee, "listStateFee");
+            TabbedPaneMain.addTab("Quy định   ", null, regulation, "listFac");
         } else {
-            int index = TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   ");
+            int index = TabbedPaneMain.indexOfTab("Quy định   ");
             if (index < 0) {
-                TabbedPaneMain.addTab("Tình trạng đóng học phí   ", null, listStateFee, "listStateFee");
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   "));
+                TabbedPaneMain.addTab("Quy định   ", null, regulation, "listFac");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Quy định   "));
             } else {
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đóng học phí   "));
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Quy định   "));
             }
         }
-    }//GEN-LAST:event_mnFeeActionPerformed
+    }//GEN-LAST:event_miChangeRegulationActionPerformed
+
+    private void miOpenCoursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miOpenCoursesActionPerformed
+        FrmChooseCourseToOpen openCourse = new FrmChooseCourseToOpen();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Mở môn học   ", null, openCourse, "openCourse");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Mở môn học   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Mở môn học   ", null, openCourse, "openCourse");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Mở môn học   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Mở môn học   "));
+            }
+        }
+    }//GEN-LAST:event_miOpenCoursesActionPerformed
+
+    private void miTypeOfCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTypeOfCourseActionPerformed
+        FrmTypeOfCourse typeOfCourse = new FrmTypeOfCourse();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Loại môn học   ", null, typeOfCourse, "typeOfCourse");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Loại môn học   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Loại môn học   ", null, typeOfCourse, "typeOfCourse");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Loại môn học   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Loại môn học   "));
+            }
+        }
+    }//GEN-LAST:event_miTypeOfCourseActionPerformed
+
+    private void miHumanSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miHumanSubjectActionPerformed
+        FrmHumanSubjects humanSubject = new FrmHumanSubjects();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Quản lý đối tượng   ", null, humanSubject, "humanSubject");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Quản lý đối tượng   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Quản lý đối tượng   ", null, humanSubject, "humanSubject");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Quản lý đối tượng   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Quản lý đối tượng   "));
+            }
+        }
+    }//GEN-LAST:event_miHumanSubjectActionPerformed
+
+    private void miGetFeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGetFeeActionPerformed
+        FrmPaymentFee payFee = new FrmPaymentFee();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Thu học phí   ", null, payFee, "payFee");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Thu học phí   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Thu học phí   ", null, payFee, "payFee");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thu học phí   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thu học phí   "));
+            }
+        }
+    }//GEN-LAST:event_miGetFeeActionPerformed
+
+    private void miListStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListStaffActionPerformed
+        try {
+            // TODO add your handling code here:
+            FrmStaffManage frmStaff = new FrmStaffManage();
+            if (TabbedPaneMain.getTabCount() == 0) {
+                TabbedPaneMain.addTab("Danh sách nhân viên   ", null, frmStaff, "frmStaff");
+            } else {
+                int index = TabbedPaneMain.indexOfTab("Danh sách nhân viên   ");
+                if (index < 0) {
+                    TabbedPaneMain.addTab("Danh sách nhân viên   ", null, frmStaff, "frmStaff");
+                    TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách nhân viên   "));
+                } else {
+                    TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách nhân viên   "));
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_miListStaffActionPerformed
+
+    private void miStaffInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miStaffInfoActionPerformed
+        FrmStaffInfo staffInfo = new FrmStaffInfo();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Thông tin nhân viên   ", null, staffInfo, "staffInfo");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Thông tin nhân viên   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Thông tin nhân viên   ", null, staffInfo, "staffInfo");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thông tin nhân viên   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Thông tin nhân viên   "));
+            }
+        }
+    }//GEN-LAST:event_miStaffInfoActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        FrmLogin login = new FrmLogin();
+        login.setVisible(true);        
+        this.dispose();
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void miSetAccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSetAccessActionPerformed
+        FrmPositionAndAccess PoAc = new FrmPositionAndAccess();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Phân quyền   ", null, PoAc, "PoAc");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Phân quyền   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Phân quyền   ", null, PoAc, "PoAc");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Phân quyền   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Phân quyền   "));
+            }
+        }
+    }//GEN-LAST:event_miSetAccessActionPerformed
+
+    private void miRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRestoreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_miRestoreActionPerformed
+
+    
+    private void mnStateFeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnStateFeeActionPerformed
+        // TODO add your handling code here:
+          rpStateFee rpStateF = new rpStateFee();
+        if (TabbedPaneMain.getTabCount() == 0) {
+            TabbedPaneMain.addTab("Trạng thái thu học phí   ", null, rpStateF, "stateFee");
+        } else {
+            int index = TabbedPaneMain.indexOfTab("Trạng thái thu học phí   ");
+            if (index < 0) {
+                TabbedPaneMain.addTab("Trạng thái thu học phí   ", null, rpStateF, "stateFee");
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Trạng thái thu học phí   "));
+            } else {
+                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Trạng thái thu học phí   "));
+            }
+        }
+    }//GEN-LAST:event_mnStateFeeActionPerformed
 
     private void setClocks() {
 
@@ -598,7 +823,7 @@ public class frmMain extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-             
+
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -620,7 +845,7 @@ public class frmMain extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 frmMain frM = new frmMain();
-                frM.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height-40);
+                frM.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 40);
                 frM.setVisible(true);
             }
         });
@@ -631,34 +856,8 @@ public class frmMain extends javax.swing.JFrame {
     // private ClosableTabbedPane TabbePaneMain1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.ClosableTabbedPane TabbedPaneMain;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
+    private org.jdesktop.swingx.JXButton btnLogOut;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
-    private javax.swing.JMenuItem jMenuItem18;
-    private javax.swing.JMenuItem jMenuItem19;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXButton jXButton2;
@@ -668,18 +867,46 @@ public class frmMain extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXButton jXButton6;
     private org.jdesktop.swingx.JXButton jXButton7;
     private org.jdesktop.swingx.JXButton jXButton8;
-    private org.jdesktop.swingx.JXButton jXButton9;
     private org.jdesktop.swingx.JXFrame jXFrame1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
+    private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
-    private org.jdesktop.swingx.JXLabel jXLabel5;
     private org.jdesktop.swingx.JXPanel jXPanel1;
+    private org.jdesktop.swingx.JXLabel lbIdStaff;
+    private org.jdesktop.swingx.JXLabel lbPos;
+    private org.jdesktop.swingx.JXLabel lbPosition;
+    private org.jdesktop.swingx.JXLabel lbStaffName;
     private org.jdesktop.swingx.JXLabel lb_Clock;
     private org.jdesktop.swingx.JXLabel lb_Date;
-    private javax.swing.JMenuItem mnFee;
-    private javax.swing.JMenuItem mnInfoStudent;
+    private javax.swing.JMenuItem miBackUp;
+    private javax.swing.JMenuItem miChangeRegulation;
+    private javax.swing.JMenuItem miGetFee;
+    private javax.swing.JMenuItem miGuide;
+    private javax.swing.JMenuItem miHumanSubject;
+    private javax.swing.JMenuItem miInfoStudent;
+    private javax.swing.JMenuItem miInputScore;
+    private javax.swing.JMenuItem miListCourse;
+    private javax.swing.JMenuItem miListFacuty;
+    private javax.swing.JMenuItem miListMayjor;
+    private javax.swing.JMenuItem miListStaff;
+    private javax.swing.JMenuItem miOpenCourses;
+    private javax.swing.JMenuItem miRegisterCourse;
+    private javax.swing.JMenuItem miRestore;
+    private javax.swing.JMenuItem miSetAccess;
+    private javax.swing.JMenuItem miSoftwareInfo;
+    private javax.swing.JMenuItem miStaffInfo;
+    private javax.swing.JMenuItem miSystemConfig;
+    private javax.swing.JMenuItem miTypeOfCourse;
+    private javax.swing.JMenuItem mnStateFee;
     private javax.swing.JMenuItem mnTinhTrangDangKy;
     private org.jdesktop.swingx.JXStatusBar st_Info;
+    private javax.swing.JMenu tabAdministrator;
+    private javax.swing.JMenu tabFinacial;
+    private javax.swing.JMenu tabHelp;
+    private javax.swing.JMenu tabMinistry;
+    private javax.swing.JMenu tabStaffManage;
+    private javax.swing.JMenu tabStudentManage;
+    private javax.swing.JMenu tabSystem;
     // End of variables declaration//GEN-END:variables
 }

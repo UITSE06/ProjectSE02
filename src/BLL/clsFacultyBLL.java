@@ -62,4 +62,8 @@ public class clsFacultyBLL {
         return faDAL.XoaKhoa(p);
     }
     
+    public ResultSet LoadKhoa() throws Exception
+    {
+        return faDAL.LoadKhoa();
+    }
 }

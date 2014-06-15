@@ -174,10 +174,13 @@ public class SQLServerConnector {
         return this.result;
     }
 
+    /*@AnhQuan
+    *sửa lại kiểu của resultset để có thể sử dụng nhiều lần
+    */
     ////////////////// Ham thuc thi cau lenh bang store procedure
     public ResultSet excuteStore(String Store) throws Exception {
         try {
-            this.result = this.getConnect().prepareCall(Store).executeQuery();
+            this.result = this.getConnect().prepareCall(Store, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery();
         } catch (Exception e) {
             throw new Exception("Error: " + e.getMessage());
         }

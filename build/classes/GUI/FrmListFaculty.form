@@ -16,8 +16,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="FullPanel" alignment="0" max="32767" attributes="0"/>
           <Component id="TopPanel" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="FullPanel" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -39,11 +42,10 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="ControlPanel" alignment="0" max="32767" attributes="0"/>
                       <Component id="TopInFull" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
+                      <Component id="ControlPanel" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -55,7 +57,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="ControlPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="155" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="203" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -73,7 +75,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="TopLeft" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                   </Group>
@@ -96,33 +98,22 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lbMSSV" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="lbHoTen1" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="txtMaKhoa" min="-2" pref="113" max="-2" attributes="0"/>
-                              <Component id="txtSoNganhHT" min="-2" pref="113" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="HoTen" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbHoTen2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbMSSV" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbHoTen2" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtTenKhoa" min="-2" pref="178" max="-2" attributes="0"/>
-                              <Component id="txtVietTat" min="-2" pref="178" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtMaKhoa" max="32767" attributes="0"/>
+                              <Component id="txtVietTat" min="-2" pref="113" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="HoTen" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="txtTenKhoa" min="-2" pref="290" max="-2" attributes="0"/>
+                          <EmptySpace pref="57" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -138,8 +129,6 @@
                           <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lbHoTen2" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="lbHoTen1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                              <Component id="txtSoNganhHT" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtVietTat" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -166,14 +155,6 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="org.jdesktop.swingx.JXLabel" name="lbHoTen1">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="S&#x1ed1; ng&#xe0;nh hi&#x1ec7;n t&#x1ea1;i:"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="0"/>
-                    </Property>
-                  </Properties>
-                </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbHoTen2">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Vi&#x1ebf;t t&#x1eaf;t:"/>
@@ -188,11 +169,6 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
-                  </Properties>
-                </Component>
-                <Component class="org.jdesktop.swingx.JXTextField" name="txtSoNganhHT">
-                  <Properties>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXTextField" name="txtVietTat">
@@ -231,6 +207,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCapNhatActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="org.jdesktop.swingx.JXButton" name="btnHuyThaoTac">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="H&#x1ee7;y Thao T&#xe1;c"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyThaoTacActionPerformed"/>
               </Events>
             </Component>
             <Component class="org.jdesktop.swingx.JXButton" name="btnLuu">
@@ -290,6 +275,10 @@
                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
                 </Property>
+                <Property name="editable" type="boolean" value="false"/>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -301,7 +290,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="Title" alignment="0" pref="602" max="32767" attributes="0"/>
+              <Component id="Title" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -320,7 +309,7 @@
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="DANH S&#xc1;CH KHOA"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Times New Roman" size="36" style="1"/>
+              <Font name="Times New Roman" size="18" style="1"/>
             </Property>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="textAlignment" type="org.jdesktop.swingx.JXLabel$TextAlignment" editor="org.netbeans.modules.form.editors.EnumEditor">

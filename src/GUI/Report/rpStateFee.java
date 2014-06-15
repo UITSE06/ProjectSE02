@@ -47,6 +47,9 @@ import net.sf.jasperreports.view.JasperViewer;
 /**
  *
  * @author Hung
+ * Date: 14-06-2014
+ * Tạo báo cáo tình hình thu học phí
+ * 
  */
 public class rpStateFee extends javax.swing.JPanel {
 

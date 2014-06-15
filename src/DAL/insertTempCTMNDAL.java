@@ -17,10 +17,11 @@ public class insertTempCTMNDAL {
     SQLServerConnector connect;
     CallableStatement cabCmd;
 
-    public int insertTempCTMN(MonHocPublic p) throws Exception {
+    public int insertTempCTMN(CT_NganhPublic p) throws Exception {
         connect = new SQLServerConnector();
-        cabCmd = connect.getCallableStatement("{call insertTempCTMN(?)}");
-        cabCmd.setString(1, p.getMaMon());
+        cabCmd = connect.getCallableStatement("{call insertTempCTMN(?,?)}");
+        cabCmd.setString(1, p.getMaNganh());
+        cabCmd.setInt(2, p.getHocKi());
         return connect.excuteUpdateStorePara(cabCmd);
     }
 }

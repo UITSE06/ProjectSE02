@@ -66,6 +66,17 @@ public class clsStudent_BLL {
      * @throws Exception 
      */
     public ResultSet LOAD_NAMEMAYJORS(clsStudent_Public stPublic) throws Exception {
-        return stDAL.LOAD_NAMEMAYJORS(stPublic);
+        return stDAL.LOAD_NAMEMAYJORS(stPublic);}
+    
+    public int InsertUpdateStudent(clsStudent_Public p, int length) throws Exception {
+        return stDAL.InsertUpdateStudent(p, length);
+    }
+    
+    public int DeleteStudent(clsStudent_Public p) throws Exception{
+        return stDAL.DeleteStudent(p);
+    }
+    
+    public ResultSet getMaxMSSV(clsStudent_Public p) throws Exception{
+        return stDAL.getMaxMSSV(p);
     }
 }

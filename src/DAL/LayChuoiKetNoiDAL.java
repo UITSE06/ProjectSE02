@@ -20,8 +20,8 @@ public class LayChuoiKetNoiDAL {
     public LayChuoiKetNoiDAL() {
         this.server = "HUNGNGOC";
         this.portNumber = 1433;
-        this.userName = "hunghn";
-        this.password = "uit123";
+        this.userName = "sa";
+        this.password = "123";
         this.databaseName = "QUANLYDANGKYMONHOC";
     }
 

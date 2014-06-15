@@ -9,10 +9,16 @@ import BLL.*;
 import PUBLIC.*;
 import DAL.Crypter;
 import DAL.SQLServerConnector;
-import GUI.frmMain;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,14 +34,18 @@ public class FrmLogin extends javax.swing.JFrame {
     /**
      * Creates new form FrmLogin
      */
-    private final SQLServerConnector connect;
     private LoginBLL lgBLL = new LoginBLL();
-    private NhanVienPublic nvP = new NhanVienPublic();
-    
+    private clsStaff_Public nvP = new clsStaff_Public();
+    private String SavedPass = "";
+    private boolean isLogging;
+
     public FrmLogin() {
         initComponents();
+        txtTenDangNhap.setDocument(new ClsLimitDocument_BLL(50));
+        passMatKhau.setDocument(new ClsLimitDocument_BLL(100));
+        isLogging = false;
         lbThongBao.setVisible(false);
-        connect = new SQLServerConnector("HUNGNGOC",1433,"hunghn","uit123","QUANLYDANGKYMONHOC");
+        GetRememberPass();
     }
 
     /**
@@ -249,9 +259,36 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void GetRememberPass() {
+        FileReader fr;
+        try {
+            fr = new FileReader("mainRemem");
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            if ((line = br.readLine()) != null) {
+                txtTenDangNhap.setText(line);
+            }
+            if ((line = br.readLine()) != null) {
+                passMatKhau.setText("matkhaudaluu");
+                SavedPass = line;
+                chk_RememberPassUser.getModel().setSelected(true);
+            }
+        } catch (FileNotFoundException ex) {
+            chk_RememberPassUser.getModel().setSelected(false);
+            //Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            chk_RememberPassUser.getModel().setSelected(false);
+            //Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         try {
-            Login();
+            if (!isLogging) {//nêu chưa login thì login
+                isLogging = true;
+                Login();
+            }
         } catch (Exception ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -260,43 +297,145 @@ public class FrmLogin extends javax.swing.JFrame {
     private void passMatKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passMatKhauKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                Login();
+                if (!isLogging) {//nêu chưa login thì login
+                    isLogging = true;
+                    Login();
+                }
             } catch (Exception ex) {
                 Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if (evt.getKeyCode() == KeyEvent.VK_CAPS_LOCK) {
+            boolean isOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
+            if (isOn) {
+                lbThongBao.setText("Caps Lock đang bật");
+                lbThongBao.setVisible(true);
+            } else {
+                lbThongBao.setVisible(false);
+            }
+        }
+        //neu co thay doi gia tri mat khau thi xoa mat khau da luu di
+        SavedPass = "";
     }//GEN-LAST:event_passMatKhauKeyPressed
 
     private void Login() throws SQLException, Exception {
         try {
-            // Lay du lieu voi Store Procedure co tham so
-//            String strCall = "{call GetPassByUserName(?)}";
-//            CallableStatement cabCmd = connect.getCallableStatement(strCall);
-//            cabCmd.setString(1, txtTenDangNhap.getText().trim());
-            nvP.setTenDN(txtTenDangNhap.getText().trim());
+            nvP.setTenDN(txtTenDangNhap.getText());
             ResultSet rs = lgBLL.GetPassByUserName(nvP);
             if (rs.next()) {
                 String matkhau = rs.getString("MatKhau");
-                if (Crypter.encryptMD5(new String(passMatKhau.getPassword())).equals(matkhau)) {
-                    frmMain frM = new frmMain();
-                    //frM.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
-                    frM.setExtendedState(MAXIMIZED_BOTH);
-                    frM.setVisible(true);
-                    this.setVisible(false);
-                } else {
-                    lbThongBao.setText("Sai tên đăng nhập hoặc mật khẩu");
-                    lbThongBao.setVisible(true);
+                if (SavedPass.isEmpty()) {//chua co mat khau nao dc luu
+                    if (Crypter.encryptMD5(new String(passMatKhau.getPassword())).equals(matkhau)) {
+                        LoadStaffInfo();
+                        frmMain frM = new frmMain();
+                        frM.setExtendedState(MAXIMIZED_BOTH);
+                        frM.setVisible(true);
+                        this.setVisible(false);
+                        
+                        //Kiem tra xem co can nhớ tên đăng nhập và mật khẩu hay không?
+                        if (chk_RememberPassUser.getModel().isSelected()) {
+                            FileOutputStream fos = new FileOutputStream("mainRemem", false);
+                            PrintWriter pw = new PrintWriter(fos);
+                            pw.println(txtTenDangNhap.getText());
+                            pw.println(matkhau);
+                            pw.close();
+                            fos.flush();
+                            fos.close();
+                        } else { //neu khong can nhớ mật khẩu thì kiểm tra xem file có tồn tại hay khong? có thì xoa di
+                            File f = new File("mainRemem");
+                            boolean a = f.exists();
+                            if (f.exists()) {
+                                f.delete();
+                            }
+                        }
+                    } else {
+                        lbThongBao.setText("Sai mật khẩu");
+                        lbThongBao.setVisible(true);
+                        isLogging = false;
+                    }
+                } else {//co mat khau da luu
+                    if (SavedPass.equals(matkhau)) {
+                        LoadStaffInfo();
+                        frmMain frM = new frmMain();
+                        frM.setExtendedState(MAXIMIZED_BOTH);
+                        frM.setVisible(true);
+                        this.setVisible(false);
+                        //Kiem tra xem co can nhớ tên đăng nhập và mật khẩu hay không?
+                        if (chk_RememberPassUser.getModel().isSelected()) {
+                            FileOutputStream fos = new FileOutputStream("mainRemem", false);
+                            PrintWriter pw = new PrintWriter(fos);
+                            pw.println(txtTenDangNhap.getText());
+                            pw.println(matkhau);
+                            pw.close();
+                            fos.flush();
+                            fos.close();
+                        } else { //neu khong can nhớ mật khẩu thì kiểm tra xem file có tồn tại hay khong? có thì xoa di
+                            File f = new File("mainRemem");
+                            boolean a = f.exists();
+                            if (f.exists()) {
+                                f.delete();
+                            }
+                        }
+                    } else {
+                        lbThongBao.setText("Sai mật khẩu");
+                        lbThongBao.setVisible(true);
+                        isLogging = false;
+                    }
                 }
             } else {
-                lbThongBao.setText("Sai tên đăng nhập hoặc mật khẩu");
+                lbThongBao.setText("Sai tên đăng nhập");
                 lbThongBao.setVisible(true);
+                isLogging = false;
             }
-        } catch (SQLException e) {
-
+        } catch (Exception ex) {
+            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void LoadStaffInfo() throws Exception {
+        ResultSet rs = lgBLL.GetStaffInfoByUserName(nvP);
+        if (rs.next()) {
+            ClsStaffLoginInfo_Public sli = new ClsStaffLoginInfo_Public();
+            sli.setMaNV(rs.getString(1));
+            sli.setTenNV(rs.getString(2));
+            sli.setNgaySinh(rs.getDate(3));
+            Byte gt = rs.getByte(4);
+            if (gt == 1) {
+                sli.setGioiTinh("Nam");
+            } else {
+                sli.setGioiTinh("Nữ");
+            }
+            sli.setDiaChi(rs.getString(5));
+            sli.setMaPhanQuyen(rs.getString(6));
+            sli.setChucVu(rs.getString(7));
+        }
+        //load cac quy dinh len 1 class Static de kiem tra
+        try {
+            ClsRegulationBLL reBLL = new ClsRegulationBLL();
+            ClsRegulationStatic_Public rsPulic = new ClsRegulationStatic_Public();
+            rs = reBLL.LoadRegulation();
+            if (rs.next()) {
+                rsPulic.setMaxCredit(rs.getInt(2));
+                rs.next();
+                rsPulic.setMinScore(rs.getFloat(2));
+                rs.next();
+                rsPulic.setMaxScore(rs.getFloat(2));
+                rs.next();
+                rsPulic.setPassScore(rs.getFloat(2));
+                rs.next();
+                rsPulic.setMinStaffYearOld(rs.getInt(2));
+                rs.next();
+                rsPulic.setMaxStaffYearOld(rs.getInt(2));
+                rs.next();
+                rsPulic.setMinStudentYearOld(rs.getInt(2));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FrmRegulation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_btnThoatActionPerformed
 
     private void txtTenDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDangNhapActionPerformed
@@ -313,22 +452,21 @@ public class FrmLogin extends javax.swing.JFrame {
         // Determine the new location of the window
         int w = this.getSize().width;
         int h = this.getSize().height;
-        int x = (dim.width-w)/2;
-        int y = (dim.height-h)/2;
+        int x = (dim.width - w) / 2;
+        int y = (dim.height - h) / 2;
 
         // Move the window
         this.setLocation(x, y);
     }//GEN-LAST:event_formWindowActivated
 
     private void passMatKhauFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passMatKhauFocusGained
-         boolean isOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-         if(isOn)
-         {
-             lbThongBao.setText("Caps Lock đang bật");
-             lbThongBao.setVisible(true);
-         }
-         else
-             lbThongBao.setVisible(false);
+        boolean isOn = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
+        if (isOn) {
+            lbThongBao.setText("Caps Lock đang bật");
+            lbThongBao.setVisible(true);
+        } else {
+            lbThongBao.setVisible(false);
+        }
     }//GEN-LAST:event_passMatKhauFocusGained
 
     private void chk_RememberPassUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chk_RememberPassUserActionPerformed
@@ -367,7 +505,7 @@ public class FrmLogin extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-              System.out.println(Math.cbrt((double)('q' - 10 * 28)));
+        System.out.println(Math.cbrt((double) ('q' - 10 * 28)));
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

@@ -37,6 +37,9 @@ public class FrmListFaculty extends javax.swing.JPanel {
 
     public FrmListFaculty() {
         initComponents();
+        txtMaKhoa.setDocument(new ClsLimitDocument_BLL(20));
+        txtTenKhoa.setDocument(new ClsLimitDocument_BLL(50));
+        txtVietTat.setDocument(new ClsLimitDocument_BLL(10));
         LayDuLieu();
         //
         tblDSKhoa.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -69,14 +72,13 @@ public class FrmListFaculty extends javax.swing.JPanel {
         txtMaKhoa = new org.jdesktop.swingx.JXTextField();
         lbMSSV = new org.jdesktop.swingx.JXLabel();
         txtTenKhoa = new org.jdesktop.swingx.JXTextField();
-        lbHoTen1 = new org.jdesktop.swingx.JXLabel();
         lbHoTen2 = new org.jdesktop.swingx.JXLabel();
         HoTen = new org.jdesktop.swingx.JXLabel();
-        txtSoNganhHT = new org.jdesktop.swingx.JXTextField();
         txtVietTat = new org.jdesktop.swingx.JXTextField();
         ControlPanel = new org.jdesktop.swingx.JXPanel();
         btnThem = new org.jdesktop.swingx.JXButton();
         btnCapNhat = new org.jdesktop.swingx.JXButton();
+        btnHuyThaoTac = new org.jdesktop.swingx.JXButton();
         btnLuu = new org.jdesktop.swingx.JXButton();
         btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXoa = new org.jdesktop.swingx.JXButton();
@@ -95,16 +97,11 @@ public class FrmListFaculty extends javax.swing.JPanel {
 
         txtTenKhoa.setEnabled(false);
 
-        lbHoTen1.setText("Số ngành hiện tại:");
-        lbHoTen1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         lbHoTen2.setText("Viết tắt:");
         lbHoTen2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         HoTen.setText("Tên Khoa:");
         HoTen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        txtSoNganhHT.setEnabled(false);
 
         txtVietTat.setEnabled(false);
 
@@ -115,24 +112,17 @@ public class FrmListFaculty extends javax.swing.JPanel {
             .addGroup(TopLeftLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TopLeftLayout.createSequentialGroup()
-                        .addComponent(lbMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(TopLeftLayout.createSequentialGroup()
-                        .addComponent(lbHoTen1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)))
-                .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtMaKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoNganhHT, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbMSSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTenKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtVietTat, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtMaKhoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtVietTat, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txtTenKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         TopLeftLayout.setVerticalGroup(
             TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,8 +135,6 @@ public class FrmListFaculty extends javax.swing.JPanel {
                 .addGap(11, 11, 11)
                 .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbHoTen1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoNganhHT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtVietTat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -160,7 +148,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
         TopInFullLayout.setVerticalGroup(
             TopInFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopInFullLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(TopLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
@@ -185,6 +173,15 @@ public class FrmListFaculty extends javax.swing.JPanel {
             }
         });
         ControlPanel.add(btnCapNhat);
+
+        btnHuyThaoTac.setText("Hủy Thao Tác");
+        btnHuyThaoTac.setEnabled(false);
+        btnHuyThaoTac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyThaoTacActionPerformed(evt);
+            }
+        });
+        ControlPanel.add(btnHuyThaoTac);
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -228,6 +225,8 @@ public class FrmListFaculty extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblDSKhoa.setEditable(false);
+        tblDSKhoa.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblDSKhoa);
 
         javax.swing.GroupLayout FullPanelLayout = new javax.swing.GroupLayout(FullPanel);
@@ -237,10 +236,9 @@ public class FrmListFaculty extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FullPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(FullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(TopInFull, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
+                    .addComponent(ControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
         );
         FullPanelLayout.setVerticalGroup(
             FullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,13 +248,13 @@ public class FrmListFaculty extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title.setText("DANH SÁCH KHOA");
-        Title.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        Title.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Title.setTextAlignment(org.jdesktop.swingx.JXLabel.TextAlignment.CENTER);
 
@@ -264,7 +262,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,8 +276,10 @@ public class FrmListFaculty extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(FullPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(TopPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(FullPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -304,7 +304,6 @@ public class FrmListFaculty extends javax.swing.JPanel {
                 dtm.addRow(data_rows);
             }
             tblDSKhoa.setModel(dtm);
-
         } catch (Exception ex) {
             Logger.getLogger(FrmListFaculty.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -315,9 +314,9 @@ public class FrmListFaculty extends javax.swing.JPanel {
             if (row < 0) {
                 row = 0;
             }
-            txtMaKhoa.setText(tblDSKhoa.getStringAt(row, 0));
-            txtTenKhoa.setText(tblDSKhoa.getStringAt(row, 1));
-            txtVietTat.setText(tblDSKhoa.getStringAt(row, 2));
+            txtMaKhoa.setText(String.valueOf(dtm.getValueAt(row, 0)));
+            txtTenKhoa.setText(String.valueOf(dtm.getValueAt(row, 1)));
+            txtVietTat.setText(String.valueOf(dtm.getValueAt(row, 2)));
         } catch (Exception e) {
             Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
         }
@@ -336,6 +335,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
         btnLamMoi.setEnabled(true);
         btnXoa.setEnabled(false);
         btnXuatDS.setEnabled(false);
+        btnHuyThaoTac.setEnabled(true);
         //gán cờ thêm mới để biết là đang thêm
         themMoi = true;
     }//GEN-LAST:event_btnThemActionPerformed
@@ -350,6 +350,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
         btnLamMoi.setEnabled(true);
         btnXoa.setEnabled(false);
         btnXuatDS.setEnabled(false);
+        btnHuyThaoTac.setEnabled(true);
         //gán cờ thêm mới là false để biết là đang cập nhật
         themMoi = false;
     }//GEN-LAST:event_btnCapNhatActionPerformed
@@ -390,6 +391,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
         txtTenKhoa.setEnabled(false);
         txtVietTat.setEnabled(false);
         //thay doi trang thai btn
+        btnHuyThaoTac.setEnabled(false);
         btnThem.setEnabled(true);
         btnCapNhat.setEnabled(true);
         btnLuu.setEnabled(false);
@@ -419,13 +421,29 @@ public class FrmListFaculty extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Xóa thành công");
                 LayDuLieu();//làm mới dữ liệu
             } else {
-                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+                JOptionPane.showMessageDialog(this, "Thông tin khoa có liên quan đến dữ liệu khác\nKhông thể xóa");
             }
         } catch (Exception ex) {
             Logger.getLogger(FrmListFaculty.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            JOptionPane.showMessageDialog(this, "Thông tin khoa có liên quan đến dữ liệu khác\nKhông thể xóa");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnHuyThaoTacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyThaoTacActionPerformed
+        btnHuyThaoTac.setEnabled(false);
+//disable cac component
+        txtTenKhoa.setEnabled(false);
+        txtVietTat.setEnabled(false);
+        //thay doi trang thai btn
+        btnThem.setEnabled(true);
+        btnCapNhat.setEnabled(true);
+        btnLuu.setEnabled(false);
+        btnLamMoi.setEnabled(false);
+        btnXoa.setEnabled(true);
+        btnXuatDS.setEnabled(true);
+        //làm mới lại dữ liệu
+        LayDuLieu();
+    }//GEN-LAST:event_btnHuyThaoTacActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -437,18 +455,17 @@ public class FrmListFaculty extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel TopLeft;
     private org.jdesktop.swingx.JXPanel TopPanel;
     private org.jdesktop.swingx.JXButton btnCapNhat;
+    private org.jdesktop.swingx.JXButton btnHuyThaoTac;
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
     private org.jdesktop.swingx.JXButton btnThem;
     private org.jdesktop.swingx.JXButton btnXoa;
     private org.jdesktop.swingx.JXButton btnXuatDS;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXLabel lbHoTen1;
     private org.jdesktop.swingx.JXLabel lbHoTen2;
     private org.jdesktop.swingx.JXLabel lbMSSV;
     private org.jdesktop.swingx.JXTable tblDSKhoa;
     private org.jdesktop.swingx.JXTextField txtMaKhoa;
-    private org.jdesktop.swingx.JXTextField txtSoNganhHT;
     private org.jdesktop.swingx.JXTextField txtTenKhoa;
     private org.jdesktop.swingx.JXTextField txtVietTat;
     // End of variables declaration//GEN-END:variables

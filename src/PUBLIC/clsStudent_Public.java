@@ -6,7 +6,8 @@
 
 package PUBLIC;
  
-import java.util.Date;
+import java.io.FileInputStream;
+import java.sql.Date;
 
 /**
  *
@@ -24,6 +25,8 @@ public class clsStudent_Public  extends clsFaculty_Public{
     private String yearOfApply;
     private String idObjects;
     private String idMayjors;
+    private FileInputStream hinhdaidien;
+    private String tinhTrang;
 
     /**
      * @return the idStudent
@@ -149,5 +152,33 @@ public class clsStudent_Public  extends clsFaculty_Public{
      */
     public void setIdMayjors(String idMayjors) {
         this.idMayjors = idMayjors;
+    }
+
+    /**
+     * @return the hinhdaidien
+     */
+    public FileInputStream getHinhdaidien() {
+        return hinhdaidien;
+    }
+
+    /**
+     * @param hinhdaidien the hinhdaidien to set
+     */
+    public void setHinhdaidien(FileInputStream hinhdaidien) {
+        this.hinhdaidien = hinhdaidien;
+    }
+
+    /**
+     * @return the tinhTrang
+     */
+    public String getTinhTrang() {
+        return tinhTrang;
+    }
+
+    /**
+     * @param trangThai the tinhTrang to set
+     */
+    public void setTinhTrang(String trangThai) {
+        this.tinhTrang = trangThai;
     }
 }

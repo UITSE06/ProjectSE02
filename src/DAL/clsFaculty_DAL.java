@@ -69,6 +69,10 @@ public class clsFaculty_DAL {
         return connect.excuteUpdateStorePara(cabCmd);
     }
     
-    
-    
+    //Load thong tin khoa -- ThanhThai
+    public ResultSet LoadKhoa() throws Exception
+    {
+        connect = new SQLServerConnector();
+        return connect.excuteStore("{call LoadKhoa}");
+    }
 }
