@@ -15,7 +15,7 @@ import PUBLIC.*;
 public class insertTempMHBLL {
     insertTempMHDAL intempMH = new insertTempMHDAL();
     
-    public int inserttempMH(MonHocPublic p) throws Exception
+    public int inserttempMH(clsCourses_Public p) throws Exception
     {
         return intempMH.inserttempMH(p);
     }

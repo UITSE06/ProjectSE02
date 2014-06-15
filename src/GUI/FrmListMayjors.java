@@ -34,11 +34,11 @@ public class FrmListMayjors extends javax.swing.JPanel {
     private final clsMayjors_BLL ngBLL = new clsMayjors_BLL();
     private final clsFacultyBLL kBLL = new clsFacultyBLL();
     private boolean themMoi = false;
+    private ResultSet rsKhoa;
 
     public FrmListMayjors() {
         initComponents();
-        //Khong cho nhap chu vao textbox so hoc ki
-        txtSoHK.setDocument(new DigitsDocumentBLL());
+        txtTenNganh.setDocument(new ClsLimitDocument_BLL(50));
         LayDuLieu();
         //
         tblDSNganh.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -55,6 +55,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
         });
 
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -69,10 +70,11 @@ public class FrmListMayjors extends javax.swing.JPanel {
         lbHoTen2 = new org.jdesktop.swingx.JXLabel();
         HoTen = new org.jdesktop.swingx.JXLabel();
         cboKhoa = new javax.swing.JComboBox();
-        txtSoHK = new org.jdesktop.swingx.JXTextField();
+        spNumSemester = new javax.swing.JSpinner();
         ControlPanel = new org.jdesktop.swingx.JXPanel();
         btnThem = new org.jdesktop.swingx.JXButton();
         btnCapNhat = new org.jdesktop.swingx.JXButton();
+        btnHuyThaoTac = new org.jdesktop.swingx.JXButton();
         btnLuu = new org.jdesktop.swingx.JXButton();
         btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXoa = new org.jdesktop.swingx.JXButton();
@@ -103,7 +105,8 @@ public class FrmListMayjors extends javax.swing.JPanel {
         cboKhoa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboKhoa.setEnabled(false);
 
-        txtSoHK.setEnabled(false);
+        spNumSemester.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+        spNumSemester.setEnabled(false);
 
         javax.swing.GroupLayout TopLeftLayout = new javax.swing.GroupLayout(TopLeft);
         TopLeft.setLayout(TopLeftLayout);
@@ -120,16 +123,18 @@ public class FrmListMayjors extends javax.swing.JPanel {
                         .addGap(23, 23, 23)))
                 .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoHK, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spNumSemester, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTenNganh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboKhoa, 0, 178, Short.MAX_VALUE))
-                .addContainerGap(431, Short.MAX_VALUE))
+                    .addGroup(TopLeftLayout.createSequentialGroup()
+                        .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(TopLeftLayout.createSequentialGroup()
+                        .addComponent(HoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         TopLeftLayout.setVerticalGroup(
             TopLeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,7 +149,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHoTen1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoHK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spNumSemester, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -157,7 +162,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
         TopInFullLayout.setVerticalGroup(
             TopInFullLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TopInFullLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addComponent(TopLeft, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(2, 2, 2))
         );
@@ -182,6 +187,15 @@ public class FrmListMayjors extends javax.swing.JPanel {
             }
         });
         ControlPanel.add(btnCapNhat);
+
+        btnHuyThaoTac.setText("Hủy Thao Tác");
+        btnHuyThaoTac.setEnabled(false);
+        btnHuyThaoTac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyThaoTacActionPerformed(evt);
+            }
+        });
+        ControlPanel.add(btnHuyThaoTac);
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -225,6 +239,8 @@ public class FrmListMayjors extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblDSNganh.setEditable(false);
+        tblDSNganh.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblDSNganh);
 
         javax.swing.GroupLayout FullPanelLayout = new javax.swing.GroupLayout(FullPanel);
@@ -247,13 +263,13 @@ public class FrmListMayjors extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title.setText("DANH SÁCH NGÀNH HỌC");
-        Title.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        Title.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Title.setTextAlignment(org.jdesktop.swingx.JXLabel.TextAlignment.CENTER);
 
@@ -261,7 +277,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,13 +303,16 @@ public class FrmListMayjors extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /*@AnhQuan
+     *them rsKhoa.BeforeFist và break;
+     */
     private void LayDuLieu() {
-        try {
+        try {            
             //lay thong tin ve khoa
             if (cboKhoa.getItemCount() > 0) {
                 cboKhoa.removeAllItems();
             }
-            ResultSet rsKhoa = kBLL.LayTTKhoa();
+            rsKhoa = kBLL.LayTTKhoa();
             while (rsKhoa.next()) {
                 String khoa = rsKhoa.getString(2);//2 tuc la lay cai ten khoa
                 cboKhoa.addItem(khoa);
@@ -308,14 +327,14 @@ public class FrmListMayjors extends javax.swing.JPanel {
                 data_rows.add(rs.getObject(1));
                 data_rows.add(rs.getObject(2));
                 //lay cai ten khoa
-                rsKhoa = kBLL.LayTTKhoa();
-                while(rsKhoa.next())
-                {
-                    if(rsKhoa.getString(1).equals(rs.getString(3)))//neu ma khoa giong nhau thi lay cai ten khoa
+                rsKhoa.beforeFirst();
+                while (rsKhoa.next()) {
+                    if (rsKhoa.getString(1).equals(rs.getString(3)))//neu ma khoa giong nhau thi lay cai ten khoa
                     {
                         data_rows.add(rsKhoa.getObject(2));
+                        break;
                     }
-                }                
+                }
                 //
                 data_rows.add(rs.getObject(4));
                 dtm.addRow(data_rows);
@@ -326,25 +345,29 @@ public class FrmListMayjors extends javax.swing.JPanel {
             Logger.getLogger(FrmListFaculty.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /* AnhQuan
+    *Them dieu kien if btnLuu.isEnable
+    */
     private void bindingData(int row) throws ParseException {
-        try {
-            if (row < 0) {
-                row = 0;
+        if (!btnLuu.isEnabled()) {
+            try {
+                if (row < 0) {
+                    row = 0;
+                }
+                txtMaNganh.setText(tblDSNganh.getStringAt(row, 0));
+                txtTenNganh.setText(tblDSNganh.getStringAt(row, 1));
+                cboKhoa.setSelectedItem(tblDSNganh.getStringAt(row, 2));
+                spNumSemester.setValue(Integer.parseInt(tblDSNganh.getStringAt(row, 3)));
+            } catch (NumberFormatException e) {
+                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
             }
-            txtMaNganh.setText(tblDSNganh.getStringAt(row, 0));
-            txtTenNganh.setText(tblDSNganh.getStringAt(row, 1));
-            cboKhoa.setSelectedItem(tblDSNganh.getStringAt(row, 2));
-            txtSoHK.setText(tblDSNganh.getStringAt(row, 3));
-        } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         txtMaNganh.setText("MN00000");
         txtTenNganh.setEnabled(true);
-        txtSoHK.setEnabled(true);
+        spNumSemester.setEnabled(true);
         cboKhoa.setEnabled(true);
         txtTenNganh.setText("");
         //thay doi trang thai btn
@@ -354,13 +377,14 @@ public class FrmListMayjors extends javax.swing.JPanel {
         btnLamMoi.setEnabled(true);
         btnXoa.setEnabled(false);
         btnXuatDS.setEnabled(false);
+        btnHuyThaoTac.setEnabled(true);
         //gan themMoi la true de biet la dang them moi
         themMoi = true;
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         txtTenNganh.setEnabled(true);
-        txtSoHK.setEnabled(true);
+        spNumSemester.setEnabled(true);
         cboKhoa.setEnabled(true);
         //thay doi trang thai btn
         btnThem.setEnabled(false);
@@ -369,6 +393,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
         btnLamMoi.setEnabled(true);
         btnXoa.setEnabled(false);
         btnXuatDS.setEnabled(false);
+        btnHuyThaoTac.setEnabled(true);
         //gan themMoi la false để biết là đang cập nhật
         themMoi = false;
     }//GEN-LAST:event_btnCapNhatActionPerformed
@@ -376,7 +401,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         //kiem tra input
         //kiem tra so hoc ki co hop le khong?
-        if (txtMaNganh.getText().isEmpty() || txtTenNganh.getText().isEmpty()||txtSoHK.getText().isEmpty()) {
+        if (txtMaNganh.getText().isEmpty() || txtTenNganh.getText().isEmpty() || spNumSemester.getValue() == null) {
             JOptionPane.showMessageDialog(this, "Chưa nhập đủ thông tin");
             return;
         }
@@ -384,19 +409,17 @@ public class FrmListMayjors extends javax.swing.JPanel {
         clsMayjors_Public p = new clsMayjors_Public();
         p.setIdMayjors(txtMaNganh.getText());
         p.setNameMayjors(txtTenNganh.getText());
-        p.setNoSemester(Integer.parseInt(txtSoHK.getText()));
+        p.setNoSemester((int)spNumSemester.getValue());
         //lay ma khoa de luu xuong du lieu
-        ResultSet rsKhoa;
         try {
-            rsKhoa = kBLL.LayTTKhoa();
+            rsKhoa.beforeFirst();
             while (rsKhoa.next()) {
                 String tenKhoa = rsKhoa.getString(2);//2 tuc la lay cai ten khoa
-                if(tenKhoa.equals((String)cboKhoa.getSelectedItem()))
-                {
+                if (tenKhoa.equals((String) cboKhoa.getSelectedItem())) {
                     p.setIdFaculty(rsKhoa.getString(1));//lay cai ma khoa roi them zo
                 }
-            }       
-            
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(FrmListMayjors.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -423,7 +446,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
 
         //disable cac component
         txtTenNganh.setEnabled(false);
-        txtSoHK.setEnabled(false);
+        spNumSemester.setEnabled(false);
         cboKhoa.setEnabled(false);
         //thay doi trang thai btn
         btnThem.setEnabled(true);
@@ -432,20 +455,19 @@ public class FrmListMayjors extends javax.swing.JPanel {
         btnLamMoi.setEnabled(false);
         btnXoa.setEnabled(true);
         btnXuatDS.setEnabled(true);
+        btnHuyThaoTac.setEnabled(false);
         //làm mới lại dữ liệu
         LayDuLieu();
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
-        if(txtTenNganh.isEnabled())
-        {
+        if (txtTenNganh.isEnabled()) {
             txtTenNganh.setText("");
         }
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        if(txtMaNganh.getText().isEmpty())
-        {
+        if (txtMaNganh.getText().isEmpty()) {
             return;
         }
         clsMayjors_Public p = new clsMayjors_Public();
@@ -463,6 +485,23 @@ public class FrmListMayjors extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    private void btnHuyThaoTacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyThaoTacActionPerformed
+        btnHuyThaoTac.setEnabled(false);
+//disable cac component
+        txtTenNganh.setEnabled(false);
+        spNumSemester.setEnabled(false);
+        cboKhoa.setEnabled(false);
+        //thay doi trang thai btn
+        btnThem.setEnabled(true);
+        btnCapNhat.setEnabled(true);
+        btnLuu.setEnabled(false);
+        btnLamMoi.setEnabled(false);
+        btnXoa.setEnabled(true);
+        btnXuatDS.setEnabled(true);
+        //làm mới lại dữ liệu
+        LayDuLieu();
+    }//GEN-LAST:event_btnHuyThaoTacActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXPanel ControlPanel;
@@ -473,6 +512,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel TopLeft;
     private org.jdesktop.swingx.JXPanel TopPanel;
     private org.jdesktop.swingx.JXButton btnCapNhat;
+    private org.jdesktop.swingx.JXButton btnHuyThaoTac;
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
     private org.jdesktop.swingx.JXButton btnThem;
@@ -483,9 +523,9 @@ public class FrmListMayjors extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXLabel lbHoTen1;
     private org.jdesktop.swingx.JXLabel lbHoTen2;
     private org.jdesktop.swingx.JXLabel lbMSSV;
+    private javax.swing.JSpinner spNumSemester;
     private org.jdesktop.swingx.JXTable tblDSNganh;
     private org.jdesktop.swingx.JXTextField txtMaNganh;
-    private org.jdesktop.swingx.JXTextField txtSoHK;
     private org.jdesktop.swingx.JXTextField txtTenNganh;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,23 +11,10 @@ package PUBLIC;
  * @author John
  */
 public class CT_NganhPublic {
-    private String maHocKiNganh;
     private String maNganh;
     private int hocKi;
 
-    /**
-     * @return the maHocKiNganh
-     */
-    public String getMaHocKiNganh() {
-        return maHocKiNganh;
-    }
 
-    /**
-     * @param maHocKiNganh the maHocKiNganh to set
-     */
-    public void setMaHocKiNganh(String maHocKiNganh) {
-        this.maHocKiNganh = maHocKiNganh;
-    }
 
     /**
      * @return the maNganh

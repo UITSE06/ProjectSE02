@@ -8,6 +8,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -28,7 +31,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="topPanel" max="32767" attributes="0"/>
           </Group>
-          <Component id="fullPanel" max="32767" attributes="0"/>
+          <Component id="fullPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -39,7 +42,7 @@
               <Component id="topPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="fullPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="34" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,6 +82,63 @@
         </Component>
       </SubComponents>
     </Container>
+    <Container class="org.jdesktop.swingx.JXPanel" name="topPanel">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="btnLuu" min="-2" pref="71" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                  <Component id="btnLamMoi" min="-2" pref="91" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
+                  <Component id="btnHuy" min="-2" pref="72" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="btnHuy" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLamMoi" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLuu" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="org.jdesktop.swingx.JXButton" name="btnLuu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
+            <Property name="name" type="java.lang.String" value="btnLuu" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLuuActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXButton" name="btnLamMoi">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+            <Property name="name" type="java.lang.String" value="btnLamMoi" noResource="true"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="org.jdesktop.swingx.JXButton" name="btnHuy">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
+            <Property name="name" type="java.lang.String" value="btnHuy" noResource="true"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Container class="org.jdesktop.swingx.JXPanel" name="fullPanel">
 
       <Layout>
@@ -112,13 +172,13 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="lbLoaiMonHoc1" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="lbLoaiMonHoc" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -126,7 +186,7 @@
                                           </Group>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="cboLoaiMH2" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="cboMHLT" alignment="0" max="32767" attributes="0"/>
                                               <Component id="cboLoaiMH" alignment="0" max="32767" attributes="0"/>
                                               <Component id="txtTenMonHoc" alignment="0" max="32767" attributes="0"/>
                                           </Group>
@@ -138,12 +198,12 @@
                                       </Group>
                                   </Group>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lbHoTen3" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="lbHoTen2" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lbHoTen3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="lbHoTen2" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Component id="cboNganhHoc" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jScrollPane2" alignment="0" pref="258" max="32767" attributes="0"/>
-                                          <Component id="cboLoaiMH1" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="cboKhoa" alignment="0" max="32767" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="lbLoaiMH" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -159,7 +219,7 @@
                                           <EmptySpace min="101" pref="101" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                               <Component id="cboMHTienQuyet" alignment="1" max="32767" attributes="0"/>
-                                              <Component id="jScrollPane1" pref="226" max="32767" attributes="0"/>
+                                              <Component id="jScrollPane1" alignment="1" pref="226" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -174,7 +234,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="txtTenMonHoc" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -183,7 +243,7 @@
                           <Component id="txtSoTinChi" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="2" attributes="0">
                                   <Component id="cboLoaiMH" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -198,9 +258,9 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="cboLoaiMH2" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboMHLT" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="lbLoaiMonHoc1" alignment="2" min="-2" max="-2" attributes="0"/>
-                          <Component id="cboLoaiMH1" alignment="2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboKhoa" alignment="2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -304,7 +364,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXLabel" name="lbLoaiMH">
               <Properties>
-                <Property name="text" type="java.lang.String" value="S&#x1ed1; t&#xed;n ch&#x1ec9;:"/>
+                <Property name="text" type="java.lang.String" value="S&#x1ed1; ti&#x1ebf;t:"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
@@ -326,20 +386,6 @@
                         <Column editable="true" title="Title 1" type="java.lang.Object"/>
                         <Column editable="true" title="Title 2" type="java.lang.Object"/>
                       </Table>
-                    </Property>
-                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                      <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                      </TableColumnModel>
                     </Property>
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="sortable" type="boolean" value="false"/>
@@ -369,25 +415,6 @@
                         <Column editable="true" title="Hoc Ky" type="java.lang.Object"/>
                       </Table>
                     </Property>
-                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                      <TableColumnModel selectionModel="0">
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                          <Title/>
-                          <Editor/>
-                          <Renderer/>
-                        </Column>
-                      </TableColumnModel>
-                    </Property>
                     <Property name="sortable" type="boolean" value="false"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
@@ -399,7 +426,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JComboBox" name="cboLoaiMH1">
+            <Component class="javax.swing.JComboBox" name="cboKhoa">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
@@ -415,7 +442,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="cboLoaiMH2">
+            <Component class="javax.swing.JComboBox" name="cboMHLT">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
@@ -433,60 +460,6 @@
             </Component>
           </SubComponents>
         </Container>
-      </SubComponents>
-    </Container>
-    <Container class="org.jdesktop.swingx.JXPanel" name="topPanel">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Component id="btnLuu" linkSize="3" min="-2" pref="71" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
-                  <Component id="btnLamMoi" linkSize="3" min="-2" pref="91" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                  <Component id="btnHuy" linkSize="3" min="-2" pref="72" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="btnHuy" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnLamMoi" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnLuu" alignment="2" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="org.jdesktop.swingx.JXButton" name="btnLuu">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="L&#x1b0;u"/>
-            <Property name="name" type="java.lang.String" value="btnLuu" noResource="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLuuActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="btnLamMoi">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
-            <Property name="name" type="java.lang.String" value="btnLamMoi" noResource="true"/>
-          </Properties>
-        </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="btnHuy">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
-            <Property name="name" type="java.lang.String" value="btnHuy" noResource="true"/>
-          </Properties>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

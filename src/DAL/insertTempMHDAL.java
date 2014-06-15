@@ -17,14 +17,15 @@ public class insertTempMHDAL {
     SQLServerConnector connect;
     CallableStatement cabCmd;
 
-    public int inserttempMH(MonHocPublic p) throws Exception {
+    public int inserttempMH(clsCourses_Public p) throws Exception {
         connect = new SQLServerConnector();
-        cabCmd = connect.getCallableStatement("{call insertTempMH1(?, ?, ?, ?, ?)}");
+        cabCmd = connect.getCallableStatement("{call insertTempMH1(?, ?, ?, ?, ?, ?)}");
         cabCmd.setString(1, "");
-        cabCmd.setString(2, p.getTenMon());
-        cabCmd.setInt(3, p.getSoTinChi());
-        cabCmd.setString(4, p.getMaLoaiMH());
-        cabCmd.setString(5, p.getMaMHTQ());
+        cabCmd.setString(2, p.getMaMonLT());
+        cabCmd.setString(3, p.getTenMon());
+        cabCmd.setInt(4, p.getSoTiet());
+        cabCmd.setString(5, p.getMaLoaiMH());
+        cabCmd.setString(6, p.getMaMHTQ());
         return connect.excuteUpdateStorePara(cabCmd);
     }
 }

@@ -16,8 +16,13 @@ import java.sql.ResultSet;
 public class LoginBLL {
     LoginDAL lgDAL = new LoginDAL();
     
-    public ResultSet GetPassByUserName(NhanVienPublic p) throws Exception
+    public ResultSet GetPassByUserName(clsStaff_Public p) throws Exception
     {
         return lgDAL.GetPassByUserName(p);
+    }
+    
+    public ResultSet GetStaffInfoByUserName(clsStaff_Public p) throws Exception
+    {
+        return lgDAL.GetStaffInfoByUserName(p);
     }
 }

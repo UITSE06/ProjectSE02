@@ -19,10 +19,18 @@ public class LoginDAL {
     // Khi nao thuc hien cau lenh store co' tham so can phai tao doi tuong nay.
     CallableStatement cabCmd;
     
-    public ResultSet GetPassByUserName(NhanVienPublic p) throws Exception
+    public ResultSet GetPassByUserName(clsStaff_Public p) throws Exception
     {
         connect = new SQLServerConnector();
         cabCmd = connect.getCallableStatement("{call GetPassByUserName(?)}");
+        cabCmd.setString(1, p.getTenDN());
+        return connect.excuteStore_Para(cabCmd);
+    }
+    
+    public ResultSet GetStaffInfoByUserName(clsStaff_Public p) throws Exception
+    {
+        connect = new SQLServerConnector();
+        cabCmd = connect.getCallableStatement("{call LayThongTinNhanVienTheoTenDangNhap(?)}");
         cabCmd.setString(1, p.getTenDN());
         return connect.excuteStore_Para(cabCmd);
     }
