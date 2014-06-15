@@ -90,8 +90,7 @@ LEFT join PHIEUDANGKY on PHIEUDANGKY.MSSV = SINHVIEN.MSSV
 LEFT join CT_PHIEUDANGKY on CT_PHIEUDANGKY.MaPhieuDK = PHIEUDANGKY.MaPhieuDK
  join HOCKINAMHOC on PHIEUDANGKY.MaHKNH = HOCKINAMHOC.MaHKNH
 WHERE KHOA.MaKhoa LIKE '%'+$P{rp_IdFaculty}+'%' AND NGANH.MaNganh LIKE '%'+$P{rp_IdMayjors}+'%' AND SINHVIEN.NamNhapHoc LIKE '%'+$P{rp_YearOfApply}+'%' and HOCKINAMHOC.HocKi like '%'+@hk+'' and HOCKINAMHOC.Nam1 like '%'+@y1+'%' and HOCKINAMHOC.Nam2 like '%'+@y2+'%'
-end
-]]>
+end]]>
 	</queryString>
 	<field name="MSSV" class="java.lang.String"/>
 	<field name="HoTen" class="java.lang.String"/>
