@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLClientInfoException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -278,7 +279,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
     private void fFillCombobox_cbState() {
         selectedData = "";
-                    getNameStudent = "";
+        getNameStudent = "";
         modelCondition = new DefaultComboBoxModel(fAddtoArrr_fill_cbCondition().toArray());
         cbCoFilter.setModel(modelCondition);
     }
@@ -293,7 +294,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedData = "";
-                    getNameStudent = "";
+                getNameStudent = "";
                 fGetData();
             }
         });
@@ -310,7 +311,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedData = "";
-                    getNameStudent = "";
+                getNameStudent = "";
                 fGetData();
             }
         });
@@ -384,7 +385,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         selectedData = "";
-                    getNameStudent = "";
+                        getNameStudent = "";
                         itemFaculty = (Item_Cbx) cbFaculty.getSelectedItem();
                         idFaculty = itemFaculty.getId();
                         modelMayjors = new DefaultComboBoxModel(fAddtoArrr_fill_cbMayjors().toArray());
@@ -445,7 +446,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
     }
 
     private void fSetTableListStudentDetail() {
-
         String[] titleTableListStudent = {"Mã môn học", "Tên môn học", "Loại môn học", "Số tín chỉ đăng ký"};
         LineNumberTableRowHeader lineRow = new LineNumberTableRowHeader(scrollPaneListStudent, tbDetailStudent);
         lineRow.setBackground(new Color(240, 240, 240));
@@ -462,7 +462,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
      */
     private void fFillDataToTBListStudent() {
         try {
-
             while (rs.next()) {
                 Vector data_Rows = new Vector();
                 data_Rows.add(rs.getObject(1));
@@ -486,19 +485,36 @@ public class rpRegisterSub extends javax.swing.JPanel {
     private void fFillDataToTBListStudent1() {
         try {
 
-            while (rs.next()) {
-                Vector data_Rows = new Vector();
-                data_Rows.add(rs.getObject(1));
-                data_Rows.add(rs.getObject(2));
-                data_Rows.add(rs.getObject(3));
-                data_Rows.add(rs.getObject(4));
-                data_Rows.add(rs.getObject(8));
-                if (rs.getObject(9) == null) {
-                    data_Rows.add(0);
-                } else {
-                    data_Rows.add(rs.getObject(9));
+            if (cbSemeter.getSelectedIndex() == 0) {
+                while (rs.next()) {
+                    Vector data_Rows = new Vector();
+                    data_Rows.add(rs.getObject(1));
+                    data_Rows.add(rs.getObject(2));
+                    data_Rows.add(rs.getObject(3));
+                    data_Rows.add(rs.getObject(4));
+                    data_Rows.add(rs.getObject(7));
+                    if (rs.getObject(8) == null) {
+                        data_Rows.add(0);
+                    } else {
+                        data_Rows.add(rs.getObject(8));
+                    }
+                    dtmListStudent.addRow(data_Rows);
                 }
-                dtmListStudent.addRow(data_Rows);
+            } else {
+                while (rs.next()) {
+                    Vector data_Rows = new Vector();
+                    data_Rows.add(rs.getObject(1));
+                    data_Rows.add(rs.getObject(2));
+                    data_Rows.add(rs.getObject(3));
+                    data_Rows.add(rs.getObject(4));
+                    data_Rows.add(rs.getObject(8));
+                    if (rs.getObject(9) == null) {
+                        data_Rows.add(0);
+                    } else {
+                        data_Rows.add(rs.getObject(9));
+                    }
+                    dtmListStudent.addRow(data_Rows);
+                }
             }
 
         } catch (Exception ex) {
@@ -506,17 +522,17 @@ public class rpRegisterSub extends javax.swing.JPanel {
         }
     }
 
-    private void fFillDataToTBListStudentDetail() {
+    private void fFillDataToTBListStudentDetail(ResultSet temp) {
         try {
-            while (rs.next()) {
+            while (temp.next()) {
                 Vector data_Rows = new Vector();
-                data_Rows.add(rs.getObject(1));
-                data_Rows.add(rs.getObject(2));
-                data_Rows.add(rs.getObject(3));
-                if ((rs.getObject(4)) == null && (rs.getObject(5)) != null) {
-                    data_Rows.add(rs.getObject(5));
-                } else if ((rs.getObject(4)) != null && (rs.getObject(5)) == null) {
-                    data_Rows.add(rs.getObject(4));
+                data_Rows.add(temp.getObject(1));
+                data_Rows.add(temp.getObject(2));
+                data_Rows.add(temp.getObject(3));
+                if ((temp.getObject(4)) == null && (temp.getObject(5)) != null) {
+                    data_Rows.add(temp.getObject(5));
+                } else if ((temp.getObject(4)) != null && (temp.getObject(5)) == null) {
+                    data_Rows.add(temp.getObject(4));
                 }
                 dtmListStudentDetail.addRow(data_Rows);
             }
@@ -530,6 +546,7 @@ public class rpRegisterSub extends javax.swing.JPanel {
         ListSelectionModel cellSelectionModel = tb_ListStudent.getSelectionModel();
         // cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
             public void valueChanged(ListSelectionEvent e) {
                 try {
                     int selectedRow1 = tb_ListStudent.getSelectedRow();
@@ -539,15 +556,37 @@ public class rpRegisterSub extends javax.swing.JPanel {
                     selectedData = String.valueOf(tb_ListStudent.getValueAt(selectedRow1, 0));
                     getNameStudent = String.valueOf(tb_ListStudent.getValueAt(selectedRow1, 1));
                     getTotal = String.valueOf(tb_ListStudent.getValueAt(selectedRow1, 5));
+                    itemNoSemeter = (Item_Cbx) cbSemeter.getSelectedItem();
+                    String semeter = itemNoSemeter.getDescription();
+                    Integer _semeter = null;
+                    if (semeter == "Tất cả") {
+                        regFormPublic.setNoSemeter(_semeter);
+                    } else {
+                        _semeter = Integer.parseInt(semeter);
+                        regFormPublic.setNoSemeter(_semeter);
+                    }
+                    itemYear = (Item_Cbx) cbScholastic.getSelectedItem();
+                    String yearscholastic = itemYear.getDescription();
+                    Integer _year1 = null;
+                    Integer _year2 = null;
+                    if (yearscholastic == "Tất cả") {
+                        regFormPublic.setY1(_year1);
+                        regFormPublic.setY2(_year2);
+                    } else {
+                        String[] yearArr = yearscholastic.split("-");
+                        _year1 = Integer.parseInt(yearArr[0]);
+                        _year2 = Integer.parseInt(yearArr[1]);
+                        regFormPublic.setY1(_year1);
+                        regFormPublic.setY2(_year2);
+                    }
                     //JOptionPane.showMessageDialog(tb_ListStudent, selectedData);
                     stPublic.setIdStudent(selectedData);
-                    rs = stBLL.LOA_LIST_STUDENT_DETAIL_ID(stPublic);
-                    if (rs.next() == false) {
-                        JOptionPane.showMessageDialog(tb_ListStudent, "Sinh viên chưa đăng ký môn học");
-                    } else {
+                    ResultSet rsLoadStudentDT = stBLL.LOA_LIST_STUDENT_DETAIL_ID(stPublic, regFormPublic);
+
+                    do {
                         fSetTableListStudentDetail();
-                        fFillDataToTBListStudentDetail();
-                    }
+                        fFillDataToTBListStudentDetail(rsLoadStudentDT);
+                    } while (rsLoadStudentDT.next());
                 } catch (Exception ex) {
                     Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -589,8 +628,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         sField = new org.jdesktop.swingx.JXSearchField();
-        jXLabel8 = new org.jdesktop.swingx.JXLabel();
-        cbColumnSearch = new org.jdesktop.swingx.JXComboBox();
         jPanel7 = new javax.swing.JPanel();
         scrollPaneListStudent = new javax.swing.JScrollPane();
         tb_ListStudent = new org.jdesktop.swingx.JXTable(){
@@ -743,35 +780,30 @@ public class rpRegisterSub extends javax.swing.JPanel {
                 sFieldActionPerformed(evt);
             }
         });
-
-        jXLabel8.setText("Cột tìm kiếm:");
-
-        cbColumnSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tất cả", "MSSV", "Họ Tên" }));
+        sField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                sFieldKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jXPanel1Layout = new javax.swing.GroupLayout(jXPanel1);
         jXPanel1.setLayout(jXPanel1Layout);
         jXPanel1Layout.setHorizontalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jXPanel1Layout.createSequentialGroup()
-                .addContainerGap(77, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel1Layout.createSequentialGroup()
+                .addContainerGap(165, Short.MAX_VALUE)
                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(sField, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbColumnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sField, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jXPanel1Layout.setVerticalGroup(
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbColumnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách sinh viên"));
@@ -967,43 +999,104 @@ public class rpRegisterSub extends javax.swing.JPanel {
 
     private void btnPrintFormDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintFormDetailActionPerformed
         try {
-            if (selectedData=="") {
+            if (selectedData == "") {
                 JOptionPane.showMessageDialog(tbDetailStudent, "Bạn chưa chọn sinh viên để xuất phiếu.\nVui lòng chọn sinh viên trên bảng Danh sách sinh viên.");
-            }else{
-               if( JOptionPane.showConfirmDialog(tbDetailStudent, "Bạn có muốn xuất phiếu danh sách đăng ký môn học cho sinh viên?\nMSSV: "+selectedData+"\nHọ tên: "+getNameStudent) == JOptionPane.YES_OPTION){
-            conn = new SQLServerConnector();
-            String _getNameMayjor="";
-            stPublic.setIdStudent(selectedData);
-            rs = stBLL.LOAD_NAMEMAYJORS(stPublic);
-            while (rs.next()) {
-                _getNameMayjor = (String) rs.getString("TenNganh");
+            } else {
+                if (JOptionPane.showConfirmDialog(tbDetailStudent, "Bạn có muốn xuất phiếu danh sách đăng ký môn học cho sinh viên?\nMSSV: " + selectedData + "\nHọ tên: " + getNameStudent) == JOptionPane.YES_OPTION) {
+                    conn = new SQLServerConnector();
+                    String _getNameMayjor = "";
+                    stPublic.setIdStudent(selectedData);
+                    rs = stBLL.LOAD_NAMEMAYJORS(stPublic);
+                    while (rs.next()) {
+                        _getNameMayjor = (String) rs.getString("TenNganh");
+                    }
+                    HashMap<String, Object> parameter = new HashMap<String, Object>();
+                    itemFaculty = (Item_Cbx) cbFaculty.getSelectedItem();
+                    itemMayjors = (Item_Cbx) cbMayjors.getSelectedItem();
+                    itemYear = (Item_Cbx) cbScholastic.getSelectedItem();
+                    itemNoSemeter = (Item_Cbx) cbSemeter.getSelectedItem();
+                    String facultyName = itemFaculty.getDescription();
+                    idFaculty = itemFaculty.getId();
+                    String mayjorsName = itemMayjors.getDescription();
+                    String scholastic = itemYear.getDescription();
+                    String semeter = itemNoSemeter.getDescription();
+                    Integer _semeter = null;
+                    Integer _y1 = null;
+                    Integer _y2 = null;
+                    if (semeter == "Tất cả") {
+                        _semeter = null;
+                    } else {
+                        _semeter = Integer.parseInt(semeter);
+                    }
+                    if (scholastic == "Tất cả") {
+                        _y1 = null;
+                        _y2 = null;
+                    } else {
+                        String[] yearArr = scholastic.split("-");
+                        _y1 = Integer.parseInt(yearArr[0]);
+                        _y2 = Integer.parseInt(yearArr[1]);
+                    }
+                    parameter.put("year_Number", _y1);
+                    parameter.put("year2_Number", _y2);
+                    parameter.put("semeter_Number", _semeter);
+                    parameter.put("facultyName_RP", String.valueOf(facultyName));
+                    parameter.put("mayjorsName_RP", String.valueOf(_getNameMayjor));
+                    parameter.put("scholastic_RP", String.valueOf(scholastic));
+                    parameter.put("semeter_RP", String.valueOf(semeter));
+                    parameter.put("rpMSSV", String.valueOf(selectedData));
+                    parameter.put("total_RP", String.valueOf(getTotal));
+                    parameter.put("nameStudent_RP", String.valueOf(getNameStudent));
+
+                    InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_RegisterDetail.jrxml");
+                    JasperDesign design = JRXmlLoader.load(input);
+                    JasperReport report = JasperCompileManager.compileReport(design);
+                    JasperPrint jpr = JasperFillManager.fillReport(report, parameter, conn.getConnect());
+                    JasperViewer.viewReport(jpr, false);
+                }
             }
-            HashMap<String, Object> parameter = new HashMap<String, Object>();
-            itemFaculty = (Item_Cbx) cbFaculty.getSelectedItem();
-            itemMayjors = (Item_Cbx) cbMayjors.getSelectedItem();
-            itemYear = (Item_Cbx) cbScholastic.getSelectedItem();
-            itemNoSemeter = (Item_Cbx) cbSemeter.getSelectedItem();
-            String facultyName = itemFaculty.getDescription();
-            idFaculty = itemFaculty.getId();
-            String mayjorsName = itemMayjors.getDescription();
-            String scholastic = itemYear.getDescription();
-            String semeter = itemNoSemeter.getDescription();
-            parameter.put("facultyName_RP", String.valueOf(facultyName));
-            parameter.put("mayjorsName_RP", String.valueOf(_getNameMayjor));
-            parameter.put("scholastic_RP", String.valueOf(scholastic));
-            parameter.put("semeter_RP", String.valueOf(semeter));
-            parameter.put("rpMSSV", String.valueOf(selectedData));
-             parameter.put("total_RP", String.valueOf(getTotal));
-            parameter.put("nameStudent_RP", String.valueOf(getNameStudent));
-            InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_RegisterDetail.jrxml");
-            JasperDesign design = JRXmlLoader.load(input);
-            JasperReport report = JasperCompileManager.compileReport(design);
-            JasperPrint jpr = JasperFillManager.fillReport(report, parameter, conn.getConnect());
-            JasperViewer.viewReport(jpr, false);}}
         } catch (Exception ex) {
             Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPrintFormDetailActionPerformed
+
+    private void sFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sFieldKeyTyped
+        try {
+            // TODO add your handling code here:
+            String search = sField.getText();
+            stPublic.setName(search);
+            itemNoSemeter = (Item_Cbx) cbSemeter.getSelectedItem();
+            String _noSemeter = itemNoSemeter.getDescription();
+            if (_noSemeter == "Tất cả") {
+                noSemeter = null;
+                regFormPublic.setNoSemeter(noSemeter);
+            } else {
+                noSemeter = Integer.parseInt(_noSemeter);
+                regFormPublic.setNoSemeter(noSemeter);
+            }
+            if (cbScholastic.getSelectedIndex() == 0) {
+                Integer _year1 = null;
+                Integer _year2 = null;
+                regFormPublic.setY1(_year1);
+                regFormPublic.setY2(_year2);
+            } else {
+                itemYear = (Item_Cbx) cbScholastic.getSelectedItem();
+                String mscholastic = itemYear.getDescription();
+                String[] yearArr = mscholastic.split("-");
+                Integer _year1 = Integer.parseInt(yearArr[0]);
+                Integer _year2 = Integer.parseInt(yearArr[1]);
+                regFormPublic.setY1(_year1);
+                regFormPublic.setY2(_year2);
+            }
+            rs = regFormBLL.SEARCH_STUDENT(regFormPublic, stPublic);
+            do{
+                
+                fSetTableListStudent();
+                fFillDataToTBListStudent1();
+            }while(rs.next());
+        } catch (SQLException ex) {
+            Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sFieldKeyTyped
 
     public void ReloadDataTable(DefaultTableModel old, boolean cd) {
         String[] titleTableListStudent = {"MSSV", "Họ và Tên", "Khóa", "Khoa", "Ngành Học", "Số Tín Chỉ"};
@@ -1030,7 +1123,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnPrintFormDetail;
     private org.jdesktop.swingx.JXButton btnXuatBaoCao;
     private org.jdesktop.swingx.JXComboBox cbCoFilter;
-    private org.jdesktop.swingx.JXComboBox cbColumnSearch;
     private org.jdesktop.swingx.JXComboBox cbFaculty;
     private org.jdesktop.swingx.JXComboBox cbMayjors;
     private org.jdesktop.swingx.JXComboBox cbScholastic;
@@ -1054,7 +1146,6 @@ public class rpRegisterSub extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXLabel jXLabel5;
     private org.jdesktop.swingx.JXLabel jXLabel6;
     private org.jdesktop.swingx.JXLabel jXLabel7;
-    private org.jdesktop.swingx.JXLabel jXLabel8;
     private org.jdesktop.swingx.JXLabel jXLabel9;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXSearchField sField;

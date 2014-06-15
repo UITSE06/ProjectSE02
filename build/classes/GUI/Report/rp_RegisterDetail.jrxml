@@ -182,8 +182,45 @@ DROP TABLE #SINHVIEN1, #SINHVIEN2]]>
 	<parameter name="total_RP" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="semeter_Number" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="year_Number" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="year2_Number" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[select SINHVIEN.MSSV, SINHVIEN.HoTen, KHOA.TenKhoa, NGANH.TenNganh, MONHOC.MaMonHoc, MONHOC.TenMonHoc, LOAIMONHOC.TenLoai,TINCHILT = (SELECT MONHOC.SoTiet/15 WHERE MONHOC.MaLoaiMH='LMH00001'),TINCHITH =(SELECT MONHOC.SoTiet/30 WHERE MONHOC.MaLoaiMH='LMH00002'),MONHOC.MaMonHocLT, LOAIMONHOC.MaLoaiMH
+		<![CDATA[Declare @hk nvarchar(10);
+IF (($P{semeter_Number} IS NULL) OR ($P{semeter_Number}=''))
+Begin
+set @hk='';
+end
+else
+Begin
+	set @hk=CAST($P{semeter_Number} as NVarCHAR(10));
+end
+Declare @y1 nvarchar(10);
+IF (($P{year_Number} IS NULL) OR ($P{year_Number}=''))
+Begin
+set @y1='';
+end
+else
+Begin
+	set @y1=CAST($P{year_Number} as NVarCHAR(10));
+end
+
+Declare @y2 nvarchar(10);
+IF (($P{year2_Number} IS NULL) OR ($P{year2_Number}=''))
+Begin
+set @y2='';
+end
+else
+Begin
+	set @y2=CAST($P{year2_Number} as NVarCHAR(10));
+end
+select SINHVIEN.MSSV, SINHVIEN.HoTen, KHOA.TenKhoa, NGANH.TenNganh, MONHOC.MaMonHoc, MONHOC.TenMonHoc, LOAIMONHOC.TenLoai,TINCHILT = (SELECT MONHOC.SoTiet/15 WHERE MONHOC.MaLoaiMH='LMH00001'),TINCHITH =(SELECT MONHOC.SoTiet/30 WHERE MONHOC.MaLoaiMH='LMH00002'),MONHOC.MaMonHocLT,HOCKINAMHOC.HocKi, LOAIMONHOC.MaLoaiMH, HOCKINAMHOC.Nam1, HOCKINAMHOC.Nam2
 into #SINHVIEN1
 from SINHVIEN
 LEFT JOIN NGANH ON NGANH.MaNganh = SINHVIEN.MaNganh
@@ -192,16 +229,18 @@ LEFT join PHIEUDANGKY on PHIEUDANGKY.MSSV = SINHVIEN.MSSV
 LEFT join CT_PHIEUDANGKY on CT_PHIEUDANGKY.MaPhieuDK = PHIEUDANGKY.MaPhieuDK
 LEFT join MONHOC on MONHOC.MaMonHoc = CT_PHIEUDANGKY.MaMonHoc
 LEFT join LOAIMONHOC on LOAIMONHOC.MaLoaiMH = MONHOC.MaLoaiMH
+LEFT JOIN HOCKINAMHOC ON HOCKINAMHOC.MaHKNH = PHIEUDANGKY.MaHKNH
 --
 SELECT #SINHVIEN1.MSSV, SUM(#SINHVIEN1.TINCHILT) + SUM(#SINHVIEN1.TINCHITH) AS TONGTINCHI
 INTO #SINHVIEN2
 FROM #SINHVIEN1 
+where #SINHVIEN1.HocKi like '%'+@hk+''
 GROUP BY MSSV
 
 --
 SELECT #SINHVIEN1.MaMonHoc, #SINHVIEN1.TenMonHoc,#SINHVIEN1.TenLoai, #SINHVIEN1.TINCHILT, #SINHVIEN1.TINCHITH
 FROM #SINHVIEN1 LEFT JOIN #SINHVIEN2 ON #SINHVIEN1.MSSV = #SINHVIEN2.MSSV
-where #SINHVIEN1.MSSV=$P{rpMSSV}
+where #SINHVIEN1.MSSV=$P{rpMSSV}  AND #SINHVIEN1.HocKi like '%'+@hk+'' and #SINHVIEN1.Nam1 like '%'+@y1+'%' and #SINHVIEN1.Nam2 like '%'+@y2+'%'
 --
 DROP TABLE #SINHVIEN1, #SINHVIEN2]]>
 	</queryString>
@@ -472,30 +511,6 @@ $F{TINCHITH} == null ? $F{TINCHILT} : $F{TINCHITH}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="27" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="27" uuid="db07970c-5226-40d3-9dc8-7bed81fd681f"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="452" y="0" width="103" height="27" uuid="e8980e30-0f83-4880-a2ce-52b327d82a86"/>
-			</rectangle>
-			<textField>
-				<reportElement x="452" y="0" width="103" height="27" uuid="c3471af9-8ed1-49dc-8516-fdc47c8a22df"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
-					<font fontName="Times New Roman" size="13" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{total_RP} == null ? 0 : $P{total_RP}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="119" y="4" width="175" height="19" uuid="5d994a73-dcf6-4214-802b-9586ffeba28d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="13" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TỔNG SỐ TÍN CHỈ]]></text>
-			</staticText>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="69" splitType="Stretch">
 			<staticText>
@@ -506,7 +521,7 @@ $F{TINCHITH} == null ? $F{TINCHILT} : $F{TINCHITH}]]></textFieldExpression>
 				<text><![CDATA[NGƯỜI LẬP PHIẾU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="415" y="52" width="100" height="17" uuid="d2cba44f-c844-49ef-9775-90aea633db98"/>
+				<reportElement x="405" y="42" width="100" height="17" uuid="d2cba44f-c844-49ef-9775-90aea633db98"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
@@ -515,6 +530,27 @@ $F{TINCHITH} == null ? $F{TINCHILT} : $F{TINCHITH}]]></textFieldExpression>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="27" uuid="6a299a0a-baef-4bb0-bd02-64e77dee73f6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="452" y="0" width="103" height="27" uuid="1f667671-0b70-4945-a684-556d04441911"/>
+			</rectangle>
+			<textField>
+				<reportElement x="452" y="0" width="103" height="27" uuid="37267e8b-7b3a-49d3-b30b-208a498e19d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Times New Roman" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{total_RP} == null ? 0 : $P{total_RP}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="119" y="4" width="175" height="19" uuid="15cb3aef-36f7-485c-b58f-421072790a87"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TỔNG SỐ TÍN CHỈ]]></text>
+			</staticText>
+		</band>
 	</summary>
 </jasperReport>

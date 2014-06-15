@@ -56,8 +56,8 @@ public class clsStudent_BLL {
         return stDAL.LOAD_LISTST_REGISTERED();
     }
 
-    public ResultSet LOA_LIST_STUDENT_DETAIL_ID(clsStudent_Public stPublic) throws Exception {
-        return stDAL.LOA_LIST_STUDENT_DETAIL_ID(stPublic);
+    public ResultSet LOA_LIST_STUDENT_DETAIL_ID(clsStudent_Public stPublic, PhieuDangKyPublic regFormPublic) throws Exception {
+        return stDAL.LOA_LIST_STUDENT_DETAIL_ID(stPublic,regFormPublic);
     }
 
     /**

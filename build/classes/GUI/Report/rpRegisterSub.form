@@ -302,15 +302,11 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace pref="77" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace pref="165" max="32767" attributes="0"/>
                           <Component id="jXLabel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="sField" min="-2" pref="110" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jXLabel8" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cbColumnSearch" min="-2" pref="141" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="sField" min="-2" pref="241" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -319,11 +315,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="jXLabel2" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="sField" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jXLabel8" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbColumnSearch" alignment="2" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="sField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jXLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -338,23 +332,8 @@
                 <Component class="org.jdesktop.swingx.JXSearchField" name="sField">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sFieldActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="sFieldKeyTyped"/>
                   </Events>
-                </Component>
-                <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel8">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="C&#x1ed9;t t&#xec;m ki&#x1ebf;m:"/>
-                  </Properties>
-                </Component>
-                <Component class="org.jdesktop.swingx.JXComboBox" name="cbColumnSearch">
-                  <Properties>
-                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="3">
-                        <StringItem index="0" value="T&#x1ea5;t c&#x1ea3;"/>
-                        <StringItem index="1" value="MSSV"/>
-                        <StringItem index="2" value="H&#x1ecd; T&#xea;n"/>
-                      </StringArray>
-                    </Property>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

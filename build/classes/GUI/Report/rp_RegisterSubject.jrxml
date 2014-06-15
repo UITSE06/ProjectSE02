@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="00744a19-3b4a-4f68-a013-faf750f14a80">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="48"/>
 	<subDataset name="dataset1" uuid="df43009e-ec59-4396-b8cc-54efdc67f79a"/>
 	<parameter name="rpIdFaculty" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -80,10 +80,11 @@ left join HOCKINAMHOC on PHIEUDANGKY.MaHKNH = HOCKINAMHOC.MaHKNH
 SELECT #SINHVIEN1.MSSV, SUM(#SINHVIEN1.TINCHILT) + SUM(#SINHVIEN1.TINCHITH) AS TONGTINCHI
 INTO #SINHVIEN2
 FROM #SINHVIEN1
-GROUP BY MSSV
+where #SINHVIEN1.HocKi like '%'+@hk+''
+GROUP BY MSSV 
 
 
-	SELECT DISTINCT #SINHVIEN1.MSSV, #SINHVIEN1.HoTen,#SINHVIEN1.NamNhapHoc, #SINHVIEN1.TenKhoa,#SINHVIEN1.Nam1,#SINHVIEN1.Nam2,#SINHVIEN1.HocKi, #SINHVIEN1.TenNganh, #SINHVIEN2.TONGTINCHI
+SELECT DISTINCT #SINHVIEN1.MSSV, #SINHVIEN1.HoTen,#SINHVIEN1.NamNhapHoc, #SINHVIEN1.TenKhoa,#SINHVIEN1.Nam1,#SINHVIEN1.Nam2, #SINHVIEN1.TenNganh, #SINHVIEN2.TONGTINCHI
 FROM #SINHVIEN1 LEFT JOIN #SINHVIEN2 ON #SINHVIEN1.MSSV = #SINHVIEN2.MSSV
 --WHERE #SINHVIEN1.MaKhoa LIKE '%'+@makhoa+'%' AND #SINHVIEN1.MaNganh LIKE '%'+@manganh+'%' AND #SINHVIEN1.NamNhapHoc LIKE @year and #SINHVIEN1.HocKi like @hocky and #SINHVIEN1.Nam1 like @nam1 and #SINHVIEN1.Nam2 like @nam2
 WHERE #SINHVIEN1.MaKhoa LIKE '%'+$P{rpIdFaculty}+'%' AND #SINHVIEN1.MaNganh LIKE '%'+$P{rpIdMayjors}+'' AND #SINHVIEN1.NamNhapHoc LIKE '%'+$P{rpYearOfApply}+'%' and #SINHVIEN1.HocKi like '%'+@hk+'' and #SINHVIEN1.Nam1 like '%'+@y1+'%' and #SINHVIEN1.Nam2 like '%'+@y2+'%'
@@ -97,7 +98,6 @@ DROP TABLE #SINHVIEN1, #SINHVIEN2]]>
 	<field name="TenKhoa" class="java.lang.String"/>
 	<field name="Nam1" class="java.lang.Integer"/>
 	<field name="Nam2" class="java.lang.Integer"/>
-	<field name="HocKi" class="java.lang.Integer"/>
 	<field name="TenNganh" class="java.lang.String"/>
 	<field name="TONGTINCHI" class="java.lang.Integer"/>
 	<background>
@@ -349,41 +349,17 @@ DROP TABLE #SINHVIEN1, #SINHVIEN2]]>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="26" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="26" uuid="80bb4913-9cb2-456d-9317-b89010641b7d"/>
-			</rectangle>
-			<line>
-				<reportElement x="343" y="0" width="1" height="26" uuid="2ceeceba-7afa-4e1d-98dc-9a4ab51882e8"/>
-			</line>
-			<staticText>
-				<reportElement x="13" y="6" width="211" height="15" uuid="47cc4d86-0eb1-4746-b5df-58c13fb2723c"/>
-				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[TỔNG SỐ SINH VIÊN]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="405" y="6" width="100" height="15" uuid="0138dddb-e501-4f4c-b44a-9c35abee413e"/>
-				<textElement textAlignment="Center" markup="none">
-					<font fontName="Times New Roman" size="12" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
-			</textField>
-		</band>
-	</columnFooter>
 	<pageFooter>
-		<band height="67" splitType="Stretch">
+		<band height="50">
 			<staticText>
-				<reportElement x="424" y="4" width="100" height="15" uuid="6821b9cc-fa02-424c-a2fb-3defa7e22a44"/>
-				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="12" isBold="true"/>
+				<reportElement x="414" y="6" width="74" height="12" uuid="b9454038-2787-45cb-ba0d-09a5f925ef1c"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
 				</textElement>
-				<text><![CDATA[Người lập báo cáo]]></text>
+				<text><![CDATA[Người Lập Phiếu]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="424" y="55" width="100" height="12" uuid="5516659f-4736-4b65-87b1-d8dc0a786a1d"/>
+				<reportElement x="401" y="38" width="100" height="12" uuid="31b051bb-21f8-48d8-af1a-9f9b73127d99"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman"/>
 				</textElement>
@@ -392,6 +368,27 @@ DROP TABLE #SINHVIEN1, #SINHVIEN2]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="26" uuid="b6dd67d2-1741-438d-aa08-71b32e6773e7"/>
+			</rectangle>
+			<line>
+				<reportElement x="341" y="0" width="1" height="26" uuid="95d3c811-08a9-47e6-92a3-35a021739c6a"/>
+			</line>
+			<staticText>
+				<reportElement x="13" y="6" width="211" height="15" uuid="f2611481-3134-48f7-b398-3d71d39bc143"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TỔNG SỐ SINH VIÊN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="405" y="6" width="100" height="15" uuid="45aa8436-3eb8-472a-9a51-7d7b591d9e92"/>
+				<textElement textAlignment="Center" markup="none">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>

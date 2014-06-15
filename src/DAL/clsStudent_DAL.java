@@ -89,10 +89,13 @@ public class clsStudent_DAL {
      * @HungNgoc Date: 08/06/2014 Description: Load thong tin chi tiet ve viec
      * dang ky hoc phan sinh vien
      */
-    public ResultSet LOA_LIST_STUDENT_DETAIL_ID(clsStudent_Public stPublic) throws Exception {
+    public ResultSet LOA_LIST_STUDENT_DETAIL_ID(clsStudent_Public stPublic,PhieuDangKyPublic regFormPublic) throws Exception {
         connect = new SQLServerConnector();
-        cabCmd = connect.getCallableStatement("{call LOA_LIST_STUDENT_DETAIL_ID(?)}");
+        cabCmd = connect.getCallableStatement("{call LOA_LIST_STUDENT_DETAIL_ID(?,?,?,?)}");
         cabCmd.setString(1, stPublic.getIdStudent());
+        cabCmd.setObject(2, regFormPublic.getNoSemeter());
+        cabCmd.setObject(3, regFormPublic.getY1());
+        cabCmd.setObject(4, regFormPublic.getY2());
         return connect.excuteStore_Para(cabCmd);
     }
 
