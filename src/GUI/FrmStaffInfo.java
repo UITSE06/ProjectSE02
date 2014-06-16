@@ -79,11 +79,11 @@ public class FrmStaffInfo extends javax.swing.JPanel {
         lbHoTen2.setText("Mã nhân viên:");
         lbHoTen2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        txtIdStaff.setEnabled(false);
+        txtIdStaff.setEditable(false);
         txtIdStaff.setMinimumSize(new java.awt.Dimension(6, 15));
         txtIdStaff.setPreferredSize(new java.awt.Dimension(6, 18));
 
-        txtAdress.setEnabled(false);
+        txtAdress.setEditable(false);
         txtAdress.setMinimumSize(new java.awt.Dimension(6, 15));
         txtAdress.setPreferredSize(new java.awt.Dimension(6, 18));
 
@@ -93,11 +93,11 @@ public class FrmStaffInfo extends javax.swing.JPanel {
         HoTen1.setText("Ngày sinh:");
         HoTen1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        txtDateOfBirth.setEnabled(false);
+        txtDateOfBirth.setEditable(false);
         txtDateOfBirth.setMinimumSize(new java.awt.Dimension(6, 15));
         txtDateOfBirth.setPreferredSize(new java.awt.Dimension(6, 18));
 
-        txtSex.setEnabled(false);
+        txtSex.setEditable(false);
         txtSex.setMinimumSize(new java.awt.Dimension(6, 15));
         txtSex.setPreferredSize(new java.awt.Dimension(6, 18));
 
@@ -107,14 +107,14 @@ public class FrmStaffInfo extends javax.swing.JPanel {
         lbMSSV1.setText("Họ tên:");
         lbMSSV1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        txtNameStaff.setEnabled(false);
+        txtNameStaff.setEditable(false);
         txtNameStaff.setMinimumSize(new java.awt.Dimension(6, 15));
         txtNameStaff.setPreferredSize(new java.awt.Dimension(6, 18));
 
         HoTen2.setText("Tên đăng nhập:");
         HoTen2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        txtUserName.setEnabled(false);
+        txtUserName.setEditable(false);
         txtUserName.setMinimumSize(new java.awt.Dimension(6, 15));
         txtUserName.setPreferredSize(new java.awt.Dimension(6, 18));
 

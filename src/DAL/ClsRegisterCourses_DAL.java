@@ -52,9 +52,9 @@ public class ClsRegisterCourses_DAL {
         cabCmd.setDate(3, p.getDateOfRegister());
         cabCmd.setString(4, p.getIdStaff());
         cabCmd.setString(5, p.getIdSemesterYears());
-        cabCmd.setBigDecimal(6, p.getSumOfMoneyRegister());
-        cabCmd.setBigDecimal(7, p.getSumOfMoneyMustPay());
-        cabCmd.setBigDecimal(8, p.getSumOfMoneyPaid());
+        cabCmd.setInt(6, p.getSumOfMoneyRegister());
+        cabCmd.setInt(7, p.getSumOfMoneyMustPay());
+        cabCmd.setInt(8, p.getSumOfMoneyPaid());
         return connect.excuteUpdateStorePara(cabCmd);
     }
     
@@ -65,8 +65,8 @@ public class ClsRegisterCourses_DAL {
         cabCmd.setString(1, p.getIdRegisterForm());
         cabCmd.setDate(2, p.getDateOfRegister());
         cabCmd.setString(3, p.getIdStaff());
-        cabCmd.setBigDecimal(4, p.getSumOfMoneyRegister());
-        cabCmd.setBigDecimal(5, p.getSumOfMoneyMustPay());
+        cabCmd.setInt(4, p.getSumOfMoneyRegister());
+        cabCmd.setInt(5, p.getSumOfMoneyMustPay());
         return connect.excuteUpdateStorePara(cabCmd);
     }
 

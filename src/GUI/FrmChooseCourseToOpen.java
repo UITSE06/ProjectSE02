@@ -235,7 +235,6 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
             }
         });
         tblListCourse.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblListCourse.setEditable(false);
         tblListCourse.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblListCourse);
 
@@ -553,8 +552,8 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Nhập sai thời gian hoặc phần trăm học phí được giảm!");
             return;
         }
-        if ((Calendar.getInstance().getTime()).after(dtpBeginRegister.getDate())) {
-            JOptionPane.showMessageDialog(this, "Ngày bắt đầu đăng kí phải sau ngày hôm nay!");
+        if ((Calendar.getInstance().getTime().after(dtpBeginRegister.getDate()))) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu đăng kí phải sau ngày hôm nay");
             return;
         }
 //kiem tra điều kiện mở mon hoc
@@ -688,37 +687,57 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
         ClsSemesterYear_BLL syBLL = new ClsSemesterYear_BLL();//tao doi tuong BLL de goi ham thuc thi
         //kiem tra gia tri nam1 va hocki hiện tại đã co trong bang HOCKINAMHOC chua?
         if (syBLL.IsExistSemesterAndYear(syPublic)) {
-            idSemesterYear = syBLL.GetIdSemesterYear(syPublic);
-            if (!idSemesterYear.isEmpty()) {//neu co ma hoc ki nam hoc roi thì...
-                //kiem tra cac deadline
-                //lay thoi han dang ki, ...
-                ResultSet rs = lcBLL.GetAllDeadline(idSemesterYear);
-                if (rs.next()) {
-                    dtpDeadlineRegister.setDate(rs.getDate(1));
-                    dtpDeadlinePayFee.setDate(rs.getDate(2));
-                    dtpDeadlineReduceFee.setDate(rs.getDate(3));
-                    spReducePercent.setValue(rs.getInt(4));
-                    //kiem tra xem da bat dau dang ki hay chưa?
-                    Date beginRegister = rs.getDate(5);
-                    dtpBeginRegister.setDate(beginRegister);
-                    if (beginRegister.before(Calendar.getInstance().getTime())) {
-                        //neu ngay Bd dang ki mà trước ngày hôm nay thì không cho phép chỉnh sửa
-                        isViewOnly = true;
-                        dtpDeadlineRegister.setEditable(false);
-                        dtpDeadlinePayFee.setEditable(false);
-                        dtpDeadlineReduceFee.setEditable(false);
-                        spReducePercent.setEnabled(false);
-                        dtpBeginRegister.setEditable(false);
-                        btnOpenCourses.setEnabled(false);
-                        btnChooseAll.setEnabled(false);
-                        //xoa dữ liệu hiện tại trong bảng danh sach môn học nếu có
-                        if (dtm.getRowCount() > 0) {
-                            for (int i = (dtm.getRowCount() - 1); i >= 0; i--) {
-                                dtm.removeRow(i);
-                            }
+            idSemesterYear = syBLL.GetIdSemesterYear(syPublic);//neu da ton tai hoc ki roi, thi lay ma hoc ki len
+            //kiem tra cac deadline
+            //lay thoi han dang ki, ...
+            if(idSemesterYear.isEmpty()) return false;//không lấy được mã học kì năm học, false thêm mới cái khác
+            ResultSet rs = lcBLL.GetAllDeadline(idSemesterYear);
+            if (rs.next()) {
+                dtpDeadlineRegister.setDate(rs.getDate(1));
+                dtpDeadlinePayFee.setDate(rs.getDate(2));
+                dtpDeadlineReduceFee.setDate(rs.getDate(3));
+                spReducePercent.setValue(rs.getInt(4));
+                //kiem tra xem da bat dau dang ki hay chưa?
+                Date beginRegister = rs.getDate(5);
+                dtpBeginRegister.setDate(beginRegister);
+                if (beginRegister.before(Calendar.getInstance().getTime())) {
+                    //neu ngay Bd dang ki mà trước ngày hôm nay thì không cho phép chỉnh sửa
+                    isViewOnly = true;
+                    dtpDeadlineRegister.setEditable(false);
+                    dtpDeadlinePayFee.setEditable(false);
+                    dtpDeadlineReduceFee.setEditable(false);
+                    spReducePercent.setEnabled(false);
+                    dtpBeginRegister.setEditable(false);
+                    btnOpenCourses.setEnabled(false);
+                    btnChooseAll.setEnabled(false);
+                    //xoa dữ liệu hiện tại trong bảng danh sach môn học nếu có
+                    if (dtm.getRowCount() > 0) {
+                        for (int i = (dtm.getRowCount() - 1); i >= 0; i--) {
+                            dtm.removeRow(i);
                         }
-                    } else {
-                        isViewOnly = false;
+                    }
+                } else {
+                    isViewOnly = false;
+                        //lay du lieu mon hoc de cap nhat
+                    //xoa dữ liệu hiện tại trong bảng nếu có
+                    if (dtm.getRowCount() > 0) {
+                        for (int i = dtm.getRowCount() - 1; i > 0; i--) {
+                            dtm.removeRow(i);
+                        }
+                    }
+                    //load lai du lieu
+                    rs = ccBLL.LoadCoursesToOpen();
+                    while (rs.next()) {
+                        Vector data_rows = new Vector();
+                        data_rows.add(false);
+                        data_rows.add(rs.getObject(1));
+                        data_rows.add(rs.getObject(2));
+                        data_rows.add(rs.getObject(3));
+                        data_rows.add(rs.getObject(4));
+                        data_rows.add(rs.getObject(5));
+                        data_rows.add(rs.getObject(6));
+                        dtm.addRow(data_rows);
+                        btnChooseAll.setEnabled(true);
                     }
                 }
 // kiem tra ma hoc ki nam hoc co trong bang DANHSACHMONHOCMO hay chua?
@@ -757,6 +776,7 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
                     dtm.removeRow(i);
                 }
             }
+            //load lai du lieu
             ResultSet rs = ccBLL.LoadCoursesToOpen();
             while (rs.next()) {
                 Vector data_rows = new Vector();
@@ -771,7 +791,7 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
                 btnChooseAll.setEnabled(true);
             }
         }
-        return false; //lan nay la them moi danh sach
+        return false; //lan nay la them moi danh sach        
     }
 
     private void DeleteAllFromOpenedCourse() {

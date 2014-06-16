@@ -91,6 +91,8 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
         btnLuu = new org.jdesktop.swingx.JXButton();
         btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXuatDS = new org.jdesktop.swingx.JXButton();
+        chkPhanBiet = new javax.swing.JCheckBox();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListTypeOfCourse = new org.jdesktop.swingx.JXTable();
         TopPanel = new org.jdesktop.swingx.JXPanel();
@@ -184,7 +186,6 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
         TopLeft.getAccessibleContext().setAccessibleName("ThongTinNganh");
 
         ControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Điều khiển"));
-        ControlPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +193,6 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 btnCapNhatActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnCapNhat);
 
         btnHuyThaoTac.setText("Hủy Thao Tác");
         btnHuyThaoTac.setEnabled(false);
@@ -201,7 +201,6 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 btnHuyThaoTacActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnHuyThaoTac);
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -210,7 +209,6 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 btnLuuActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLuu);
 
         btnLamMoi.setText("Làm Mới");
         btnLamMoi.setEnabled(false);
@@ -219,12 +217,61 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 btnLamMoiActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLamMoi);
 
         btnXuatDS.setText("Xuất Danh Sách");
         btnXuatDS.setActionCommand("");
         btnXuatDS.setEnabled(false);
-        ControlPanel.add(btnXuatDS);
+
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
+        chkPhanBiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhanBietActionPerformed(evt);
+            }
+        });
+
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ControlPanelLayout = new javax.swing.GroupLayout(ControlPanel);
+        ControlPanel.setLayout(ControlPanelLayout);
+        ControlPanelLayout.setHorizontalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addComponent(chkPhanBiet)
+                .addGap(18, 18, 18)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        ControlPanelLayout.setVerticalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(chkPhanBiet)
+                        .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách loại môn học"));
 
@@ -257,7 +304,7 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FullPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(FullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
+                    .addComponent(ControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(TopInFull, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -270,7 +317,7 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -385,7 +432,6 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
         p.setTenLoai(txtNameOfType.getText());
         p.setSoTienTrenTC(BigDecimal.valueOf(Long.valueOf(txtMoneyPerCredit.getText())));
         p.setSoTietTrenTC((int) spLessonPerCredit.getValue());
-
         try {
             if (tcBLL.UpdateTypeOfCourse(p) != 0) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công");
@@ -432,6 +478,30 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
         LoadData();
     }//GEN-LAST:event_btnHuyThaoTacActionPerformed
 
+    private void chkPhanBietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhanBietActionPerformed
+        sfTimKiem.setText("");
+    }//GEN-LAST:event_chkPhanBietActionPerformed
+
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtm.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tblListTypeOfCourse.setRowSelectionInterval(i, i);
+                        tblListTypeOfCourse.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtm.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tblListTypeOfCourse.setRowSelectionInterval(i, i);
+                        tblListTypeOfCourse.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_sfTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXPanel ControlPanel;
@@ -446,11 +516,13 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
     private org.jdesktop.swingx.JXButton btnXuatDS;
+    private javax.swing.JCheckBox chkPhanBiet;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXLabel lbHoTen1;
     private org.jdesktop.swingx.JXLabel lbHoTen2;
     private org.jdesktop.swingx.JXLabel lbHoTen3;
     private org.jdesktop.swingx.JXLabel lbMSSV;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private javax.swing.JSpinner spLessonPerCredit;
     private org.jdesktop.swingx.JXTable tblListTypeOfCourse;
     private org.jdesktop.swingx.JXTextField txtIdCourseType;

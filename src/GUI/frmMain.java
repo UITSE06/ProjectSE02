@@ -35,6 +35,8 @@ public class frmMain extends javax.swing.JFrame {
     }
     
     private void SetComponentByAccess(){
+        
+        
         String[] listAcc = staffInfo.getMaPhanQuyen().split("\\,");
         for(int i = 0; i<listAcc.length;i++){
             if("1".equals(listAcc[i])){
@@ -45,36 +47,36 @@ public class frmMain extends javax.swing.JFrame {
             }
             if("3".equals(listAcc[i])){
                 tabStudentManage.setEnabled(true);
-                miInfoStudent.setEnabled(false);
-                miRegisterCourse.setEnabled(false);
+                //miInfoStudent.setEnabled(false);
+                //miRegisterCourse.setEnabled(false);
                 miInputScore.setEnabled(true);
             }
             if("4".equals(listAcc[i])){
                 tabStudentManage.setEnabled(true);
-                miInfoStudent.setEnabled(false);
+                //miInfoStudent.setEnabled(false);
                 miRegisterCourse.setEnabled(true);
-                miInputScore.setEnabled(false);
+                //miInputScore.setEnabled(false);
             }
             if("5".equals(listAcc[i])){
                 miListStaff.setEnabled(true);
             }
             if("6".equals(listAcc[i])){
                 tabAdministrator.setEnabled(true);
-                miSystemConfig.setEnabled(false);
-                miSetAccess.setEnabled(false);
+                //miSystemConfig.setEnabled(false);
+                //miSetAccess.setEnabled(false);
                 miChangeRegulation.setEnabled(true);
             }
             if("7".equals(listAcc[i])){
                 tabStudentManage.setEnabled(true);
-                miRegisterCourse.setEnabled(false);
-                miInputScore.setEnabled(false);
+                //miRegisterCourse.setEnabled(false);
+                //miInputScore.setEnabled(false);
                 miInfoStudent.setEnabled(true);
             }
             if("8".equals(listAcc[i])){
                 tabAdministrator.setEnabled(true);
                 miSystemConfig.setEnabled(true);
-                miSetAccess.setEnabled(false);
-                miChangeRegulation.setEnabled(false);
+                //miSetAccess.setEnabled(false);
+                //miChangeRegulation.setEnabled(false);
                 tabSystem.setEnabled(true);
                 miSetAccess.setEnabled(true);
             }

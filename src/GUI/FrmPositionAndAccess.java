@@ -94,6 +94,8 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
         btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXoa = new org.jdesktop.swingx.JXButton();
         btnXuatDS = new org.jdesktop.swingx.JXButton();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
+        chkPhanBiet = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListPosition = new org.jdesktop.swingx.JXTable();
         TopLeft1 = new org.jdesktop.swingx.JXPanel();
@@ -163,7 +165,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
         TopLeft.getAccessibleContext().setAccessibleName("ThongTinNganh");
 
         ControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Điều khiển"));
-        ControlPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +172,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnThem);
 
         btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +179,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnCapNhatActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnCapNhat);
 
         btnHuyThaoTac.setText("Hủy Thao Tác");
         btnHuyThaoTac.setEnabled(false);
@@ -188,7 +187,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnHuyThaoTacActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnHuyThaoTac);
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -197,7 +195,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnLuuActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLuu);
 
         btnLamMoi.setText("Làm Mới");
         btnLamMoi.setEnabled(false);
@@ -206,7 +203,6 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnLamMoiActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLamMoi);
 
         btnXoa.setText("Xóa");
         btnXoa.setEnabled(false);
@@ -215,11 +211,66 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnXoa);
 
         btnXuatDS.setText("Xuất Danh Sách");
         btnXuatDS.setEnabled(false);
-        ControlPanel.add(btnXuatDS);
+
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
+
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
+        chkPhanBiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhanBietActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ControlPanelLayout = new javax.swing.GroupLayout(ControlPanel);
+        ControlPanel.setLayout(ControlPanelLayout);
+        ControlPanelLayout.setHorizontalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chkPhanBiet)
+                .addGap(18, 18, 18)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        ControlPanelLayout.setVerticalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkPhanBiet))))
+        );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách chức vụ"));
 
@@ -304,7 +355,7 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(chkChangeRegulation))
                     .addComponent(chkSystemConfig))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         TopLeft1Layout.setVerticalGroup(
             TopLeft1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -341,11 +392,11 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 .addGap(2, 2, 2)
                 .addComponent(TopInFull, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TopLeft1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TopLeft1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -640,6 +691,30 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
         themMoi = false;
     }//GEN-LAST:event_btnHuyThaoTacActionPerformed
 
+    private void chkPhanBietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhanBietActionPerformed
+        sfTimKiem.setText("");
+    }//GEN-LAST:event_chkPhanBietActionPerformed
+
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtm.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tblListPosition.setRowSelectionInterval(i, i);
+                        tblListPosition.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtm.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tblListPosition.setRowSelectionInterval(i, i);
+                        tblListPosition.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_sfTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXPanel ControlPanel;
@@ -663,10 +738,12 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
     private javax.swing.JCheckBox chkManageMinistry;
     private javax.swing.JCheckBox chkManageStaff;
     private javax.swing.JCheckBox chkManageStudent;
+    private javax.swing.JCheckBox chkPhanBiet;
     private javax.swing.JCheckBox chkRegisterCourse;
     private javax.swing.JCheckBox chkSystemConfig;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXLabel lbMSSV;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private org.jdesktop.swingx.JXTable tblListPosition;
     private org.jdesktop.swingx.JXTextField txtIdPosition;
     private org.jdesktop.swingx.JXTextField txtNamePosition;

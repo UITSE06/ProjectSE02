@@ -18,9 +18,9 @@ public class ClsPaymentFee_Public {
     private String maNhanVien;
     private String maPhieuDK;
     private Date ngayThu;
-    private BigDecimal soTienThu;
-    private BigDecimal tienConNo;
-    private BigDecimal soTienDuocGiam;
+    private int soTienThu;
+    private int tienConNo;
+    private int soTienDuocGiam;
 
     /**
      * @return the maPhieuThu
@@ -67,42 +67,42 @@ public class ClsPaymentFee_Public {
     /**
      * @return the tongTienHocPhi
      */
-    public BigDecimal getSoTienThu() {
+    public int getSoTienThu() {
         return soTienThu;
     }
 
     /**
      * @param tongTienHocPhi the tongTienHocPhi to set
      */
-    public void setSoTienThu(BigDecimal tongTienHocPhi) {
+    public void setSoTienThu(int tongTienHocPhi) {
         this.soTienThu = tongTienHocPhi;
     }
 
     /**
      * @return the tienConNo
      */
-    public BigDecimal getTienConNo() {
+    public int getTienConNo() {
         return tienConNo;
     }
 
     /**
      * @param tienConNo the tienConNo to set
      */
-    public void setTienConNo(BigDecimal tienConNo) {
+    public void setTienConNo(int tienConNo) {
         this.tienConNo = tienConNo;
     }
 
     /**
      * @return the soTienDuocGiam
      */
-    public BigDecimal getSoTienDuocGiam() {
+    public int getSoTienDuocGiam() {
         return soTienDuocGiam;
     }
 
     /**
      * @param soTienDuocGiam the soTienDuocGiam to set
      */
-    public void setSoTienDuocGiam(BigDecimal soTienDuocGiam) {
+    public void setSoTienDuocGiam(int soTienDuocGiam) {
         this.soTienDuocGiam = soTienDuocGiam;
     }
 
