@@ -265,6 +265,8 @@ public final class FrmListCourses extends javax.swing.JPanel {
         btnCapNhat = new org.jdesktop.swingx.JXButton();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
         cbxHocKi = new javax.swing.JComboBox();
+        chkPhanBiet = new javax.swing.JCheckBox();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMonHoc = new org.jdesktop.swingx.JXTable();
 
@@ -280,7 +282,7 @@ public final class FrmListCourses extends javax.swing.JPanel {
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
+            .addComponent(Title, javax.swing.GroupLayout.DEFAULT_SIZE, 1277, Short.MAX_VALUE)
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,8 +292,10 @@ public final class FrmListCourses extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        topPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Điều khiển - Tìm kiếm"));
+
         btnThemMoi.setText("Thêm mới");
-        btnThemMoi.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnThemMoi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnThemMoi.setName("btnThemMoi"); // NOI18N
         btnThemMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,7 +304,7 @@ public final class FrmListCourses extends javax.swing.JPanel {
         });
 
         btnLamMoi.setText("Làm mới");
-        btnLamMoi.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnLamMoi.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnLamMoi.setName("btnLamMoi"); // NOI18N
         btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +313,7 @@ public final class FrmListCourses extends javax.swing.JPanel {
         });
 
         btnXoa.setText("Xóa");
-        btnXoa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnXoa.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnXoa.setName("btnXoa"); // NOI18N
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,13 +322,13 @@ public final class FrmListCourses extends javax.swing.JPanel {
         });
 
         lbNganh.setText("Ngành học:");
-        lbNganh.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbNganh.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jXLabel1.setText("Khoa:");
-        jXLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jXLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         btnCapNhat.setText("Cập nhật");
-        btnCapNhat.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnCapNhat.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         btnCapNhat.setName("btnThemMoi"); // NOI18N
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,7 +337,17 @@ public final class FrmListCourses extends javax.swing.JPanel {
         });
 
         jXLabel2.setText("Học kì:");
-        jXLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jXLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
+
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
@@ -341,25 +355,29 @@ public final class FrmListCourses extends javax.swing.JPanel {
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnThemMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(btnLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                .addGap(117, 117, 117)
+                .addComponent(btnThemMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(jXLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbxKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbNganh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cbxNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxHocKi, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbxHocKi, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkPhanBiet)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         topPanelLayout.setVerticalGroup(
@@ -376,8 +394,10 @@ public final class FrmListCourses extends javax.swing.JPanel {
                     .addComponent(cbxKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jXLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxHocKi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(cbxHocKi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkPhanBiet)
+                    .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2))
         );
 
         tbMonHoc.setModel(new javax.swing.table.DefaultTableModel(
@@ -481,6 +501,26 @@ public final class FrmListCourses extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
+        for (int i = 0; i < dtmMH.getRowCount(); i++) {
+            for (int j = 0; j < dtmMH.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtmMH.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tbMonHoc.setRowSelectionInterval(i, i);
+                        tbMonHoc.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtmMH.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tbMonHoc.setRowSelectionInterval(i, i);
+                        tbMonHoc.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_sfTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXLabel Title;
@@ -492,10 +532,12 @@ public final class FrmListCourses extends javax.swing.JPanel {
     private javax.swing.JComboBox cbxHocKi;
     private javax.swing.JComboBox cbxKhoa;
     private javax.swing.JComboBox cbxNganh;
+    private javax.swing.JCheckBox chkPhanBiet;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
     private org.jdesktop.swingx.JXLabel lbNganh;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private org.jdesktop.swingx.JXTable tbMonHoc;
     private org.jdesktop.swingx.JXPanel topPanel;
     // End of variables declaration//GEN-END:variables
