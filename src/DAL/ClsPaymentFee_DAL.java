@@ -41,17 +41,17 @@ public class ClsPaymentFee_DAL {
         return connect.excuteStore_Para(cabCmd);
     }
     
-    public int ExcutePaymentFee(BigDecimal sumMoneyPaid, ClsPaymentFee_Public p) throws Exception{
+    public int ExcutePaymentFee(int sumMoneyPaid, ClsPaymentFee_Public p) throws Exception{
         connect = new SQLServerConnector();
         cabCmd = connect.getCallableStatement("{call ThuHocPhi(?,?,?,?,?,?,?,?)}");
-        cabCmd.setBigDecimal(1, sumMoneyPaid);
+        cabCmd.setInt(1, sumMoneyPaid);
         cabCmd.setString(2, p.getMaPhieuThu());
         cabCmd.setString(3, p.getMaNhanVien());
         cabCmd.setString(4, p.getMaPhieuDK());
-        cabCmd.setBigDecimal(5, p.getTienConNo());
+        cabCmd.setInt(5, p.getTienConNo());
         cabCmd.setDate(6, p.getNgayThu());
-        cabCmd.setBigDecimal(7, p.getSoTienThu());
-        cabCmd.setBigDecimal(8, p.getSoTienDuocGiam());
+        cabCmd.setInt(7, p.getSoTienThu());
+        cabCmd.setInt(8, p.getSoTienDuocGiam());
         return connect.excuteUpdateStorePara(cabCmd);
     }
 }

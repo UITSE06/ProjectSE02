@@ -45,4 +45,20 @@ public class clsStaff_DAL {
         cabCmd.setString(2, p.getMatKhau());
         return connect.excuteUpdateStorePara(cabCmd);
     }
+    // Thanh Thai
+    public ResultSet Tim_NV(clsStaff_Public p) throws Exception {
+        connect = new SQLServerConnector();
+        String strCall = "{call NhanVien_TimDayDu(?)}";
+        CallableStatement cabCmd = connect.getCallableStatement(strCall);
+        cabCmd.setString(1, p.getTenNV());
+        return connect.excuteStore_Para(cabCmd);
+    }
+    // Thanh Thai 
+    public int Delete_Staff(clsStaff_Public p) throws Exception {
+        connect = new SQLServerConnector();
+        String strCall = "{call NhanVien_Delete(?)}";
+        CallableStatement cabCmd = connect.getCallableStatement(strCall);
+        cabCmd.setString(1, p.getMaNV());
+        return connect.excuteUpdateStorePara(cabCmd);
+    }
 }

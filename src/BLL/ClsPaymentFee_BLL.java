@@ -32,7 +32,7 @@ public class ClsPaymentFee_BLL {
         return pfDAL.LoadFeeInfo(p);
     }
     
-    public int ExcutePaymentFee(BigDecimal sumMoneyPaid, ClsPaymentFee_Public p) throws Exception{
+    public int ExcutePaymentFee(int sumMoneyPaid, ClsPaymentFee_Public p) throws Exception{
         return pfDAL.ExcutePaymentFee(sumMoneyPaid, p);
     }
 }

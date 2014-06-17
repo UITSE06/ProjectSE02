@@ -6,10 +6,10 @@ import javax.swing.text.PlainDocument;
 
 public class ClsDigitsDocument_BLL extends PlainDocument {
 
-    private static int limit;
+    private int limit;
 
     public ClsDigitsDocument_BLL(int lm) {
-        ClsDigitsDocument_BLL.limit = lm;
+        limit = lm;
     }
     /**
      *

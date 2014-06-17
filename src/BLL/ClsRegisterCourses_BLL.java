@@ -27,12 +27,12 @@ public class ClsRegisterCourses_BLL {
         return rcDAL.LoadListCourseToRegister(idMayjor, idSemesterYear);
     }
 
-    public BigDecimal InMoneyCourse(String IdCourse) throws Exception {
+    public int InMoneyCourse(String IdCourse) throws Exception {
         rs = rcDAL.InMoneyCourse(IdCourse);
         if (rs.next()) {
-            return rs.getBigDecimal(1);
+            return rs.getInt(1);
         } else {
-            return BigDecimal.ZERO;
+            return 0;
         }
     }
 

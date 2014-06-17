@@ -19,9 +19,9 @@ public class ClsRegisterForm_Public {
     private Date dateOfRegister;
     private String idStaff;
     private String idSemesterYears;
-    private BigDecimal sumOfMoneyRegister;
-    private BigDecimal sumOfMoneyMustPay;
-    private BigDecimal sumOfMoneyPaid;
+    private int sumOfMoneyRegister;
+    private int sumOfMoneyMustPay;
+    private int sumOfMoneyPaid;
 
     /**
      * @return the maPhieuDK
@@ -96,42 +96,42 @@ public class ClsRegisterForm_Public {
     /**
      * @return the TongTienDK
      */
-    public BigDecimal getSumOfMoneyRegister() {
+    public int getSumOfMoneyRegister() {
         return sumOfMoneyRegister;
     }
 
     /**
      * @param TongTienDK the TongTienDK to set
      */
-    public void setSumOfMoneyRegister(BigDecimal TongTienDK) {
+    public void setSumOfMoneyRegister(int TongTienDK) {
         this.sumOfMoneyRegister = TongTienDK;
     }
 
     /**
      * @return the TongTienPhaiDong
      */
-    public BigDecimal getSumOfMoneyMustPay() {
+    public int getSumOfMoneyMustPay() {
         return sumOfMoneyMustPay;
     }
 
     /**
      * @param TongTienPhaiDong the TongTienPhaiDong to set
      */
-    public void setSumOfMoneyMustPay(BigDecimal TongTienPhaiDong) {
+    public void setSumOfMoneyMustPay(int TongTienPhaiDong) {
         this.sumOfMoneyMustPay = TongTienPhaiDong;
     }
 
     /**
      * @return the TongTienDaDong
      */
-    public BigDecimal getSumOfMoneyPaid() {
+    public int getSumOfMoneyPaid() {
         return sumOfMoneyPaid;
     }
 
     /**
      * @param TongTienDaDong the TongTienDaDong to set
      */
-    public void setSumOfMoneyPaid(BigDecimal TongTienDaDong) {
+    public void setSumOfMoneyPaid(int TongTienDaDong) {
         this.sumOfMoneyPaid = TongTienDaDong;
     }
 }

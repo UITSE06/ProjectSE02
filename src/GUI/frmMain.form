@@ -45,6 +45,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sao l&#x1b0;u CSDL"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miBackUpActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miRestore">
               <Properties>
@@ -172,6 +175,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miStaffInfo">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/Register-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin nh&#xe2;n vi&#xea;n"/>
               </Properties>
               <Events>
@@ -426,21 +432,21 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton1" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnRegisterCourse" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jXButton2" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jXButton3" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton4" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnStudentManage" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton5" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnInputScore" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jXButton6" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton7" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnRestoreDatebase" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton8" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnStaffInfo_ChangePass" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnLogOut" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -456,17 +462,17 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jXButton6" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jXButton7" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jXButton8" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnRestoreDatebase" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnStaffInfo_ChangePass" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnLogOut" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lb_Date" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="lb_Clock" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jXButton1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnRegisterCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="jXButton2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="jXButton3" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jXButton4" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jXButton5" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnStudentManage" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnInputScore" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
@@ -497,7 +503,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton1">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnRegisterCourse">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -506,6 +512,9 @@
               <Image iconType="3" name="/Images/dk.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegisterCourseActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="jXButton2">
           <Properties>
@@ -527,7 +536,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton4">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnStudentManage">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -536,8 +545,11 @@
               <Image iconType="3" name="/Images/personal-information-icon.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStudentManageActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton5">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnInputScore">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -546,6 +558,9 @@
               <Image iconType="3" name="/Images/Search-Results.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInputScoreActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="jXButton6">
           <Properties>
@@ -557,7 +572,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton7">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnRestoreDatebase">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -567,7 +582,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton8">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnStaffInfo_ChangePass">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -576,6 +591,9 @@
               <Image iconType="3" name="/Images/Register-icon.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStaffInfo_ChangePassActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnLogOut">
           <Properties>

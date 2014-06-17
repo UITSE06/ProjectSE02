@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.util.Calendar;
 import java.sql.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,8 +39,8 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
     private DefaultTableModel dtmRegisted;
     private String idSemesterYear = "";
     private String maPhieuDangKy = "";//de kiem tra xem sinh vien dang ki moi, hay cap nhat.
-    private BigDecimal registerMoney = BigDecimal.ZERO;//tong tien dang ki
-    private BigDecimal sumMoneyMustPay = BigDecimal.ZERO;//tong tien hoc phi phai dong
+    private int registerMoney = 0;//tong tien dang ki
+    private int sumMoneyMustPay = 0;//tong tien hoc phi phai dong
 
     /**
      * Creates new form DangKiMonHoc2
@@ -582,7 +583,7 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 int second = first + 1;
                 cboYear.addItem(String.valueOf(first) + " - " + String.valueOf(second));
             }
-           // cboYear.setSelectedIndex(0);
+            // cboYear.setSelectedIndex(0);
         } catch (Exception ex) {
             Logger.getLogger(FrmPaymentFee.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -621,14 +622,21 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 maNganh = rs.getString(4);
 //kiem tra xem hoc ki va nam hoc hien tai co the dang ki duoc khong?
                 ClsSemesterYearPublic syPublic = new ClsSemesterYearPublic();
-                if(cboYear.getItemCount()<=0)//chưa có năm học để đăng kí thì thoát khỏi hàm, return false
+                if (cboYear.getItemCount() <= 0)//chưa có năm học để đăng kí thì thoát khỏi hàm, return false
+                {
                     return false;
+                }
                 syPublic.setFirstYear(Integer.parseInt(String.valueOf(cboYear.getSelectedItem()).trim().split("\\ - ")[0]));
                 syPublic.setSemester(Integer.parseInt(String.valueOf(cboHocKi.getSelectedItem())));
                 rs = syBLL.GetDeadlineToRegister(syPublic);
                 if (rs.next()) {
-                    Calendar cal = Calendar.getInstance();
-                    if (cal.getTime().after(rs.getDate(1))) {
+                    Calendar calToCompare = Calendar.getInstance();
+                    Calendar cNow = Calendar.getInstance();
+                    cNow.setTime(cNow.getTime());
+                    //kiem tra xem da het han dang ki chưa?
+                    calToCompare.setTime(rs.getDate(1));
+                    calToCompare.roll(Calendar.DATE, true);//tang them 1 ngay
+                    if (!cNow.before(calToCompare)) {//neu ngay hien tai nho hon han dang ki
                         JOptionPane.showMessageDialog(this, "Đã hết hạn đăng kí môn học trong học kì này");
                         //xoa tat ca cac mon hoc hien tai trong list da dang ki neu co
                         DeleteDataFromListCourseRegisted();
@@ -640,7 +648,9 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                         }
                         return true;
                     }
-                    if(cal.getTime().before(rs.getDate(2))){//kiem tra xem da den ngay duoc phep dang ki mon hoc hay chua?
+                    //kiem tra xem da den ngay duoc phep dang ki mon hoc hay chua?
+                    calToCompare.setTime(rs.getDate(2));//lay ngay bat dau dang ki
+                    if (!cNow.after(calToCompare)) {
                         JOptionPane.showMessageDialog(this, "Chưa đến ngày đăng kí môn học trong học kì này");
                         //xoa tat ca cac mon hoc hien tai trong list da dang ki neu co
                         DeleteDataFromListCourseRegisted();
@@ -652,7 +662,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                         }
                         return true;
                     }
-                    //Date deadlineToRegister = rs.getDate(2);
                 }
                 idSemesterYear = syBLL.GetIdSemesterYear(syPublic);
                 if (idSemesterYear.isEmpty()) {
@@ -818,7 +827,7 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 }
             }
             ///////tinh tien va so tin chi
-            if(!CaculateMoneyAndCredit()){//neu không thỏa số lượng tín chỉ tối đa
+            if (!CaculateMoneyAndCredit()) {//neu không thỏa số lượng tín chỉ tối đa
                 return;
             }
             //tạo đối tượng public de luu du lieu PHIEUDANGKY
@@ -829,7 +838,7 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
             rfPublic.setIdStudent(txtMssv.getText());
             rfPublic.setDateOfRegister(today);
             rfPublic.setSumOfMoneyRegister(registerMoney);
-            rfPublic.setSumOfMoneyPaid(BigDecimal.ZERO);
+            rfPublic.setSumOfMoneyPaid(0);
             rfPublic.setSumOfMoneyMustPay(sumMoneyMustPay);
             //kiem tra xem sinhvien nay da dang ki mon hoc o hoc ki nay lan nao chua
             //String maPhieuDangKy = rcBLL.CheckRegistedOrNot(rfPublic);//lay ma phieu dang ki cua sinh vien o hoc ki nay
@@ -864,26 +873,38 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
 
     private boolean CaculateMoneyAndCredit() throws Exception {
         //tính tổng số tiền đăng kí
-        //lấy đối tượng của sinh viên
+        //lấy đối tượng của sinh viên, lay phần trăm học phí được giảm theo đối tượng
         ResultSet rs = rcBLL.GetPercentReduceFee(txtMssv.getText());
         int percentReduceFee = 0;
         if (rs.next()) {
             percentReduceFee = rs.getInt(1);
         }
-        registerMoney = BigDecimal.ZERO;
+        registerMoney = 0;//reset lai so tien dang ki
         for (int i = 0; i < dtmRegisted.getRowCount(); i++) {
-            BigDecimal temp = rcBLL.InMoneyCourse(String.valueOf(dtmRegisted.getValueAt(i, 0)));
-            if (temp != BigDecimal.ZERO) {
-                registerMoney = registerMoney.add(temp);
+            int temp = rcBLL.InMoneyCourse(String.valueOf(dtmRegisted.getValueAt(i, 0)));
+            if (temp != 0) {
+                registerMoney += temp;
             }
         }
-        String[] money = registerMoney.toString().trim().split("\\.");
-        if (money.length > 0) {
-            txtSumOfFee.setText(money[0]);
-        }
+        txtSumOfFee.setText(registerMoney + "");
+
         //tinh tong tien phai tra: da tru di so tien hoc phi duoc giam do đối tượng
-        sumMoneyMustPay = registerMoney.subtract(registerMoney.multiply(new BigDecimal((float) percentReduceFee / 100)));
-        txtSumFeeMustPay.setText(sumMoneyMustPay.toString().trim().split("\\.")[0]);
+        float tempMoneyReducedFloat = registerMoney * (float) percentReduceFee / 100;//so tien dc giam tam thoi, kieu float
+        int tempMoneyReducedInt = 0;//bien de luu tien sau khi lam tron
+        //nếu phần lẻ sau dâu phẩy lớn hơn 1 thì cộng 1 vào phần trước dâu phẩy
+        String[] st = String.valueOf(tempMoneyReducedFloat).split("\\.");
+        tempMoneyReducedInt = Integer.parseInt(st[0]);//gan bang so o truoc dau phay
+        if (Integer.parseInt(st[1]) > 0) {
+            tempMoneyReducedInt += 1;//da lam trong phan sau dau phay            
+        }
+        //neu so tien le nho hơn 1000 dong, thì làm tron thanh 1000 dong
+        if (tempMoneyReducedInt % 1000 >= 500) { //>=500 thi lam tron thanh 1000d
+            tempMoneyReducedInt = (tempMoneyReducedInt / 1000) * 1000 + 1000;//da lam tron, so tien nho nhat la 1000 đồng
+        } else {//<500d thi bo phan le di
+            tempMoneyReducedInt = (tempMoneyReducedInt / 1000) * 1000;
+        }
+        sumMoneyMustPay = registerMoney - tempMoneyReducedInt;//so tien phai tra bang so tien dang ki - so tien dc giam theo doi tuong
+        txtSumFeeMustPay.setText(sumMoneyMustPay + "");
         //tính tổng số tín chỉ
         int sumOfCredit = 0;
         for (int i = 0; i < dtmRegisted.getRowCount(); i++) {
@@ -894,13 +915,13 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         }
         //tao doi tuong de kiem tra dieu kien số tín chỉ tối đa
         ClsRegulationStatic_Public rsp = new ClsRegulationStatic_Public();
-        if(sumOfCredit < rsp.getMaxCredit()){
+        if (sumOfCredit < rsp.getMaxCredit()) {
             txtSumOfCredit.setText(String.valueOf(sumOfCredit));
         } else {
             JOptionPane.showMessageDialog(this, "Số tín chỉ đăng kí vượt quá số tín chỉ tối đa trên một học kì: " + rsp.getMaxCredit());
             DeleteDataFromListCourseRegisted();
             return false;
-        }   
+        }
         return true;
     }
 

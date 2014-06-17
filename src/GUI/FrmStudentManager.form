@@ -32,7 +32,7 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="topPanel18" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="fullPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="fullPanel" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,10 +56,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="rightPanel" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="rightPanel" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="leftPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="6" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -72,17 +75,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="leftbottomPanel" alignment="0" max="32767" attributes="0"/>
                   <Component id="lefttopPanel" alignment="1" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="lefttopPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="leftbottomPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="99" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -149,11 +149,11 @@
                               <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="txtHoTen" alignment="0" pref="177" max="32767" attributes="0"/>
                                   <Component id="txtMSSV" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtTinh" alignment="1" max="32767" attributes="0"/>
                                   <Component id="cboKhoa" alignment="0" min="-2" pref="176" max="-2" attributes="0"/>
                               </Group>
                               <Component id="dateNgaySinh" alignment="0" min="-2" pref="177" max="-2" attributes="0"/>
                               <Component id="cboNganh" min="-2" pref="176" max="-2" attributes="0"/>
+                              <Component id="txtTinh" alignment="0" min="-2" pref="176" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -204,19 +204,19 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="lbImage" min="-2" pref="130" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="28" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="txtTinh" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbTinh" alignment="2" pref="22" max="32767" attributes="0"/>
+                              <Component id="lbTinh" alignment="2" pref="44" max="32767" attributes="0"/>
                               <Component id="txtHuyen" alignment="2" min="-2" max="-2" attributes="0"/>
                               <Component id="lbHuyen" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
                               <Component id="cbxDoiTuong" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbDoiTuong" alignment="2" pref="23" max="32767" attributes="0"/>
+                              <Component id="lbDoiTuong" alignment="2" max="32767" attributes="0"/>
                               <Group type="103" alignment="2" groupAlignment="3" attributes="0">
                                   <Component id="lbKhoa" alignment="3" pref="22" max="32767" attributes="0"/>
                                   <Component id="cboKhoa" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -224,9 +224,9 @@
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="2" attributes="0">
-                              <Component id="lbNganh" alignment="2" pref="23" max="32767" attributes="0"/>
+                              <Component id="lbNganh" alignment="2" pref="45" max="32767" attributes="0"/>
                               <Component id="cbxTrangThai" alignment="2" min="-2" max="-2" attributes="0"/>
-                              <Component id="lbTrangThai" alignment="2" pref="23" max="32767" attributes="0"/>
+                              <Component id="lbTrangThai" alignment="2" max="32767" attributes="0"/>
                               <Component id="cboNganh" alignment="2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -274,6 +274,9 @@
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXDatePicker" name="dateNgaySinh">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateNgaySinhActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbNganh">
                   <Properties>
@@ -311,17 +314,11 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtHoTenFocusLost"/>
-                  </Events>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXTextField" name="txtHuyen">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtHuyenFocusLost"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="cbxDoiTuong">
                   <Properties>
@@ -367,13 +364,16 @@
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtTinhFocusLost"/>
-                  </Events>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXLabel" name="lbImage">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[128, 128]"/>
+                    </Property>
+                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[128, 128]"/>
+                    </Property>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="cboKhoa">
@@ -421,127 +421,6 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-              </SubComponents>
-            </Container>
-            <Container class="org.jdesktop.swingx.JXPanel" name="leftbottomPanel">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Danh s&#xe1;ch th&#xea;m m&#x1edb;i"/>
-                  </Border>
-                </Property>
-              </Properties>
-
-              <Layout>
-                <DimensionLayout dim="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="excelcontrolPanel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="table" alignment="1" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-                <DimensionLayout dim="1">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="excelcontrolPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="table" pref="160" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                </DimensionLayout>
-              </Layout>
-              <SubComponents>
-                <Container class="javax.swing.JScrollPane" name="table">
-                  <AuxValues>
-                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-                  </AuxValues>
-
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-                  <SubComponents>
-                    <Component class="org.jdesktop.swingx.JXTable" name="tb_Excel">
-                      <Properties>
-                        <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-                          <TableColumnModel selectionModel="0"/>
-                        </Property>
-                        <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                          <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
-                        </Property>
-                      </Properties>
-                    </Component>
-                  </SubComponents>
-                </Container>
-                <Container class="org.jdesktop.swingx.JXPanel" name="excelcontrolPanel">
-
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnHuy" min="-2" pref="51" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnNhapExcel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="btnLuuDS" min="-2" pref="114" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnHuy" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnXoa" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnNhapExcel" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnLuuDS" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="org.jdesktop.swingx.JXButton" name="btnNhapExcel">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Nh&#x1ead;p Excel"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhapExcelActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="org.jdesktop.swingx.JXButton" name="btnLuuDS">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="L&#x1b0;u danh s&#xe1;ch"/>
-                      </Properties>
-                    </Component>
-                    <Component class="org.jdesktop.swingx.JXButton" name="btnXoa">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="org.jdesktop.swingx.JXButton" name="btnHuy">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
-                      </Events>
-                    </Component>
-                  </SubComponents>
-                </Container>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -664,10 +543,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnThem" min="-2" pref="92" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnThem" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnImportExcel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnCapNhat" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLuu" min="-2" pref="65" max="-2" attributes="0"/>
@@ -679,8 +558,10 @@
                   <Component id="btnHuyTT" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnXoaSV" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
-                  <Component id="jXSearchField1" min="-2" pref="215" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="chkPhanBiet" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="sfTimKiem" min="-2" pref="215" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -693,11 +574,12 @@
                       <Component id="btnThem" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnCapNhat" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnXuaDS18" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jXSearchField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="sfTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLuu" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnHuyTT" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnXoaSV" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLamMoi" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkPhanBiet" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnImportExcel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
@@ -730,12 +612,15 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXuaDS18ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXSearchField" name="jXSearchField1">
+        <Component class="org.jdesktop.swingx.JXSearchField" name="sfTimKiem">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
             <Property name="name" type="java.lang.String" value="sfTimKiem" noResource="true"/>
             <Property name="prompt" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sfTimKiemActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnLuu">
           <Properties>
@@ -771,9 +656,17 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JCheckBox" name="chkPhanBiet">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ph&#xe2;n bi&#x1ec7;t in hoa/in th&#x1b0;&#x1edd;ng"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkPhanBietActionPerformed"/>
+          </Events>
+        </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnImportExcel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p t&#x1eeb; Excel"/>
+            <Property name="text" type="java.lang.String" value="jXButton1"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportExcelActionPerformed"/>

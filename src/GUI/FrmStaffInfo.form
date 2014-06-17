@@ -149,7 +149,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtIdStaff">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>
@@ -160,7 +160,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtAdress">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>
@@ -187,7 +187,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtDateOfBirth">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>
@@ -198,7 +198,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtSex">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>
@@ -225,7 +225,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtNameStaff">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>
@@ -244,7 +244,7 @@
             </Component>
             <Component class="org.jdesktop.swingx.JXTextField" name="txtUserName">
               <Properties>
-                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[6, 15]"/>
                 </Property>

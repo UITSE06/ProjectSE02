@@ -135,7 +135,7 @@ public class DanhSachMonHoc extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        NhapMonHoc nhapMonHoc = new NhapMonHoc();
+        FrmInsertCourse nhapMonHoc = new FrmInsertCourse();
         nhapMonHoc.setVisible(true);
     }//GEN-LAST:event_btnLuuActionPerformed
 

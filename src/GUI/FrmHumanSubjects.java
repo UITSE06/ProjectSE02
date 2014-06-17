@@ -40,7 +40,7 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
         initComponents();        
         //
         txtIdHumanSubjects.setDocument(new ClsLimitDocument_BLL(20));
-        txtNameOfHSubjects.setDocument(new ClsLimitDocument_BLL(100));
+        txtNameOfHSubjects.setDocument(new ClsTextOnlyDocument_BLL(100));
         tblListHumanSubjects.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         tblListHumanSubjects.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -92,6 +92,8 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
         btnLamMoi = new org.jdesktop.swingx.JXButton();
         btnXoa = new org.jdesktop.swingx.JXButton();
         btnXuatDS = new org.jdesktop.swingx.JXButton();
+        chkPhanBiet = new javax.swing.JCheckBox();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblListHumanSubjects = new org.jdesktop.swingx.JXTable();
         TopPanel = new org.jdesktop.swingx.JXPanel();
@@ -174,7 +176,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
         TopLeft.getAccessibleContext().setAccessibleName("ThongTinNganh");
 
         ControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Điều khiển"));
-        ControlPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +183,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnThem);
 
         btnCapNhat.setText("Cập Nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +190,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnCapNhatActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnCapNhat);
 
         btnHuyThaoTac.setText("Hủy Thao Tác");
         btnHuyThaoTac.setEnabled(false);
@@ -199,7 +198,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnHuyThaoTacActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnHuyThaoTac);
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -208,7 +206,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnLuuActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLuu);
 
         btnLamMoi.setText("Làm Mới");
         btnLamMoi.setEnabled(false);
@@ -217,7 +214,6 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnLamMoiActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnLamMoi);
 
         btnXoa.setText("Xóa");
         btnXoa.setEnabled(false);
@@ -226,11 +222,66 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        ControlPanel.add(btnXoa);
 
         btnXuatDS.setText("Xuất Danh Sách");
         btnXuatDS.setEnabled(false);
-        ControlPanel.add(btnXuatDS);
+
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
+        chkPhanBiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhanBietActionPerformed(evt);
+            }
+        });
+
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout ControlPanelLayout = new javax.swing.GroupLayout(ControlPanel);
+        ControlPanel.setLayout(ControlPanelLayout);
+        ControlPanelLayout.setHorizontalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(chkPhanBiet)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        ControlPanelLayout.setVerticalGroup(
+            ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ControlPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHuyThaoTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXuatDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(chkPhanBiet)
+                        .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách đối tượng"));
 
@@ -261,7 +312,7 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FullPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(FullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 941, Short.MAX_VALUE)
+                    .addComponent(ControlPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(TopInFull, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -274,7 +325,7 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -344,7 +395,7 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
             txtNameOfHSubjects.setText(String.valueOf(dtm.getValueAt(row, 1)));
             spReduceFeeRatio.setValue((int) dtm.getValueAt(row, 2));
         } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -472,6 +523,30 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
         tblListHumanSubjects.setRowSelectionInterval(0, 0);
     }//GEN-LAST:event_btnHuyThaoTacActionPerformed
 
+    private void chkPhanBietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhanBietActionPerformed
+        sfTimKiem.setText("");
+    }//GEN-LAST:event_chkPhanBietActionPerformed
+
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtm.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tblListHumanSubjects.setRowSelectionInterval(i, i);
+                        tblListHumanSubjects.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtm.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tblListHumanSubjects.setRowSelectionInterval(i, i);
+                        tblListHumanSubjects.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_sfTimKiemActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXPanel ControlPanel;
@@ -488,10 +563,12 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnThem;
     private org.jdesktop.swingx.JXButton btnXoa;
     private org.jdesktop.swingx.JXButton btnXuatDS;
+    private javax.swing.JCheckBox chkPhanBiet;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXLabel lbHoTen2;
     private org.jdesktop.swingx.JXLabel lbHoTen3;
     private org.jdesktop.swingx.JXLabel lbMSSV;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private javax.swing.JSpinner spReduceFeeRatio;
     private org.jdesktop.swingx.JXTable tblListHumanSubjects;
     private org.jdesktop.swingx.JXTextField txtIdHumanSubjects;

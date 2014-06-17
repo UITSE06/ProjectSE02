@@ -520,6 +520,9 @@ public class FrmManageScore extends javax.swing.JPanel {
                 btnLuuLai.setEnabled(true);
                 btnHuyTT.setEnabled(true);
                 btnXuatBD.setEnabled(true);
+                ///ThanhThai
+                cboHocKi.setEnabled(false);
+                cboNam1.setEnabled(false);
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin.");
@@ -553,7 +556,9 @@ public class FrmManageScore extends javax.swing.JPanel {
         btnLuuLai.setEnabled(false);
         btnXuatBD.setEnabled(false);
         btnHuyTT.setEnabled(false);
-
+        ///THanh Thai
+        cboHocKi.setEnabled(true);
+        cboNam1.setEnabled(true);
         //xoa tat ca cac mon hoc hien tai trong list da dang ki neu co
         if (dtm.getRowCount() > 0) {
             for (int i = dtm.getRowCount() - 1; i >= 0; i--) {

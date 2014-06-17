@@ -28,4 +28,13 @@ public class clsStaff_BLL {
     public int UpdatePassWord(clsStaff_Public p) throws Exception {
         return staDAL.UpdatePassWord(p);
     }
+    
+    // Thanh Thai
+    public ResultSet Tim_NV(clsStaff_Public p) throws Exception {
+        return staDAL.Tim_NV(p);
+    }
+    // Thanh Thai 
+    public int Delete_Staff(clsStaff_Public p) throws Exception {
+        return staDAL.Delete_Staff(p);
+    }
 }

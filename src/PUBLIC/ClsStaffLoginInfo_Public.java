@@ -13,6 +13,8 @@ import java.util.Date;
  * @author John
  */
 public class ClsStaffLoginInfo_Public {
+    // Thanh Thai
+    private static String tenCSDL;
     private static String maNV;
     private static String tenNV;
     private static Date ngaySinh;
@@ -20,6 +22,20 @@ public class ClsStaffLoginInfo_Public {
     private static String diaChi;
     private static String maPhanQuyen;
     private static String chucVu;
+
+    /**
+     * @return the tenCSDL
+     */
+    public String getTenCSDL() {
+        return tenCSDL;
+    }
+
+    /**
+     * @param aTenCSDL the tenCSDL to set
+     */
+    public void setTenCSDL(String aTenCSDL) {
+        tenCSDL = aTenCSDL;
+    }
 
     /**
      * @return the maPhanQuyen

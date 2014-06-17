@@ -26,7 +26,7 @@ public class frmInsertYearStudy extends javax.swing.JFrame {
     /**
      * Creates new form frmInsertYearStudy
      */
-    private final ThongTinSV frmListStudent;
+    private final FrmStudentManager frmListStudent;
     private final clsFacultyBLL kBLL = new clsFacultyBLL();
     private final clsMayjors_BLL nBLL = new clsMayjors_BLL();
     private final clsMayjors_Public ngP = new clsMayjors_Public();
@@ -34,7 +34,7 @@ public class frmInsertYearStudy extends javax.swing.JFrame {
     private String maNg = "";
     
     // Hàm khởi tạo, với tham số là form ThongTinSV
-    public frmInsertYearStudy(ThongTinSV cpn) {
+    public frmInsertYearStudy(FrmStudentManager cpn) {
         initComponents();
         this.frmListStudent = cpn;
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,7 +84,7 @@ public class frmInsertYearStudy extends javax.swing.JFrame {
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,7 +114,7 @@ public class frmInsertYearStudy extends javax.swing.JFrame {
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

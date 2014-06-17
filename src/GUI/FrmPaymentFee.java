@@ -35,11 +35,10 @@ public class FrmPaymentFee extends javax.swing.JPanel {
     private int percentReduce = 0;
     private String idSemesterYear = "";
     private String idRegisterForm = "";
-    private BigDecimal sumMoneyPaid = BigDecimal.ZERO;
-    private BigDecimal sumMoneyDebt = BigDecimal.ZERO;
-    private BigDecimal sumMoneyReduced = BigDecimal.ZERO;
-    //private BigDecimal sumMoneyReduced = BigDecimal.ZERO;
-    private BigDecimal moneyStudentPay;
+    private int sumMoneyPaid = 0;
+    private int sumMoneyDebt = 0;
+    private int sumMoneyReduced = 0;
+    private int moneyStudentPay;
 
     public FrmPaymentFee() {
         initComponents();
@@ -515,18 +514,33 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         if (txtMoneyStudentPay.getText().isEmpty()) {
             return;
         }
-        moneyStudentPay = new BigDecimal(txtMoneyStudentPay.getText());
-        if (moneyStudentPay.compareTo(sumMoneyDebt) > 0) {
+        moneyStudentPay = Integer.parseInt(txtMoneyStudentPay.getText());
+        if (moneyStudentPay > sumMoneyDebt) {
             JOptionPane.showMessageDialog(this, "Số tiền thu không được lớn hơn số tiền đang nợ!");
             return;
         }
-        //tinh tien .multiply(new BigDecimal((float) percentReduce / 100));
-        sumMoneyDebt = sumMoneyDebt.subtract(moneyStudentPay);
-        txtSumMoneyDebt.setText(sumMoneyDebt.toString().split("\\.")[0]);
+        if (moneyStudentPay % 1000 > 0 || moneyStudentPay < 1000) {
+            JOptionPane.showMessageDialog(this, "Số tiền thu nhỏ nhất là 1000 VNĐ\nVà có phần lẻ nhỏ nhất là 1000 VNĐ");
+            return;
+        }
+        //tinh tien
+        //kiểm tra xem số tiền sv đóng có bằng số tiền sv đang nợ hay không?
+        //nếu không thì không giảm học phí cho lần đóng học phí này 
+        if (moneyStudentPay != sumMoneyDebt && sumMoneyReduced > 0) {
+            //reset lai tiền nợ lúc đầu, không giảm học phí theo quy định
+            sumMoneyDebt += sumMoneyReduced;
+            sumMoneyReduced = 0;//không giảm học phí
+            txtSumMoneyReduced.setText("0");
+            //hiển thì thông báo
+            JOptionPane.showMessageDialog(this, "Sinh viên chưa hoàn thành học phí nên không được "
+                    + "\ngiảm học phí theo quy định trong lần thu học phí này");
+        }
+        sumMoneyDebt -= moneyStudentPay;//giam bot no di
+        txtSumMoneyDebt.setText(sumMoneyDebt + "");//+ "" để chuyen qua String
 
-        moneyStudentPay = moneyStudentPay.add(sumMoneyReduced);//neu duoc giam, thi cong so tien giam do vao so tien sinh vien dong
-        sumMoneyPaid = sumMoneyPaid.add(moneyStudentPay);//cap nhat so tien da dong
-        txtSumMoneyPaid.setText(sumMoneyPaid.toString().split("\\.")[0]);
+        moneyStudentPay += sumMoneyReduced;//neu duoc giam, thi cong so tien giam do vao so tien sinh vien dong
+        sumMoneyPaid += moneyStudentPay;//cap nhat so tien da dong
+        txtSumMoneyPaid.setText(sumMoneyPaid + "");
 
         //cap nhat gia tri trong bang phieu dang ky, va them phieu thu
         pfPublic.setMaNhanVien((new ClsStaffLoginInfo_Public()).getMaNV());
@@ -542,11 +556,11 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             txtMoneyStudentPay.setEditable(false);
             btnGetMoney.setEnabled(false);
             //reset lai bien luu tien, de cho lan thu hoc phi sau
-            percentReduce = 0;
-            sumMoneyPaid = BigDecimal.ZERO;
-            sumMoneyDebt = BigDecimal.ZERO;
-            sumMoneyReduced = BigDecimal.ZERO;
-            moneyStudentPay = BigDecimal.ZERO;
+            //percentReduce = 0;
+            sumMoneyPaid = 0;
+            sumMoneyDebt = 0;
+            sumMoneyReduced = 0;
+            moneyStudentPay = 0;
         } else {
             JOptionPane.showMessageDialog(this, "Thu học phí thất bại!");
         }
@@ -566,6 +580,9 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             btnSearch_New.setText(label1);
         } else {//neu la nut Sinh vien moi
             NewStudent();
+            //bat cac cbo hoc ki va nam hoc
+            cboSemester.setEnabled(true);
+            cboFirstYear.setEnabled(true);
         }
     }//GEN-LAST:event_btnSearch_NewActionPerformed
 
@@ -588,9 +605,6 @@ public class FrmPaymentFee extends javax.swing.JPanel {
     }
 
     private void cboFirstYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFirstYearActionPerformed
-        if (cboFirstYear.getSelectedIndex() == 0) {
-            return;
-        }
         LoadSemesterInfo();
     }//GEN-LAST:event_cboFirstYearActionPerformed
 
@@ -611,6 +625,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
                 btnSearch_New.setText("Sinh viên mới");
             }
         }
+
     }//GEN-LAST:event_txtIdStudentKeyPressed
 
     private void txtMoneyStudentPayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMoneyStudentPayKeyPressed
@@ -619,7 +634,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         } else {
             btnGetMoney.setEnabled(true);
         }
-        //neu bam phim enter thi 
+        //neu bam phim enter thi
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
                 GetMoneyActionPerform();
@@ -641,28 +656,28 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             ResultSet rs = pfBLL.LoadAllDeadline(syPublic);
             if (rs.next()) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Calendar calNow = Calendar.getInstance();
+                calNow.setTime(calNow.getTime());
+                //Date deadlineToRegister = ;
+                Calendar deadlineToRegister = Calendar.getInstance();
+                deadlineToRegister.setTime(rs.getDate(5));
+                deadlineToRegister.roll(Calendar.DATE, true);//tăng thêm 1 ngày
 
-                Date deadlineToRegister = rs.getDate(5);
-                if (deadlineToRegister.after(Calendar.getInstance().getTime())) {
+                //Calendar.getInstance().before(deadlineToRegister);
+                if (deadlineToRegister.after(calNow)) {
                     JOptionPane.showMessageDialog(this, "Chưa hết hạn đăng kí môn học\nKhông được thu học phí");
                     ClearText();
-//                    txtDeadlineReduceFee.setText("");
-//                    txtDeadlineToPayFee.setText("");
-//                    txtIdStudent.setEditable(false);
-//                    btnSearch_New.setEnabled(false);
                     return;
                 }
+
                 Date deadlineToPayFee = rs.getDate(1);
                 if (deadlineToPayFee.before(Calendar.getInstance().getTime())) {
                     JOptionPane.showMessageDialog(this, "Đã hết hạn đóng học phí");
                     ClearText();
-//                    txtDeadlineReduceFee.setText("");
-//                    txtDeadlineToPayFee.setText("");
-//                    txtIdStudent.setEditable(false);
-//                    btnSearch_New.setEnabled(false);
                     return;
                 }
                 txtDeadlineToPayFee.setText(sdf.format(deadlineToPayFee));
+
                 Date deadlineReduce = rs.getDate(2);
                 if (deadlineReduce.after(Calendar.getInstance().getTime())) {
                     percentReduce = rs.getInt(3);
@@ -673,10 +688,6 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "Học kì không tồn tại");
                 ClearText();
-//                txtDeadlineReduceFee.setText("");
-//                txtDeadlineToPayFee.setText("");
-//                txtIdStudent.setEditable(false);
-//                btnSearch_New.setEnabled(false);
             }
 
         } catch (Exception ex) {
@@ -711,6 +722,9 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             NewStudent();
             return false;
         } else {
+            //tat cac cbo hoc ki va nam hoc
+            cboSemester.setEnabled(false);
+            cboFirstYear.setEnabled(false);
             clsStudent_Public stPublic = new clsStudent_Public();
             stPublic.setIdStudent(txtIdStudent.getText());
             ClsRegisterCourses_BLL rcBLL = new ClsRegisterCourses_BLL();
@@ -729,20 +743,39 @@ public class FrmPaymentFee extends javax.swing.JPanel {
                     if (rs.next()) {
                         txtSumMoneyRegister.setText(rs.getString(1).split("\\.")[0]);
 
-                        BigDecimal sumMoneyMustPay = rs.getBigDecimal(2);
-                        txtSumMoneyMustPay.setText(sumMoneyMustPay.toString().split("\\.")[0]);
+                        int sumMoneyMustPay = rs.getInt(2);
+                        txtSumMoneyMustPay.setText(sumMoneyMustPay + "");
 
-                        sumMoneyPaid = rs.getBigDecimal(3);
-                        txtSumMoneyPaid.setText(sumMoneyPaid.toString().split("\\.")[0]);
+                        sumMoneyPaid = rs.getInt(3);
+                        txtSumMoneyPaid.setText(sumMoneyPaid + "");
+                        //tong so tien duoc giam neu dong đủ hoc phi, trước hạn được giảm
                         //neu so tien da dong > 0, tuc la da dong hoc phi 1 lan roi, thi lan nay khong giam hoc phi nua
-                        if (txtSumMoneyPaid.getText().equals("0")) {//tong tien duoc giam, là căn cứ vào tổng số tiền sv phải đóng
-                            sumMoneyReduced = sumMoneyMustPay.multiply(new BigDecimal((float) percentReduce / 100));
+                        // if (txtSumMoneyPaid.getText().equals("0")) {//tong tien duoc giam, là căn cứ vào tổng số tiền sv phải đóng
+                        float tempMoney = sumMoneyMustPay * ((float) percentReduce / 100);
+                        int tempMoneyInt = 0;//bien de luu tien sau khi lam tron
+                        //nếu phần lẻ sau dâu phẩy lớn hơn 1 thì cộng 1 vào phần trước dâu phẩy
+                        String[] st = String.valueOf(tempMoney).split("\\.");
+                        tempMoneyInt = Integer.parseInt(st[0]);//gan bang so o truoc dau phay
+                        if (Integer.parseInt(st[1]) > 0) {
+                            tempMoneyInt += 1;//da lam trong phan sau dau phay                                
                         }
-                        txtSumMoneyReduced.setText(sumMoneyReduced.toString().split("\\.")[0]);
-                        sumMoneyDebt = (sumMoneyMustPay.subtract(sumMoneyPaid)).subtract(sumMoneyReduced);
-                        txtSumMoneyDebt.setText(sumMoneyDebt.toString().split("\\.")[0]);
-
-                        idRegisterForm = rs.getString(4);
+                        //neu so tien le nho hơn 1000 dong, thì làm tron thanh 1000 dong
+                        if (tempMoneyInt % 1000 >= 500) {//>=500d thi lam tron thanh 1000d
+                            tempMoneyInt = (tempMoneyInt / 1000) * 1000 + 1000;//da lam tron, so tien nho nhat la 1000 đồng
+                        } else {//<500d thi bo phan le di
+                            tempMoneyInt = (tempMoneyInt / 1000) * 1000;
+                        }
+                        sumMoneyReduced = tempMoneyInt;
+                        // }
+                        txtSumMoneyReduced.setText(sumMoneyReduced + "");
+                        if (sumMoneyMustPay == sumMoneyPaid) {//neu da het no thi k giam hoc phi nua
+                            sumMoneyDebt = 0;
+                        } else {//luôn giảm học phí nếu chưa hết nợ// nếu tiền được giảm khác 0
+                            sumMoneyDebt = (sumMoneyMustPay - sumMoneyPaid) - sumMoneyReduced;
+                        }
+                        txtSumMoneyDebt.setText(sumMoneyDebt + "");
+                        
+                        idRegisterForm = rs.getString(4);//lay ma phieu dang ki
                         txtMoneyStudentPay.setEditable(true);
                     } else {
                         JOptionPane.showMessageDialog(this, "Sinh viên chưa đăng kí môn học");
