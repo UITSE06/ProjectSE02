@@ -332,6 +332,7 @@ public class FrmConfig extends javax.swing.JFrame {
                         this.connect = DriverManager.getConnection(url);
                         // Thực hiện tạo mới cơ sở dữ liệu
                         
+                        
                         // kết nối thành công, lưu thêm giá trị Database vô
                         saveConnectString(txtnameData.getText());
                         //enable bntMo
@@ -351,6 +352,9 @@ public class FrmConfig extends javax.swing.JFrame {
                     try {
                         this.connect = ds.getConnection();
                         // Nếu kết nối thành công, tiến hành lưu vào file
+                        
+                        ///Thực hiện tạo mới CSDL
+                        
                         saveConnectString(txtnameData.getText());
                         // enable button Mo
                         btnMo.setEnabled(true);

@@ -34,6 +34,7 @@ public class frmMain extends javax.swing.JFrame {
         lbStaffName.setText(staffInfo.getTenNV());
         lbIdStaff.setText(staffInfo.getMaNV());
         lbPosition.setText(staffInfo.getChucVu());
+        lbNameData.setText(staffInfo.getTenCSDL());
     }
 
     private void SetComponentByAccess() {
@@ -96,7 +97,7 @@ public class frmMain extends javax.swing.JFrame {
         jXFrame1 = new org.jdesktop.swingx.JXFrame();
         st_Info = new org.jdesktop.swingx.JXStatusBar();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
-        jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        lbNameData = new org.jdesktop.swingx.JXLabel();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
         lbStaffName = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
@@ -166,8 +167,8 @@ public class frmMain extends javax.swing.JFrame {
         jXLabel1.setText("Database: ");
         st_Info.add(jXLabel1);
 
-        jXLabel3.setText("QUANLYSINHVIEN");
-        st_Info.add(jXLabel3);
+        lbNameData.setText("QUANLYSINHVIEN");
+        st_Info.add(lbNameData);
 
         jXLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/employee.png"))); // NOI18N
         jXLabel4.setText("Nhân viên:");
@@ -933,10 +934,10 @@ public class frmMain extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXFrame jXFrame1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
-    private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXLabel lbIdStaff;
+    private org.jdesktop.swingx.JXLabel lbNameData;
     private org.jdesktop.swingx.JXLabel lbPos;
     private org.jdesktop.swingx.JXLabel lbPosition;
     private org.jdesktop.swingx.JXLabel lbStaffName;

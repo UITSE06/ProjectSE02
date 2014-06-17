@@ -47,6 +47,7 @@ public class FrmLogin extends javax.swing.JFrame {
         lbThongBao.setVisible(false);
         isLogging = false;
         GetRememberPass();
+        getNameData();
     }
 
     /**
@@ -260,6 +261,35 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // ThanhThai
+    private void getNameData(){
+        FileReader fr;
+        try {
+            fr = new FileReader("connectionString");
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            String temp;
+            if ((line = br.readLine()) != null) {
+                temp = line;
+            }
+            if ((line = br.readLine()) != null) {
+                temp = line;
+            }
+            if ((line = br.readLine()) != null) {
+                temp = line;
+            }
+            if ((line = br.readLine()) != null) {
+                setText(line);
+            }
+        } catch (FileNotFoundException ex) {
+            chk_RememberPassUser.getModel().setSelected(false);
+            //Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            chk_RememberPassUser.getModel().setSelected(false);
+            //Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void GetRememberPass() {
         FileReader fr;
         try {
