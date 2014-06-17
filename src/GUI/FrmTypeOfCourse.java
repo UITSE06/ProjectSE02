@@ -396,7 +396,7 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
             txtMoneyPerCredit.setText(String.valueOf(dtm.getValueAt(row, 2)).split("\\.")[0]);
             spLessonPerCredit.setValue((int) dtm.getValueAt(row, 3));
         } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

@@ -370,7 +370,7 @@ public class FrmListFaculty extends javax.swing.JPanel {
             txtTenKhoa.setText(String.valueOf(dtm.getValueAt(row, 1)));
             txtVietTat.setText(String.valueOf(dtm.getValueAt(row, 2)));
         } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

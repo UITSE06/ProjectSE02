@@ -501,7 +501,7 @@ public class FrmPositionAndAccess extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 

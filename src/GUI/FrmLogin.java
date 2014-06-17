@@ -8,7 +8,8 @@ package GUI;
 import BLL.*;
 import PUBLIC.*;
 import DAL.Crypter;
-import DAL.SQLServerConnector;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
@@ -19,11 +20,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,8 +35,8 @@ public class FrmLogin extends javax.swing.JFrame {
     /**
      * Creates new form FrmLogin
      */
-    private LoginBLL lgBLL = new LoginBLL();
-    private clsStaff_Public nvP = new clsStaff_Public();
+    private final LoginBLL lgBLL = new LoginBLL();
+    private final clsStaff_Public nvP = new clsStaff_Public();
     private String SavedPass = "";
     private boolean isLogging;
 
@@ -43,8 +44,8 @@ public class FrmLogin extends javax.swing.JFrame {
         initComponents();
         txtTenDangNhap.setDocument(new ClsLimitDocument_BLL(50));
         passMatKhau.setDocument(new ClsLimitDocument_BLL(100));
-        isLogging = false;
         lbThongBao.setVisible(false);
+        isLogging = false;
         GetRememberPass();
     }
 
@@ -289,6 +290,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 isLogging = true;
                 Login();
             }
+
         } catch (Exception ex) {
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -331,7 +333,6 @@ public class FrmLogin extends javax.swing.JFrame {
                         frM.setExtendedState(MAXIMIZED_BOTH);
                         frM.setVisible(true);
                         this.setVisible(false);
-                        
                         //Kiem tra xem co can nhớ tên đăng nhập và mật khẩu hay không?
                         if (chk_RememberPassUser.getModel().isSelected()) {
                             FileOutputStream fos = new FileOutputStream("mainRemem", false);
@@ -351,7 +352,6 @@ public class FrmLogin extends javax.swing.JFrame {
                     } else {
                         lbThongBao.setText("Sai mật khẩu");
                         lbThongBao.setVisible(true);
-                        isLogging = false;
                     }
                 } else {//co mat khau da luu
                     if (SavedPass.equals(matkhau)) {
@@ -379,23 +379,24 @@ public class FrmLogin extends javax.swing.JFrame {
                     } else {
                         lbThongBao.setText("Sai mật khẩu");
                         lbThongBao.setVisible(true);
-                        isLogging = false;
                     }
                 }
             } else {
                 lbThongBao.setText("Sai tên đăng nhập");
                 lbThongBao.setVisible(true);
-                isLogging = false;
             }
         } catch (Exception ex) {
+            // Thanh Thai
+            JOptionPane.showMessageDialog(this, "Kết nối thất bại");
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    // ThanhThai
     private void LoadStaffInfo() throws Exception {
+        ClsStaffLoginInfo_Public sli = new ClsStaffLoginInfo_Public();
         ResultSet rs = lgBLL.GetStaffInfoByUserName(nvP);
         if (rs.next()) {
-            ClsStaffLoginInfo_Public sli = new ClsStaffLoginInfo_Public();
             sli.setMaNV(rs.getString(1));
             sli.setTenNV(rs.getString(2));
             sli.setNgaySinh(rs.getDate(3));
@@ -409,6 +410,9 @@ public class FrmLogin extends javax.swing.JFrame {
             sli.setMaPhanQuyen(rs.getString(6));
             sli.setChucVu(rs.getString(7));
         }
+        // Thanh Thai lưu tên cơ sở dữ liệu
+        String nameData = jXHyperlink1.getText().substring(9, jXHyperlink1.getText().length());
+        sli.setTenCSDL(nameData);
         //load cac quy dinh len 1 class Static de kiem tra
         try {
             ClsRegulationBLL reBLL = new ClsRegulationBLL();
@@ -475,7 +479,28 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void jXHyperlink1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXHyperlink1ActionPerformed
         // TODO add your handling code here:
+        FrmConfig frmConfig = new FrmConfig(this);
+        enableComponents(this, false);
+        frmConfig.setVisible(true);
     }//GEN-LAST:event_jXHyperlink1ActionPerformed
+
+    // Thanh thai
+    public void setText(String nameDatabase) {
+        jXHyperlink1.setText("DATABASE: " + nameDatabase);
+        new ClsStaffLoginInfo_Public().setTenCSDL(nameDatabase);
+    }
+
+    // Thanh Thai
+    // Hàm enable/disable các component
+    public void enableComponents(Container container, boolean enable) {
+        Component[] components = container.getComponents();
+        for (Component component : components) {
+            component.setEnabled(enable);
+            if (component instanceof Container) {
+                enableComponents((Container) component, enable);
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments

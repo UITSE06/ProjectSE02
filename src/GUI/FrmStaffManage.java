@@ -5,11 +5,15 @@
  */
 package GUI;
 
+import BLL.ClsLimitDocument_BLL;
+import BLL.ClsPositionAndAccess_BLL;
+import BLL.ClsTextOnlyDocument_BLL;
 import BLL.Item_Cbx;
 import BLL.clsStaff_BLL;
 import PUBLIC.clsStaff_Public;
 import DAL.Crypter;
 import DAL.SQLServerConnector;
+import PUBLIC.ClsRegulationStatic_Public;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +50,6 @@ public final class FrmStaffManage extends javax.swing.JPanel {
      * Creates new form DangKyMon
      */
     private SQLServerConnector connect;
-    private ResultSet rs;
     private DefaultTableModel dtm;
     private DefaultTableModel model;
     private int rowSelected = 0;
@@ -53,26 +57,34 @@ public final class FrmStaffManage extends javax.swing.JPanel {
     File f = null;
 
     private final clsStaff_BLL nvBLL = new clsStaff_BLL();
+    private final ClsPositionAndAccess_BLL cvBLL = new ClsPositionAndAccess_BLL();
     private final clsStaff_Public nvP = new clsStaff_Public();
-    private final SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    private final SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
+    private final ClsRegulationStatic_Public reguP = new ClsRegulationStatic_Public();
 
+    // Hàm khởi tạo
     public FrmStaffManage() throws Exception {
         initComponents();
         LoadTable();
+        txtDiaChi.setDocument(new ClsLimitDocument_BLL(200));
+        txtHoTen.setDocument(new ClsTextOnlyDocument_BLL(100));
         btnHuy.setEnabled(false);
         btnXoa.setEnabled(false);
         btnLuuDS.setEnabled(false);
         String[] titiles = {"STT", "Họ và Tên", "Tuổi", "Địa chỉ", "Mã nhân viên"};
         model = new DefaultTableModel(titiles, 0);
         tb_Excel.setModel(model);
+        dateNgaySinh.setFormats("dd-MM-yyyy");
     }
 
+    // Khởi tạo table, load dữ liệu cho bảng và settable cho nó
     public void LoadTable() throws Exception {
         initTable();
-        LoadData();
+        LoadData(nvBLL.LoadNV());
         setTableModel();
     }
 
+    // set enable hay disable cho các components
     public void setComponents(boolean b) {
         txtHoTen.setEditable(b);
         txtMaNV.setEditable(b);
@@ -81,28 +93,32 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         dateNgaySinh.setEditable(b);
         txtDiaChi.setEditable(b);
         cbxChucVu.setEnabled(b);
-        dateNgaySinh.setFormats(formatDate);
         btnTim.setEnabled(b);
     }
 
+    // Khởi tạo thông tin bảng ban đầu
     public void initTable() {
-        String[] titile = {"Mã nhân viên", "Họ & tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Tên đăng nhập", "Mật khẩu", "Hình đại diện"};
+        String[] titile = {"Mã nhân viên", "Họ & tên", "Ngày sinh", "Giới tính", "Địa chỉ", "Tên đăng nhập", "Mật khẩu", "Hình đại diện", "Tên chức vụ"};
         dtm = new DefaultTableModel(titile, 0);
+
     }
 
-    public void LoadData() throws Exception {
-        rs = nvBLL.LoadNV();
-        while (rs.next()) {
+    // Load dữ liệu cho bảng
+    public void LoadData(ResultSet rsNV) throws Exception {
+        dtm.fireTableDataChanged();
+        dtm.fireTableStructureChanged();
+        while (rsNV.next()) {
             Vector data_rows;
             data_rows = new Vector();
-            data_rows.add(rs.getObject(1));
-            data_rows.add(rs.getObject(2));
-            data_rows.add(formatDate.format(rs.getObject(3)));
-            data_rows.add(rs.getObject(4));
-            data_rows.add(rs.getObject(5));
-            data_rows.add(rs.getObject(6));
-            data_rows.add(rs.getObject(7));
-            data_rows.add(rs.getObject(8));
+            data_rows.add(rsNV.getObject(1));
+            data_rows.add(rsNV.getObject(2));
+            data_rows.add(formatDate.format(rsNV.getObject(3)));
+            data_rows.add(rsNV.getObject(4));
+            data_rows.add(rsNV.getObject(5));
+            data_rows.add(rsNV.getObject(6));
+            data_rows.add(rsNV.getObject(7));
+            data_rows.add(rsNV.getObject(8));
+            data_rows.add(rsNV.getObject(9));
             dtm.addRow(data_rows);
         }
         tbNhanVien.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -116,9 +132,10 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 }
             }
         });
-        //Fillcombo();
+        FillcomboChucVu();
     }
 
+    // Set table model cho bảng
     public void setTableModel() {
         tbNhanVien.setModel(dtm);
         tbNhanVien.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -142,30 +159,44 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         }
     }
 
+    // binding dữ liệu từ dòng được chọn sang các component bên trái
     public void bindingData(int row) throws ParseException {
         try {
             if (row < 0) {
                 row = 0;
             }
+            // maNV
             txtMaNV.setText(tbNhanVien.getStringAt(row, 0));
+            // tenNV
             txtHoTen.setText(tbNhanVien.getStringAt(row, 1));
+            // Ngày sinh
             dateNgaySinh.setDate(formatDate.parse(tbNhanVien.getStringAt(row, 2)));
+            // giới tính
             if (tbNhanVien.getStringAt(row, 3).equals("Nam")) {
                 jradioNam.setSelected(true);
             } else {
                 jradioNu.setSelected(true);
             }
+            // Địa chỉ
             txtDiaChi.setText(tbNhanVien.getStringAt(row, 4));
             byte[] databyte;
+            // hình đại diện
             if ((tbNhanVien.getModel().getValueAt(row, 7)) != null) {
                 Object x = (Object) tbNhanVien.getModel().getValueAt(row, 7);
                 databyte = (byte[]) x;
                 Image img = getToolkit().createImage(databyte);
                 ImageIcon icon = new ImageIcon(img);
-                //lbImage.setSize(icon.getIconHeight(), icon.getIconWidth());
                 lbImage.setIcon(icon);
             } else {
                 lbImage.setIcon(null);
+            }
+
+            // comboChucVu
+            String cv = tbNhanVien.getValueAt(row, 8).toString();
+            for (int i = 0; i < cbxChucVu.getItemCount(); i++) {
+                if (((Item_Cbx) cbxChucVu.getItemAt(i)).getDescription().equals(cv)) {
+                    cbxChucVu.setSelectedIndex(i);
+                }
             }
 
         } catch (ParseException e) {
@@ -173,12 +204,16 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         }
     }
 
+    // Load dữ liệu cho combo chức vụ
     public void FillcomboChucVu() {
         try {
-            ResultSet x = connect.excuteStore("{call LoadDT}");
-            while (x.next()) {
-                String dTuong = x.getString(2);
-                cbxChucVu.addItem(dTuong);
+            Item_Cbx itemCV = (Item_Cbx) cbxChucVu.getSelectedItem();
+            if (itemCV != null) {
+                cbxChucVu.removeAllItems();
+            }
+            ResultSet rsCV = cvBLL.LoadPosition();
+            while (rsCV.next()) {
+                cbxChucVu.addItem(new Item_Cbx(rsCV.getString(1), rsCV.getString(2)));
             }
         } catch (Exception ex) {
             Logger.getLogger(FrmStaffManage.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,7 +268,8 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         tableThongTin = new javax.swing.JScrollPane();
         tbNhanVien = new org.jdesktop.swingx.JXTable();
         topPanel18 = new org.jdesktop.swingx.JXPanel();
-        jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
+        chkPhanBiet = new javax.swing.JCheckBox();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
 
@@ -255,9 +291,9 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         lbNgaySinh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         dateNgaySinh.setEditable(false);
-        dateNgaySinh.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                dateNgaySinhFocusLost(evt);
+        dateNgaySinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateNgaySinhActionPerformed(evt);
             }
         });
 
@@ -268,18 +304,8 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         lbHuyen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         txtHoTen.setEditable(false);
-        txtHoTen.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtHoTenFocusLost(evt);
-            }
-        });
 
         txtDiaChi.setEditable(false);
-        txtDiaChi.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtDiaChiFocusLost(evt);
-            }
-        });
 
         jradioNam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jradioNam.setText("Nam");
@@ -299,6 +325,8 @@ public final class FrmStaffManage extends javax.swing.JPanel {
 
         lbImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Culcheth_High_School_Logo3.png"))); // NOI18N
+        lbImage.setMaximumSize(new java.awt.Dimension(128, 128));
+        lbImage.setPreferredSize(new java.awt.Dimension(128, 128));
 
         cbxChucVu.setEnabled(false);
 
@@ -333,6 +361,11 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         });
 
         btnXoaNV.setText("Xóa");
+        btnXoaNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaNVActionPerformed(evt);
+            }
+        });
 
         btnLamMoi.setText("Làm mới");
         btnLamMoi.addActionListener(new java.awt.event.ActionListener() {
@@ -361,14 +394,14 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                     .addComponent(btnTaoMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLuuLai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnXoaNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnHuyTT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnHuyTT, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)))
         );
         jXPanel2Layout.setVerticalGroup(
             jXPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnTaoMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -388,37 +421,42 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         lefttopPanelLayout.setHorizontalGroup(
             lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lefttopPanelLayout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lefttopPanelLayout.createSequentialGroup()
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(lefttopPanelLayout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(btnTim, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(lefttopPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(151, 151, 151)
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(5, 5, 5)
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
-                .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(lefttopPanelLayout.createSequentialGroup()
-                        .addComponent(jradioNam)
-                        .addGap(18, 18, 18)
-                        .addComponent(jradioNu))
                     .addComponent(txtMaNV, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtHoTen, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxChucVu, javax.swing.GroupLayout.Alignment.CENTER, 0, 177, Short.MAX_VALUE)
-                    .addComponent(dateNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(cbxChucVu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(lefttopPanelLayout.createSequentialGroup()
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(lefttopPanelLayout.createSequentialGroup()
+                                .addComponent(jradioNam)
+                                .addGap(18, 18, 18)
+                                .addComponent(jradioNu))
+                            .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -435,12 +473,12 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                         .addGap(3, 3, 3)
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(lbMaNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtMaNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(3, 3, 3)
-                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jradioNam)
                             .addComponent(lbGioiTinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -450,9 +488,9 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                             .addComponent(dateNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbxChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -514,11 +552,11 @@ public final class FrmStaffManage extends javax.swing.JPanel {
             .addGroup(excelcontrolPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnNhapExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLuuDS, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -550,7 +588,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(excelcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(table, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE))
+                .addComponent(table, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -588,11 +626,11 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tableThongTin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+            .addComponent(tableThongTin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tableThongTin)
+            .addComponent(tableThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, 524, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout fullPanelLayout = new javax.swing.GroupLayout(fullPanel);
@@ -611,14 +649,20 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addGroup(fullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(fullPanelLayout.createSequentialGroup()
-                        .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
-        jXSearchField1.setToolTipText("Tìm kiếm");
-        jXSearchField1.setName("sfTimKiem"); // NOI18N
-        jXSearchField1.setPrompt("Tìm kiếm");
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setName("sfTimKiem"); // NOI18N
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.setRecentSearchesSaveKey("\"saveKey\"");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
+
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
 
         javax.swing.GroupLayout topPanel18Layout = new javax.swing.GroupLayout(topPanel18);
         topPanel18.setLayout(topPanel18Layout);
@@ -626,14 +670,18 @@ public final class FrmStaffManage extends javax.swing.JPanel {
             topPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanel18Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chkPhanBiet)
+                .addGap(18, 18, 18)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         topPanel18Layout.setVerticalGroup(
             topPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanel18Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(topPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkPhanBiet))
                 .addGap(0, 0, 0))
         );
 
@@ -669,7 +717,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(topPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fullPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(fullPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -677,19 +725,26 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jradioNuActionPerformed
 
+    // tìm ảnh đại diện cho nhân viên
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
         // TODO add your handling code here:
         JFileChooser Load = new JFileChooser();
         int returnVal = Load.showOpenDialog(Load);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
+                // lấy đường dẫn của file được chọn
                 String abc = Load.getSelectedFile().getAbsolutePath();
+                // lấy file ảnh được chọn
                 f = Load.getSelectedFile();
+                // đọc file ảnh lên bộ đệm hình ảnh
                 BufferedImage originalImage
                         = ImageIO.read(new File(abc));
 
+                // chuyển đối thông tin của ảnh, sang một mảng bytes
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                // lưu thông tin ảnh sang một output stream, với định dang ảnh là jpg
                 ImageIO.write(originalImage, "jpg", baos);
+                // chuyển stream sang mảng bytes
                 byte[] imageInByte = baos.toByteArray();
 
                 BufferedImage imag = ImageIO.read(new ByteArrayInputStream(imageInByte));
@@ -768,6 +823,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    // tạo mới nhân viên
     private void btnTaoMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoMoiActionPerformed
         // TODO add your handling code here:
         tbNhanVien.setEnabled(false);
@@ -788,6 +844,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         btnThemSelect = true;
     }//GEN-LAST:event_btnTaoMoiActionPerformed
 
+    // cập nhật thông tin nhân viên
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
         int row = tbNhanVien.getSelectedRow();
@@ -801,6 +858,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
+    // Reload bảng danh sách nhân viên
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         try {
             // TODO add your handling code here:
@@ -810,6 +868,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
+    // lưu thông tin nhân viên
     private void btnLuuLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuLaiActionPerformed
         // TODO add your handling code here:
         try {
@@ -832,7 +891,12 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 }
                 nvP.setTenNV(txtHoTen.getText());
 
+                // chuyển sang dạng sql
                 java.sql.Date ins = new java.sql.Date(formatDate.parse(dateNgaySinh.getEditor().getText()).getTime());
+                if ((Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) < reguP.getMinStaffYearOld() || (Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) > reguP.getMaxStaffYearOld()) {
+                    JOptionPane.showMessageDialog(this, "Tuổi nhân viên phải nằm trong khoảng " + reguP.getMinStaffYearOld() + " đến khoảng " + reguP.getMaxStaffYearOld());
+                    return;
+                }
                 nvP.setNgaySinh(ins);
                 if (jradioNam.isSelected()) {
                     nvP.setGioiTinh(1);
@@ -841,12 +905,9 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                 }
                 nvP.setDiaChi(txtDiaChi.getText());
                 Item_Cbx itemCV = (Item_Cbx) cbxChucVu.getSelectedItem();
-                if (itemCV == null) {
-                    nvP.setMaChucVu("MCV00001");
-                } else {
-                    nvP.setMaChucVu("MCV00001");
+                if (itemCV != null) {
+                    nvP.setMaChucVu(itemCV.getId());
                 }
-
                 String mk = dateNgaySinh.getEditor().getText().replace("-", "");
                 nvP.setMatKhau(Crypter.encryptMD5(mk));
                 int InsertUpdateStudent = nvBLL.InsertUpdateStaff(nvP, len);
@@ -864,17 +925,19 @@ public final class FrmStaffManage extends javax.swing.JPanel {
                         dateNgaySinh.setDate(null);
                     }
                     setComponents(false);
+                    LoadTable();
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLuuLaiActionPerformed
 
+    // hủy các thao tác vừa thực hiện
     private void btnHuyTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyTTActionPerformed
         // TODO add your handling code here:
         btnTaoMoi.setEnabled(true);
@@ -891,33 +954,74 @@ public final class FrmStaffManage extends javax.swing.JPanel {
             try {
                 bindingData(rowSelected);
             } catch (ParseException ex) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             btnThemSelect = false;
         }
     }//GEN-LAST:event_btnHuyTTActionPerformed
 
-    private void txtHoTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHoTenFocusLost
+    // Xóa nhân viên
+    private void btnXoaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaNVActionPerformed
         // TODO add your handling code here:
-        if (txtHoTen.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên nhân viên.");
+        if (tbNhanVien.getSelectedRow() >= 0) {
+            try {
+                int ySn = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhân viên này?", "THÔNG BÁO", JOptionPane.YES_NO_OPTION);
+                if (ySn == JOptionPane.YES_OPTION) {
+                    clsStaff_Public stP = new clsStaff_Public();
+                    String maNV = tbNhanVien.getValueAt(tbNhanVien.getSelectedRow(), 0).toString();
+                    stP.setMaNV(maNV);
+                    int DeleteStudent = nvBLL.Delete_Staff(stP);
+                    if (DeleteStudent > 0) {
+                        JOptionPane.showMessageDialog(this, "Xóa thành công nhân viên.");
+                        LoadTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa nhân viên, đã phát sinh lỗi");
+                    }
+                } else {
+                    return;
+                }
+            } catch (Exception ex) {
+                //Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Không thể xóa nhân viên, đã phát sinh lỗi");
+            }
         }
-    }//GEN-LAST:event_txtHoTenFocusLost
+    }//GEN-LAST:event_btnXoaNVActionPerformed
 
-    private void dateNgaySinhFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dateNgaySinhFocusLost
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
         // TODO add your handling code here:
-        if (dateNgaySinh.getEditor().getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày sinh nhân viên.");
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtm.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tbNhanVien.setRowSelectionInterval(i, i);
+                        tbNhanVien.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtm.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tbNhanVien.setRowSelectionInterval(i, i);
+                        tbNhanVien.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
         }
-    }//GEN-LAST:event_dateNgaySinhFocusLost
+    }//GEN-LAST:event_sfTimKiemActionPerformed
 
-    private void txtDiaChiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDiaChiFocusLost
-        // TODO add your handling code here:
-        if (txtDiaChi.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập địa chỉ nhân viên.");
+    private void dateNgaySinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateNgaySinhActionPerformed
+        try {
+            // TODO add your handling code here:
+            // chuyển sang dạng sql
+            java.sql.Date ins = new java.sql.Date(formatDate.parse(dateNgaySinh.getEditor().getText()).getTime());
+            if ((Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) < reguP.getMinStaffYearOld() || (Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) > reguP.getMaxStaffYearOld()) {
+                JOptionPane.showMessageDialog(this, "Tuổi nhân viên phải nằm trong khoảng " + reguP.getMinStaffYearOld() + " đến khoảng " + reguP.getMaxStaffYearOld());
+            }
+
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmStaffManage.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_txtDiaChiFocusLost
+    }//GEN-LAST:event_dateNgaySinhActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -935,13 +1039,13 @@ public final class FrmStaffManage extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnXuatDS;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox cbxChucVu;
+    private javax.swing.JCheckBox chkPhanBiet;
     private org.jdesktop.swingx.JXDatePicker dateNgaySinh;
     private org.jdesktop.swingx.JXPanel excelcontrolPanel;
     private org.jdesktop.swingx.JXPanel fullPanel;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXPanel jXPanel2;
-    private org.jdesktop.swingx.JXSearchField jXSearchField1;
     private javax.swing.JRadioButton jradioNam;
     private javax.swing.JRadioButton jradioNu;
     private org.jdesktop.swingx.JXLabel lbGioiTinh;
@@ -955,6 +1059,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel leftbottomPanel;
     private org.jdesktop.swingx.JXPanel lefttopPanel;
     private org.jdesktop.swingx.JXPanel rightPanel;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private javax.swing.JScrollPane table;
     private javax.swing.JScrollPane tableThongTin;
     private org.jdesktop.swingx.JXTable tbNhanVien;

@@ -297,9 +297,6 @@
               <Properties>
                 <Property name="prompt" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
-              </AccessibilityProperties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sfTimKiemActionPerformed"/>
               </Events>

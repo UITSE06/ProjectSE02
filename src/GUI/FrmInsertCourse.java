@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -31,7 +30,7 @@ import javax.swing.table.TableColumn;
  *
  * @author Nguyen Thanh Thai
  */
-public class NhapMonHoc extends javax.swing.JFrame {
+public class FrmInsertCourse extends javax.swing.JFrame {
 
     /**
      * Creates new form NhapMonHoc
@@ -39,6 +38,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
     private ResultSet rs;
     private DefaultTableModel dtmMH;
     private DefaultTableModel dtmN;
+    private String maMh = "";
     private String maLoaiMH = "";
     private String maKh = "";
     private String maMhLT = "";
@@ -58,26 +58,84 @@ public class NhapMonHoc extends javax.swing.JFrame {
     private final createtempMHBLL crMHBLL = new createtempMHBLL();
     private final createtempCTMHBLL crCTMHBLL = new createtempCTMHBLL();
 
+    private Item_Cbx itemKh;
+    private Item_Cbx itemNg;
+
     private FrmListCourses dsMH;
 
-    public NhapMonHoc() {
+    public FrmInsertCourse() {
         initComponents();
         initComponents();
         setTable();
         LoadData();
     }
 
-    public NhapMonHoc(FrmListCourses ds) {
+    // Hàm khởi tạo với tham số là form danh sách môn học
+    public FrmInsertCourse(FrmListCourses ds) {
         initComponents();
         setTable();
         LoadData();
         dsMH = ds;
     }
 
+    // Hàm khởi tạo với tham số là mã môn học, cho việc cập nhật
+    public FrmInsertCourse(FrmListCourses ds, String maMH) {
+        initComponents();
+        setTable();
+        LoadData();
+        this.dsMH = ds;
+        this.maMh = maMH;
+        LoadData_MaMH();
+    }
+
+    // load dữ liệu cho form với mã môn học
+    public void LoadData_MaMH() {
+        try {
+            clsCourses_Public coursesP = new clsCourses_Public();
+            coursesP.setMaMon(maMh);
+            // Load môn học tiên quyết.
+            ResultSet rsMHTQ = mhBLL.LoadMH_MonHocTienQuyet(coursesP);
+            while (rsMHTQ.next()) {
+                Vector rowsMHTQ = new Vector();
+                rowsMHTQ.add(rsMHTQ.getString(1));
+                rowsMHTQ.add(rsMHTQ.getString(2));
+                dtmMH.addRow(rowsMHTQ);
+            }
+            // Load dữ liệu của môn học theo mà môn học
+            ResultSet rsMhbyMaMH = mhBLL.LoadMH_byMaMH(coursesP);
+            while (rsMhbyMaMH.next()) {
+                txtTenMonHoc.setText(rsMhbyMaMH.getString(3));
+                txtSoTinChi.setValue(rsMhbyMaMH.getObject(4));
+                if (rsMhbyMaMH.getString(5).equals("Lý thuyết")) {
+                    cboLoaiMH.setSelectedIndex(0);
+                    cboMHLT.setEnabled(false);
+                } else {
+                    cboLoaiMH.setSelectedIndex(1);
+                    cboMHLT.setEnabled(true);
+                }
+            }
+            // Load CT_Nganh, những ngành có học môn học này
+            ResultSet rsCT_Nganh = mhBLL.LoadMH_CT_Nganh(coursesP);
+            // Đếm số lượng ngành
+            int rowIndex = 0;
+            while (rsCT_Nganh.next()) {
+                Vector rowsNg = new Vector();
+                rowIndex++;
+                rowsNg.add(rsCT_Nganh.getString(1));
+                rowsNg.add(rsCT_Nganh.getString(2));
+                dtmN.addRow(rowsNg);
+                bindingCombox(rsCT_Nganh.getInt(4), rsCT_Nganh.getInt(3), rowIndex);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     // setModel cho table môn học tiên quyết và table những ngành học môn ấy
     public void setTable() {
         try {
-
+            //rang buoc so ki tu nhap vao
+            txtTenMonHoc.setDocument(new ClsLimitDocument_BLL(50));
             String[] titleMH = {"Mã môn học", "Tên môn học"};
             dtmMH = new DefaultTableModel(titleMH, 0);
             tbMhTq.setModel(dtmMH);
@@ -94,11 +152,12 @@ public class NhapMonHoc extends javax.swing.JFrame {
             tbNganh.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
+    // Load dữ liệu cho bảng
     public void LoadData() {
         try {
             FillComboKhoa();
@@ -106,13 +165,6 @@ public class NhapMonHoc extends javax.swing.JFrame {
             ResultSet lMH = lmhBLL.LoadLoaiMH();
             while (lMH.next()) {
                 cboLoaiMH.addItem(new Item_Cbx(lMH.getString(1), lMH.getString(2)));
-            }
-            // Load môn học để thêm vào môn học tiên quyết và môn học lý thuyết
-            cboMHTienQuyet.addItem(new Item_Cbx("1", "Tất cả", null));
-            ResultSet rsMH = mhBLL.LoadMonHoc();
-            while (rsMH.next()) {
-                cboMHTienQuyet.addItem(new Item_Cbx(rsMH.getString(1), rsMH.getString(3)));
-                cboMHLT.addItem(new Item_Cbx(rsMH.getString(1), rsMH.getString(3)));
             }
 
             //Lấy ma loai mon hoc dua vao item dang duoc select
@@ -139,13 +191,13 @@ public class NhapMonHoc extends javax.swing.JFrame {
                     }
                 }
             });
-            
+
             cboMHTienQuyet.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     boolean flag = true;
                     Item_Cbx itemMHTQ = (Item_Cbx) cboMHTienQuyet.getSelectedItem();
-                    if (itemMHTQ != null && itemMHTQ.getId().toString() != "1") {
+                    if (itemMHTQ != null && !itemMHTQ.getId().toString().equals("1")) {
                         // Lấy ra đối tượng đang được chọn ở combobox
                         Item_Cbx item = (Item_Cbx) cboMHTienQuyet.getSelectedItem();
                         // Nếu table môn học tiên quyết không có dòng nào.
@@ -172,7 +224,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -188,27 +240,41 @@ public class NhapMonHoc extends javax.swing.JFrame {
             }
             // Kiểm tra xem combobox Khoa đã bị xóa hết chưa
             if (cboKhoa.getSelectedItem() != null) {
-                Item_Cbx item = (Item_Cbx) cboKhoa.getSelectedItem();
-                maKh = item.getId();
+                itemKh = (Item_Cbx) cboKhoa.getSelectedItem();
+                maKh = itemKh.getId();
                 FillComboNganh();
             }
             cboKhoa.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (cboKhoa.getSelectedItem() != null) {
-                        Item_Cbx item = (Item_Cbx) cboKhoa.getSelectedItem();
-                        maKh = item.getId();
+                        itemKh = (Item_Cbx) cboKhoa.getSelectedItem();
+                        maKh = itemKh.getId();
                         FillComboNganh();
                     }
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void FillComboNganh() {
         try {
+
+            // Load những môn học thuộc khoa đang được chọn để đổ vào môn lý thuyết và môn tiên quyết
+            // Load môn học để thêm vào môn học tiên quyết và môn học lý thuyết
+            cboMHTienQuyet.removeAllItems();
+            cboMHLT.removeAllItems();
+            cboMHTienQuyet.addItem(new Item_Cbx("1", "Tất cả", null));
+            clsMayjors_Public mayjorP = new clsMayjors_Public();
+            mayjorP.setIdFaculty(maKh);
+            ResultSet rsMH = mhBLL.LoadMH_Khoa(mayjorP);
+            while (rsMH.next()) {
+                cboMHTienQuyet.addItem(new Item_Cbx(rsMH.getString(1), rsMH.getString(2)));
+                cboMHLT.addItem(new Item_Cbx(rsMH.getString(1), rsMH.getString(2)));
+            }
+
             // Xóa toàn bộ những item của combobox cũ
             cboNganhHoc.removeAllItems();
             // Add giá trị khoảng trắng mặc định cho combobox Môn học lý thuyết
@@ -221,34 +287,34 @@ public class NhapMonHoc extends javax.swing.JFrame {
                 cboNganhHoc.addItem(new Item_Cbx(x.getString(1), x.getString(2), x.getString(4)));
             }
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Xử lý sự kiện cho combobox Ngành
         cboNganhHoc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean flag = true;
-                Item_Cbx item = (Item_Cbx) cboNganhHoc.getSelectedItem();
-                if (item != null && item.getId() != "1") {
+                itemNg = (Item_Cbx) cboNganhHoc.getSelectedItem();
+                if (itemNg != null && !itemNg.getId().equals("1")) {
                     if (tbNganh.getRowCount() == 0) {
                         Vector row = new Vector();
-                        row.add(item.getId());
-                        row.add(item.getDescription());
+                        row.add(itemNg.getId());
+                        row.add(itemNg.getDescription());
                         dtmN.addRow(row);
-                        bindingCombox(Integer.parseInt(item.getOption()));
+                        bindingCombox(Integer.parseInt(itemNg.getOption()), 0, 0);
                     } else {
                         int rows = tbNganh.getRowCount();
                         for (int i = 0; i < rows; i++) {
-                            if (item.getId().equals(tbNganh.getValueAt(i, 0))) {
+                            if (itemNg.getId().equals(tbNganh.getValueAt(i, 0))) {
                                 flag = false;
                             }
                         }
                         if (flag) {
                             Vector row = new Vector();
-                            row.add(item.getId());
-                            row.add(item.getDescription());
+                            row.add(itemNg.getId());
+                            row.add(itemNg.getDescription());
                             dtmN.addRow(row);
-                            bindingCombox(Integer.parseInt(item.getOption()));
+                            bindingCombox(Integer.parseInt(itemNg.getOption()), 0, 0);
                         }
                     }
                 }
@@ -257,42 +323,61 @@ public class NhapMonHoc extends javax.swing.JFrame {
     }
 
     // load du lieu len cho combobox
-    public void bindingCombox(int sohk) {
+    public void bindingCombox(int sohk, int hkHientai, int rowindex) {
         comboBox = new JComboBox();
         for (int i = 1; i <= sohk; i++) {
             comboBox.addItem(i);
         }
+        if (hkHientai != 0 && rowindex != 0) {
+            tbNganh.getModel().setValueAt(hkHientai, rowindex - 1, 2);
+        }
+
         TableColumn tc = tbNganh.getColumnModel().getColumn(2);
         TableCellEditor tce = new DefaultCellEditor(comboBox);
         tc.setCellEditor(tce);
     }
 
-    public void InsertToTempCTMH() throws Exception {
+    public int InsertToTempCTMH() throws Exception {
         // Luu thong tin xuong bang CT_Nganh
-        int rowstbN = tbNganh.getRowCount();
-        // D.s MaNganh_Ky
-        HashMap<String, Integer> maNganh_Ky = new HashMap<>();
-        for (int i = 0; i < rowstbN; i++) {
-            maNganh_Ky.put(tbNganh.getValueAt(i, 0).toString(), Integer.parseInt(tbNganh.getValueAt(i, 2).toString()));
-        }
-        //Insert values for table tempCTMH
-        //D.s MaHKNganh
-        int crtempCTMH = crCTMHBLL.crtempCTMH();
-        for (Map.Entry item : maNganh_Ky.entrySet()) {
-            try {
-
-                ctNganhP.setMaNganh(item.getKey().toString());
-                ctNganhP.setHocKi(Integer.parseInt(item.getValue().toString()));
-
-                int abc = inCTMNBLL.insertTempCTMN(ctNganhP);
-
-            } catch (Exception ex) {
-                Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            int rowstbN = tbNganh.getRowCount();
+            // D.s MaNganh_Ky
+            HashMap<String, Integer> maNganh_Ky = new HashMap<>();
+            if (rowstbN == 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn thông tin ngành học.");
+                return 0;
             }
+            for (int i = 0; i < rowstbN; i++) {
+                if (tbNganh.getValueAt(i, 2) == null) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập vào học kì mà môn học này sẽ được học.");
+                    return 0;
+                }
+                maNganh_Ky.put(tbNganh.getValueAt(i, 0).toString(), Integer.parseInt(tbNganh.getValueAt(i, 2).toString()));
+            }
+            //Insert values for table tempCTMH
+            //D.s MaHKNganh
+            int crtempCTMH = crCTMHBLL.crtempCTMH();
+            for (Map.Entry item : maNganh_Ky.entrySet()) {
+                try {
+
+                    ctNganhP.setMaNganh(item.getKey().toString());
+                    ctNganhP.setHocKi(Integer.parseInt(item.getValue().toString()));
+
+                    int abc = inCTMNBLL.insertTempCTMN(ctNganhP);
+
+                } catch (Exception ex) {
+                    return 0;
+                    //Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            return 1;
+        } catch (Exception e) {
+            return 0;
+            //Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
-    public void InsertToTempMH() {
+    public int InsertToTempMH() {
         // Insert values for tempMH1
         try {
             // Tao bang tempMH
@@ -307,25 +392,49 @@ public class NhapMonHoc extends javax.swing.JFrame {
             }
             // Neu danh sach mon hoc rong, k co mon hoc tien quyet
             if (rowMHTQ == 0) {
+                if (txtTenMonHoc.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập vào tên của môn học.", "LỖI", JOptionPane.ERROR_MESSAGE);
+                    return 0;
+                }
                 mhP.setTenMon(txtTenMonHoc.getText());
-                mhP.setSoTiet(Integer.parseInt(txtSoTinChi.getText().toString()));
+                if (Integer.parseInt(txtSoTinChi.getValue().toString()) == 0) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập vào số tiết của môn học.", "LỖI", JOptionPane.ERROR_MESSAGE);
+                    return 0;
+                }
+                mhP.setSoTiet(Integer.parseInt(txtSoTinChi.getValue().toString()));
                 mhP.setMaLoaiMH(maLoaiMH);
                 mhP.setMaMHTQ("");
                 // Thực hiện insert dữ liệu
                 int rst = inMHLL.inserttempMH(mhP);
             } else {
                 for (int i = 0; i < rowMHTQ; i++) {
+                    if (txtTenMonHoc.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng nhập vào tên của môn học.", "LỖI", JOptionPane.ERROR_MESSAGE);
+                        return 0;
+                    }
                     mhP.setTenMon(txtTenMonHoc.getText());
-                    mhP.setSoTiet(Integer.parseInt(txtSoTinChi.getText().toString()));
+                    if (Integer.parseInt(txtSoTinChi.getValue().toString()) == 0) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng nhập vào số tiết của môn học.", "LỖI", JOptionPane.ERROR_MESSAGE);
+                        return 0;
+                    }
+                    mhP.setSoTiet(Integer.parseInt(txtSoTinChi.getValue().toString()));
                     mhP.setMaLoaiMH(maLoaiMH);
                     mhP.setMaMHTQ(tbMhTq.getValueAt(i, 0).toString());
                     // Thực hiện insert dữ liệu
                     int rst = inMHLL.inserttempMH(mhP);
                 }
             }
+            return 1;
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+            //Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    // Set label Title và btnLuu 
+    public void setTitelText(String title) {
+        Title.setText(title);
+        btnLuu.setText("Cập nhật");
     }
 
     /**
@@ -346,18 +455,14 @@ public class NhapMonHoc extends javax.swing.JFrame {
         fullPanel = new org.jdesktop.swingx.JXPanel();
         ThongTinMH = new org.jdesktop.swingx.JXPanel();
         lbLoaiMonHoc = new org.jdesktop.swingx.JXLabel();
-        lbMoTa = new org.jdesktop.swingx.JXLabel();
         txtTenMonHoc = new org.jdesktop.swingx.JXTextField();
         lbDSMonHoc = new org.jdesktop.swingx.JXLabel();
         cboMHTienQuyet = new javax.swing.JComboBox();
         cboNganhHoc = new javax.swing.JComboBox();
         lbHoTen2 = new org.jdesktop.swingx.JXLabel();
-        txtMoTaMH = new javax.swing.JScrollPane();
-        jXEditorPane1 = new org.jdesktop.swingx.JXEditorPane();
         lbTenMH = new org.jdesktop.swingx.JXLabel();
         cboLoaiMH = new javax.swing.JComboBox();
         lbLoaiMH = new org.jdesktop.swingx.JXLabel();
-        txtSoTinChi = new org.jdesktop.swingx.JXTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbMhTq = new org.jdesktop.swingx.JXTable();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -366,8 +471,11 @@ public class NhapMonHoc extends javax.swing.JFrame {
         lbHoTen3 = new org.jdesktop.swingx.JXLabel();
         cboMHLT = new javax.swing.JComboBox();
         lbLoaiMonHoc1 = new org.jdesktop.swingx.JXLabel();
+        txtSoTinChi = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(675, 583));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -376,7 +484,7 @@ public class NhapMonHoc extends javax.swing.JFrame {
 
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Title.setText("NHẬP MÔN HỌC");
-        Title.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        Title.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         Title.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         Title.setTextAlignment(org.jdesktop.swingx.JXLabel.TextAlignment.CENTER);
 
@@ -419,12 +527,12 @@ public class NhapMonHoc extends javax.swing.JFrame {
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(topPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
+                .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
                 .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86)
                 .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(255, 255, 255))
         );
         topPanelLayout.setVerticalGroup(
             topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,16 +550,11 @@ public class NhapMonHoc extends javax.swing.JFrame {
         lbLoaiMonHoc.setText("Loại môn học:");
         lbLoaiMonHoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        lbMoTa.setText("Mô tả:");
-        lbMoTa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         lbDSMonHoc.setText("Danh sách môn học tiên quyết:");
         lbDSMonHoc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         lbHoTen2.setText("Danh sách các ngành học:");
         lbHoTen2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        txtMoTaMH.setViewportView(jXEditorPane1);
 
         lbTenMH.setText("Tên môn học:");
         lbTenMH.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -518,6 +621,8 @@ public class NhapMonHoc extends javax.swing.JFrame {
         lbLoaiMonHoc1.setText("Thuộc môn lý thuyết:");
         lbLoaiMonHoc1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        txtSoTinChi.setModel(new javax.swing.SpinnerNumberModel(0, 0, 100, 1));
+
         javax.swing.GroupLayout ThongTinMHLayout = new javax.swing.GroupLayout(ThongTinMH);
         ThongTinMH.setLayout(ThongTinMHLayout);
         ThongTinMHLayout.setHorizontalGroup(
@@ -525,45 +630,36 @@ public class NhapMonHoc extends javax.swing.JFrame {
             .addGroup(ThongTinMHLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ThongTinMHLayout.createSequentialGroup()
+                        .addComponent(lbDSMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinMHLayout.createSequentialGroup()
+                        .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                .addComponent(cboMHTienQuyet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(ThongTinMHLayout.createSequentialGroup()
+                                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbLoaiMonHoc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbLoaiMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbTenMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboMHLT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboLoaiMH, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtTenMonHoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(56, 56, 56)))
+                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbHoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboNganhHoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                        .addComponent(cboKhoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(ThongTinMHLayout.createSequentialGroup()
-                            .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(ThongTinMHLayout.createSequentialGroup()
-                                    .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lbLoaiMonHoc1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lbLoaiMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lbTenMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cboMHLT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(cboLoaiMH, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtTenMonHoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGap(68, 68, 68))
-                                .addGroup(ThongTinMHLayout.createSequentialGroup()
-                                    .addComponent(lbDSMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbHoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cboNganhHoc, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                                    .addComponent(cboKhoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(ThongTinMHLayout.createSequentialGroup()
-                                        .addComponent(lbLoaiMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtSoTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ThongTinMHLayout.createSequentialGroup()
-                            .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(lbMoTa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ThongTinMHLayout.createSequentialGroup()
-                                    .addGap(101, 101, 101)
-                                    .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(cboMHTienQuyet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))))
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addComponent(txtMoTaMH, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(lbLoaiMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtSoTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         ThongTinMHLayout.setVerticalGroup(
             ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -574,15 +670,14 @@ public class NhapMonHoc extends javax.swing.JFrame {
                     .addComponent(lbTenMH, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbLoaiMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSoTinChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(ThongTinMHLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(cboLoaiMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lbLoaiMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE))
+                        .addGap(23, 23, 23))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongTinMHLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbHoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -593,18 +688,16 @@ public class NhapMonHoc extends javax.swing.JFrame {
                 .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDSMonHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(cboMHTienQuyet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboNganhHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(txtMoTaMH, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(ThongTinMHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ThongTinMHLayout.createSequentialGroup()
+                        .addComponent(cboNganhHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ThongTinMHLayout.createSequentialGroup()
+                        .addComponent(cboMHTienQuyet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
 
@@ -613,8 +706,8 @@ public class NhapMonHoc extends javax.swing.JFrame {
         fullPanelLayout.setHorizontalGroup(
             fullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fullPanelLayout.createSequentialGroup()
-                .addComponent(ThongTinMH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(ThongTinMH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         fullPanelLayout.setVerticalGroup(
             fullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,22 +740,57 @@ public class NhapMonHoc extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Lưu - cập nhật thông tin môn học
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         // TODO add your handling code here:
         try {
-            // TODO add your handling code here:
-            InsertToTempCTMH();
-            InsertToTempMH();
-            int ab = mhBLL.InsertMH();
-            if (ab < 0) {
-                //System.out.println("Thanh cong roi");
-                JOptionPane.showMessageDialog(null, "Thanh cong");
-                dsMH.Load();
+            switch (btnLuu.getText()) {
+                case "Lưu":
+                    // TODO add your handling code here:
+                    if (InsertToTempCTMH() == 0 || InsertToTempMH() == 0) {
+                        //JOptionPane.showMessageDialog(this, "Thêm môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    int ab = mhBLL.InsertMH();
+                    if (ab < 0) {
+                        //System.out.println("Thanh cong roi");
+                        JOptionPane.showMessageDialog(this, "Thêm môn học thành công", "THÀNH CÔNG", JOptionPane.INFORMATION_MESSAGE);
+                        dsMH.loadDataTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
+                case "Cập nhật":
+                    // TODO add your handling code here:
+                    if (InsertToTempCTMH() == 0 || InsertToTempMH() == 0) {
+                        JOptionPane.showMessageDialog(this, "Thêm môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    clsCourses_Public courseP = new clsCourses_Public();
+                    courseP.setMaMon(maMh);
+                    if (cboMHLT.isEnabled()) {
+                        courseP.setMaMonLT(((Item_Cbx) cboMHLT.getSelectedItem()).getId());
+                    } else {
+                        courseP.setMaMonLT("");
+                    }
+                    courseP.setTenMon(txtTenMonHoc.getText());
+                    courseP.setSoTiet(Integer.parseInt(txtSoTinChi.getValue().toString()));
+                    courseP.setMaLoaiMH(((Item_Cbx) cboLoaiMH.getSelectedItem()).getId());
+                    int Update = mhBLL.Courses_Update(courseP);
+                    if (Update > 0) {
+                        //System.out.println("Thanh cong roi");
+                        JOptionPane.showMessageDialog(this, "Cập nhật môn học thành công", "THÀNH CÔNG", JOptionPane.INFORMATION_MESSAGE);
+                        dsMH.loadDataTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Cập nhật môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
+                    }
+                    break;
             }
         } catch (NumberFormatException | SQLException ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi, vui lòng kiểm tra thông tin môn học.", "LỖI", JOptionPane.YES_OPTION);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 
@@ -722,20 +850,17 @@ public class NhapMonHoc extends javax.swing.JFrame {
     private org.jdesktop.swingx.JXPanel fullPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private org.jdesktop.swingx.JXEditorPane jXEditorPane1;
     private org.jdesktop.swingx.JXLabel lbDSMonHoc;
     private org.jdesktop.swingx.JXLabel lbHoTen2;
     private org.jdesktop.swingx.JXLabel lbHoTen3;
     private org.jdesktop.swingx.JXLabel lbLoaiMH;
     private org.jdesktop.swingx.JXLabel lbLoaiMonHoc;
     private org.jdesktop.swingx.JXLabel lbLoaiMonHoc1;
-    private org.jdesktop.swingx.JXLabel lbMoTa;
     private org.jdesktop.swingx.JXLabel lbTenMH;
     private org.jdesktop.swingx.JXTable tbMhTq;
     private org.jdesktop.swingx.JXTable tbNganh;
     private org.jdesktop.swingx.JXPanel topPanel;
-    private javax.swing.JScrollPane txtMoTaMH;
-    private org.jdesktop.swingx.JXTextField txtSoTinChi;
+    private javax.swing.JSpinner txtSoTinChi;
     private org.jdesktop.swingx.JXTextField txtTenMonHoc;
     // End of variables declaration//GEN-END:variables
 

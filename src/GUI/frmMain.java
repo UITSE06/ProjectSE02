@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import BLL.clsBackUpRestoreDaTa_BLL;
 import GUI.Report.rpRegisterSub;
 import PUBLIC.*;
 import static java.awt.Frame.MAXIMIZED_BOTH;
@@ -22,6 +23,7 @@ import javax.swing.*;
 public class frmMain extends javax.swing.JFrame {
 
     private ClsStaffLoginInfo_Public staffInfo = new ClsStaffLoginInfo_Public();
+
     /**
      * Creates new form frmMain
      */
@@ -33,46 +35,45 @@ public class frmMain extends javax.swing.JFrame {
         lbIdStaff.setText(staffInfo.getMaNV());
         lbPosition.setText(staffInfo.getChucVu());
     }
-    
-    private void SetComponentByAccess(){
-        
-        
+
+    private void SetComponentByAccess() {
+
         String[] listAcc = staffInfo.getMaPhanQuyen().split("\\,");
-        for(int i = 0; i<listAcc.length;i++){
-            if("1".equals(listAcc[i])){
+        for (int i = 0; i < listAcc.length; i++) {
+            if ("1".equals(listAcc[i])) {
                 tabMinistry.setEnabled(true);
             }
-            if("2".equals(listAcc[i])){
+            if ("2".equals(listAcc[i])) {
                 tabFinacial.setEnabled(true);
             }
-            if("3".equals(listAcc[i])){
+            if ("3".equals(listAcc[i])) {
                 tabStudentManage.setEnabled(true);
                 //miInfoStudent.setEnabled(false);
                 //miRegisterCourse.setEnabled(false);
                 miInputScore.setEnabled(true);
             }
-            if("4".equals(listAcc[i])){
+            if ("4".equals(listAcc[i])) {
                 tabStudentManage.setEnabled(true);
                 //miInfoStudent.setEnabled(false);
                 miRegisterCourse.setEnabled(true);
                 //miInputScore.setEnabled(false);
             }
-            if("5".equals(listAcc[i])){
+            if ("5".equals(listAcc[i])) {
                 miListStaff.setEnabled(true);
             }
-            if("6".equals(listAcc[i])){
+            if ("6".equals(listAcc[i])) {
                 tabAdministrator.setEnabled(true);
                 //miSystemConfig.setEnabled(false);
                 //miSetAccess.setEnabled(false);
                 miChangeRegulation.setEnabled(true);
             }
-            if("7".equals(listAcc[i])){
+            if ("7".equals(listAcc[i])) {
                 tabStudentManage.setEnabled(true);
                 //miRegisterCourse.setEnabled(false);
                 //miInputScore.setEnabled(false);
                 miInfoStudent.setEnabled(true);
             }
-            if("8".equals(listAcc[i])){
+            if ("8".equals(listAcc[i])) {
                 tabAdministrator.setEnabled(true);
                 miSystemConfig.setEnabled(true);
                 //miSetAccess.setEnabled(false);
@@ -105,14 +106,14 @@ public class frmMain extends javax.swing.JFrame {
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         lb_Clock = new org.jdesktop.swingx.JXLabel();
         lb_Date = new org.jdesktop.swingx.JXLabel();
-        jXButton1 = new org.jdesktop.swingx.JXButton();
+        btnRegisterCourse = new org.jdesktop.swingx.JXButton();
         jXButton2 = new org.jdesktop.swingx.JXButton();
         jXButton3 = new org.jdesktop.swingx.JXButton();
-        jXButton4 = new org.jdesktop.swingx.JXButton();
-        jXButton5 = new org.jdesktop.swingx.JXButton();
+        btnStudentManage = new org.jdesktop.swingx.JXButton();
+        btnInputScore = new org.jdesktop.swingx.JXButton();
         jXButton6 = new org.jdesktop.swingx.JXButton();
-        jXButton7 = new org.jdesktop.swingx.JXButton();
-        jXButton8 = new org.jdesktop.swingx.JXButton();
+        btnRestoreDatebase = new org.jdesktop.swingx.JXButton();
+        btnStaffInfo_ChangePass = new org.jdesktop.swingx.JXButton();
         btnLogOut = new org.jdesktop.swingx.JXButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabbedPaneMain = new GUI.ClosableTabbedPane();
@@ -202,8 +203,13 @@ public class frmMain extends javax.swing.JFrame {
         lb_Date.setText("Date");
         lb_Date.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        jXButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dk.png"))); // NOI18N
+        btnRegisterCourse.setBackground(new java.awt.Color(255, 255, 255));
+        btnRegisterCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dk.png"))); // NOI18N
+        btnRegisterCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterCourseActionPerformed(evt);
+            }
+        });
 
         jXButton2.setBackground(new java.awt.Color(255, 255, 255));
         jXButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/listicon.png"))); // NOI18N
@@ -211,20 +217,35 @@ public class frmMain extends javax.swing.JFrame {
         jXButton3.setBackground(new java.awt.Color(255, 255, 255));
         jXButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/money.png"))); // NOI18N
 
-        jXButton4.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/personal-information-icon.png"))); // NOI18N
+        btnStudentManage.setBackground(new java.awt.Color(255, 255, 255));
+        btnStudentManage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/personal-information-icon.png"))); // NOI18N
+        btnStudentManage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStudentManageActionPerformed(evt);
+            }
+        });
 
-        jXButton5.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search-Results.png"))); // NOI18N
+        btnInputScore.setBackground(new java.awt.Color(255, 255, 255));
+        btnInputScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search-Results.png"))); // NOI18N
+        btnInputScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInputScoreActionPerformed(evt);
+            }
+        });
 
         jXButton6.setBackground(new java.awt.Color(255, 255, 255));
         jXButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Backupicon.png"))); // NOI18N
 
-        jXButton7.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
+        btnRestoreDatebase.setBackground(new java.awt.Color(255, 255, 255));
+        btnRestoreDatebase.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
 
-        jXButton8.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register-icon.png"))); // NOI18N
+        btnStaffInfo_ChangePass.setBackground(new java.awt.Color(255, 255, 255));
+        btnStaffInfo_ChangePass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register-icon.png"))); // NOI18N
+        btnStaffInfo_ChangePass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffInfo_ChangePassActionPerformed(evt);
+            }
+        });
 
         btnLogOut.setBackground(new java.awt.Color(255, 255, 255));
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout-icon.png"))); // NOI18N
@@ -240,21 +261,21 @@ public class frmMain extends javax.swing.JFrame {
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jXPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRegisterCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnStudentManage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInputScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRestoreDatebase, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnStaffInfo_ChangePass, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -268,17 +289,17 @@ public class frmMain extends javax.swing.JFrame {
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRestoreDatebase, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStaffInfo_ChangePass, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lb_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lb_Clock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRegisterCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jXButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnStudentManage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInputScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 1, Short.MAX_VALUE))
         );
 
@@ -293,6 +314,11 @@ public class frmMain extends javax.swing.JFrame {
         tabSystem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         miBackUp.setText("Sao lưu CSDL");
+        miBackUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miBackUpActionPerformed(evt);
+            }
+        });
         tabSystem.add(miBackUp);
 
         miRestore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
@@ -394,6 +420,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabStaffManage.add(miListStaff);
 
+        miStaffInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register-icon.png"))); // NOI18N
         miStaffInfo.setText("Thông tin nhân viên");
         miStaffInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -513,7 +540,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void miInfoStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miInfoStudentActionPerformed
         try {
-            ThongTinSV ttSinhVien = new ThongTinSV();
+            FrmStudentManager ttSinhVien = new FrmStudentManager();
             int index = 0;
             if (TabbedPaneMain.getTabCount() == 0) {
                 TabbedPaneMain.addTab("Thông tin sinh viên   ", null, ttSinhVien, "thongtinsv");
@@ -562,17 +589,21 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_miRegisterCourseActionPerformed
 
     private void miListCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListCourseActionPerformed
-        FrmListCourses dsMonHoc = new FrmListCourses();
-        if (TabbedPaneMain.getTabCount() == 0) {
-            TabbedPaneMain.addTab("Danh sách môn học   ", null, dsMonHoc, "dsMonHoc");
-        } else {
-            int index = TabbedPaneMain.indexOfTab("Danh sách môn học   ");
-            if (index < 0) {
+        try {
+            FrmListCourses dsMonHoc = new FrmListCourses();
+            if (TabbedPaneMain.getTabCount() == 0) {
                 TabbedPaneMain.addTab("Danh sách môn học   ", null, dsMonHoc, "dsMonHoc");
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách môn học   "));
             } else {
-                TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách môn học   "));
+                int index = TabbedPaneMain.indexOfTab("Danh sách môn học   ");
+                if (index < 0) {
+                    TabbedPaneMain.addTab("Danh sách môn học   ", null, dsMonHoc, "dsMonHoc");
+                    TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách môn học   "));
+                } else {
+                    TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Danh sách môn học   "));
+                }
             }
+        } catch (Exception ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_miListCourseActionPerformed
 
@@ -741,7 +772,7 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         FrmLogin login = new FrmLogin();
-        login.setVisible(true);        
+        login.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnLogOutActionPerformed
 
@@ -762,7 +793,64 @@ public class frmMain extends javax.swing.JFrame {
 
     private void miRestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRestoreActionPerformed
         // TODO add your handling code here:
+        try {
+            JFileChooser open = new JFileChooser();
+            int returnVal = open.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String Path;
+                Path = open.getCurrentDirectory().toString();
+                String fileName = open.getSelectedFile().getName().split("\\.")[0];//lay ten file truoc dau cham "."
+                clsBackUpRestoreDaTa_BLL clsBack = new clsBackUpRestoreDaTa_BLL();
+                if (clsBack.RestoreData(fileName, Path) == 0) {
+                    JOptionPane.showMessageDialog(this, "Phục hồi cơ sở dữ liệu thành công!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Phục hồi cơ sở dữ liệu thất bại!");
+                }
+            }
+        } catch (Exception ex) {
+            //Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_miRestoreActionPerformed
+
+    private void btnInputScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInputScoreActionPerformed
+        miInputScoreActionPerformed(evt);
+    }//GEN-LAST:event_btnInputScoreActionPerformed
+
+    private void btnRegisterCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterCourseActionPerformed
+        miRegisterCourseActionPerformed(evt);
+    }//GEN-LAST:event_btnRegisterCourseActionPerformed
+
+    private void btnStudentManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentManageActionPerformed
+        miInfoStudentActionPerformed(evt);
+    }//GEN-LAST:event_btnStudentManageActionPerformed
+
+    private void btnStaffInfo_ChangePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffInfo_ChangePassActionPerformed
+        miStaffInfoActionPerformed(evt);
+    }//GEN-LAST:event_btnStaffInfo_ChangePassActionPerformed
+
+    private void miBackUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miBackUpActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            JFileChooser save = new JFileChooser();
+            int returnVal = save.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                String Path;
+                Path = save.getCurrentDirectory().toString();
+                String fileNameToSave = save.getSelectedFile().getName();
+                clsBackUpRestoreDaTa_BLL clsBack = new clsBackUpRestoreDaTa_BLL();
+                int rs = clsBack.BackUpDaTa(fileNameToSave, Path);
+                if (rs == -1) {
+                    JOptionPane.showMessageDialog(this, "Sao lưu cơ sở dữ liệu thành công");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sao lưu cơ sở dữ liệu thất bại");
+                }
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Tệp đã tồn tại, Vui lòng nhập tên khác\nSao lưu cơ sở dữ liệu thất bại");
+        }
+    }//GEN-LAST:event_miBackUpActionPerformed
 
     private void setClocks() {
 
@@ -831,17 +919,17 @@ public class frmMain extends javax.swing.JFrame {
     // private ClosableTabbedPane TabbePaneMain1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.ClosableTabbedPane TabbedPaneMain;
+    private org.jdesktop.swingx.JXButton btnInputScore;
     private org.jdesktop.swingx.JXButton btnLogOut;
+    private org.jdesktop.swingx.JXButton btnRegisterCourse;
+    private org.jdesktop.swingx.JXButton btnRestoreDatebase;
+    private org.jdesktop.swingx.JXButton btnStaffInfo_ChangePass;
+    private org.jdesktop.swingx.JXButton btnStudentManage;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXButton jXButton1;
     private org.jdesktop.swingx.JXButton jXButton2;
     private org.jdesktop.swingx.JXButton jXButton3;
-    private org.jdesktop.swingx.JXButton jXButton4;
-    private org.jdesktop.swingx.JXButton jXButton5;
     private org.jdesktop.swingx.JXButton jXButton6;
-    private org.jdesktop.swingx.JXButton jXButton7;
-    private org.jdesktop.swingx.JXButton jXButton8;
     private org.jdesktop.swingx.JXFrame jXFrame1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;

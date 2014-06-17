@@ -21,6 +21,10 @@ public class clsBangDiem_BLL {
         return bDiemDAL.LoadCoursesRegisted(p);
     }
     
+    public ResultSet LoadStudentInfo_toImportScores(clsBangDiem_Public p) throws Exception{
+        return bDiemDAL.LoadStudentInfo_toImportScores(p);
+    }
+    
     public int ScoresInsertUpdate(clsBangDiem_Public p) throws Exception{
         return bDiemDAL.ScoresInsertUpdate(p);
     }

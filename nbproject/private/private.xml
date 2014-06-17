@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/GUI/NhapMonHoc.java</file>
+            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/BLL/clsMayjors_BLL.java</file>
+            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/DAL/clsStaff_DAL.java</file>
+            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/DAL/clsMayjors_DAL.java</file>
+        </group>
     </open-files>
 </project-private>

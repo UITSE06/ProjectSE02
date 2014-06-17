@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ import jxl.read.biff.BiffException;
  *
  * @author ThanhThaiNguyen
  */
-public final class ThongTinSV extends javax.swing.JPanel {
+public final class FrmStudentManager extends javax.swing.JPanel {
 
     /**
      * Creates new form DangKyMon
@@ -64,6 +65,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
     private final clsFaculty_Public kP = new clsFaculty_Public();
     private final clsMayjors_Public ngP = new clsMayjors_Public();
     private final clsStudent_Public svP = new clsStudent_Public();
+    private final ClsRegulationStatic_Public reguP = new ClsRegulationStatic_Public();
 
     private final SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -73,25 +75,16 @@ public final class ThongTinSV extends javax.swing.JPanel {
     private String namNhapHoc = "";
 
     // Hàm khởi tạo mặc định
-    public ThongTinSV() throws Exception {
+    public FrmStudentManager() throws Exception {
         initComponents();
         LoadTable();
-        btnHuy.setEnabled(false);
-        btnXoa.setEnabled(false);
-        btnLuuDS.setEnabled(false);
+        txtHoTen.setDocument(new ClsTextOnlyDocument_BLL(100));
+        txtHuyen.setDocument(new ClsLimitDocument_BLL(50));
+        txtTinh.setDocument(new ClsTextOnlyDocument_BLL(50));
         String[] titiles = {"STT", "Họ và Tên", "Tuổi", "Địa chỉ", "Mã số sinh viên"};
         model = new DefaultTableModel(titiles, 0);
-        tb_Excel.setModel(model);
+//        tb_Excel.setModel(model);
         dateNgaySinh.setFormats("dd-MM-yyyy");
-        dateNgaySinh.getEditor().addFocusListener(new FocusListener() {
-            @Override
-            public void focusLost(FocusEvent e) {
-            }
-
-            @Override
-            public void focusGained(FocusEvent e) {
-            }
-        });
     }
 
     // Set các thành phần của form
@@ -167,7 +160,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                         bindingData(rowSelected);
                     }
                 } catch (ParseException ex) {
-                    Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -224,14 +217,15 @@ public final class ThongTinSV extends javax.swing.JPanel {
                     cboKhoa.setSelectedIndex(i);
                 }
             }
-            
+
             String ng = tbSinhVien.getStringAt(row, 6);
             for (int i = 0; i < cboNganh.getItemCount(); i++) {
                 if (((Item_Cbx) cboNganh.getItemAt(i)).getDescription().equals(ng)) {
                     cboNganh.setSelectedIndex(i);
                 }
             }
-            
+            //cboNganh.setSelectedItem(ng);
+
             String dt = tbSinhVien.getStringAt(row, 7);
             for (int i = 0; i < cbxDoiTuong.getItemCount(); i++) {
                 if (((Item_Cbx) cbxDoiTuong.getItemAt(i)).getDescription() != null) {
@@ -269,7 +263,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 lbImage.setIcon(null);
             }
         } catch (ParseException e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
@@ -300,7 +294,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -319,7 +313,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 cboNganh.addItem(new Item_Cbx(x.getString(1), x.getString(2), x.getString(4)));
             }
         } catch (Exception ex) {
-            Logger.getLogger(NhapMonHoc.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmInsertCourse.class.getName()).log(Level.SEVERE, null, ex);
         }
         // Xử lý sự kiện cho combobox Ngành
         Item_Cbx itemNg = (Item_Cbx) cboNganh.getSelectedItem();
@@ -357,7 +351,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 }
             });
         } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -397,14 +391,6 @@ public final class ThongTinSV extends javax.swing.JPanel {
         lbTrangThai = new org.jdesktop.swingx.JXLabel();
         cbxTrangThai = new javax.swing.JComboBox();
         cboNganh = new javax.swing.JComboBox();
-        leftbottomPanel = new org.jdesktop.swingx.JXPanel();
-        table = new javax.swing.JScrollPane();
-        tb_Excel = new org.jdesktop.swingx.JXTable();
-        excelcontrolPanel = new org.jdesktop.swingx.JXPanel();
-        btnNhapExcel = new org.jdesktop.swingx.JXButton();
-        btnLuuDS = new org.jdesktop.swingx.JXButton();
-        btnXoa = new org.jdesktop.swingx.JXButton();
-        btnHuy = new org.jdesktop.swingx.JXButton();
         rightPanel = new org.jdesktop.swingx.JXPanel();
         tableThongTin = new javax.swing.JScrollPane();
         tbSinhVien = new org.jdesktop.swingx.JXTable();
@@ -412,11 +398,12 @@ public final class ThongTinSV extends javax.swing.JPanel {
         btnThem = new org.jdesktop.swingx.JXButton();
         btnCapNhat = new org.jdesktop.swingx.JXButton();
         btnXuaDS18 = new org.jdesktop.swingx.JXButton();
-        jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
+        sfTimKiem = new org.jdesktop.swingx.JXSearchField();
         btnLuu = new org.jdesktop.swingx.JXButton();
         btnHuyTT = new org.jdesktop.swingx.JXButton();
         btnXoaSV = new org.jdesktop.swingx.JXButton();
         btnLamMoi = new org.jdesktop.swingx.JXButton();
+        chkPhanBiet = new javax.swing.JCheckBox();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
 
@@ -438,6 +425,11 @@ public final class ThongTinSV extends javax.swing.JPanel {
         lbNgaySinh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         dateNgaySinh.setEditable(false);
+        dateNgaySinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dateNgaySinhActionPerformed(evt);
+            }
+        });
 
         lbNganh.setText("Ngành:");
         lbNganh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -452,18 +444,8 @@ public final class ThongTinSV extends javax.swing.JPanel {
         lbHuyen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         txtHoTen.setEditable(false);
-        txtHoTen.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtHoTenFocusLost(evt);
-            }
-        });
 
         txtHuyen.setEditable(false);
-        txtHuyen.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtHuyenFocusLost(evt);
-            }
-        });
 
         cbxDoiTuong.setEnabled(false);
 
@@ -482,13 +464,10 @@ public final class ThongTinSV extends javax.swing.JPanel {
         buttonGroup1.add(jradioNu);
 
         txtTinh.setEditable(false);
-        txtTinh.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtTinhFocusLost(evt);
-            }
-        });
 
         lbImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbImage.setMaximumSize(new java.awt.Dimension(128, 128));
+        lbImage.setPreferredSize(new java.awt.Dimension(128, 128));
 
         cboKhoa.setEnabled(false);
 
@@ -552,10 +531,10 @@ public final class ThongTinSV extends javax.swing.JPanel {
                     .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtHoTen, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                         .addComponent(txtMSSV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtTinh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(dateNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         lefttopPanelLayout.setVerticalGroup(
@@ -593,111 +572,25 @@ public final class ThongTinSV extends javax.swing.JPanel {
                         .addGap(9, 9, 9))
                     .addGroup(lefttopPanelLayout.createSequentialGroup()
                         .addComponent(lbImage, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)))
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTinh, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .addComponent(lbTinh, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                     .addComponent(txtHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHuyen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(cbxDoiTuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbDoiTuong, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(lbDoiTuong, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lbKhoa, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                         .addComponent(cboKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(lefttopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lbNganh, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(lbNganh, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
                     .addComponent(cbxTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTrangThai, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(lbTrangThai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboNganh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        leftbottomPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách thêm mới"));
-
-        tb_Excel.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        table.setViewportView(tb_Excel);
-
-        btnNhapExcel.setText("Nhập Excel");
-        btnNhapExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNhapExcelActionPerformed(evt);
-            }
-        });
-
-        btnLuuDS.setText("Lưu danh sách");
-
-        btnXoa.setText("Xóa");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
-
-        btnHuy.setText("Hủy");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout excelcontrolPanelLayout = new javax.swing.GroupLayout(excelcontrolPanel);
-        excelcontrolPanel.setLayout(excelcontrolPanelLayout);
-        excelcontrolPanelLayout.setHorizontalGroup(
-            excelcontrolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(excelcontrolPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNhapExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLuuDS, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        excelcontrolPanelLayout.setVerticalGroup(
-            excelcontrolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(excelcontrolPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(excelcontrolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNhapExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLuuDS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout leftbottomPanelLayout = new javax.swing.GroupLayout(leftbottomPanel);
-        leftbottomPanel.setLayout(leftbottomPanelLayout);
-        leftbottomPanelLayout.setHorizontalGroup(
-            leftbottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(leftbottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(leftbottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(excelcontrolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(table, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-        );
-        leftbottomPanelLayout.setVerticalGroup(
-            leftbottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftbottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(excelcontrolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(table, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -705,16 +598,13 @@ public final class ThongTinSV extends javax.swing.JPanel {
         leftPanel.setLayout(leftPanelLayout);
         leftPanelLayout.setHorizontalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(leftbottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lefttopPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
+            .addGroup(leftPanelLayout.createSequentialGroup()
                 .addComponent(lefttopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(leftbottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(0, 99, Short.MAX_VALUE))
         );
 
         rightPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sinh viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
@@ -766,10 +656,12 @@ public final class ThongTinSV extends javax.swing.JPanel {
             .addGroup(fullPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(fullPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(fullPanelLayout.createSequentialGroup()
+                        .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(fullPanelLayout.createSequentialGroup()
                         .addComponent(leftPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 6, Short.MAX_VALUE))))
         );
 
         topPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -795,9 +687,14 @@ public final class ThongTinSV extends javax.swing.JPanel {
             }
         });
 
-        jXSearchField1.setToolTipText("Tìm kiếm");
-        jXSearchField1.setName("sfTimKiem"); // NOI18N
-        jXSearchField1.setPrompt("Tìm kiếm");
+        sfTimKiem.setToolTipText("Tìm kiếm");
+        sfTimKiem.setName("sfTimKiem"); // NOI18N
+        sfTimKiem.setPrompt("Tìm kiếm");
+        sfTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sfTimKiemActionPerformed(evt);
+            }
+        });
 
         btnLuu.setText("Lưu");
         btnLuu.setEnabled(false);
@@ -829,6 +726,13 @@ public final class ThongTinSV extends javax.swing.JPanel {
             }
         });
 
+        chkPhanBiet.setText("Phân biệt in hoa/in thường");
+        chkPhanBiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPhanBietActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout topPanel18Layout = new javax.swing.GroupLayout(topPanel18);
         topPanel18.setLayout(topPanel18Layout);
         topPanel18Layout.setHorizontalGroup(
@@ -848,8 +752,10 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 .addComponent(btnHuyTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnXoaSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
-                .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(chkPhanBiet)
+                .addGap(18, 18, 18)
+                .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         topPanel18Layout.setVerticalGroup(
@@ -860,11 +766,12 @@ public final class ThongTinSV extends javax.swing.JPanel {
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXuaDS18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sfTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHuyTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoaSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkPhanBiet))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -898,7 +805,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(topPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fullPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(fullPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -928,7 +835,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 lbImage.setSize(icon.getIconHeight(), icon.getIconWidth());
                 lbImage.setIcon(icon);
             } catch (IOException ex) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnTimActionPerformed
@@ -951,7 +858,14 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 svP.setMssv(txtMSSV.getText());
                 svP.setHoTen(txtHoTen.getText());
 
+                Calendar cal = Calendar.getInstance();
+                cal.getTime();
+                
                 java.sql.Date ins = new java.sql.Date(formatDate.parse(dateNgaySinh.getEditor().getText()).getTime());
+                if ((Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) < reguP.getMinStudentYearOld()) {
+                    JOptionPane.showMessageDialog(this, "Tuổi sinh viên phải lớn hơn " + reguP.getMinStudentYearOld());
+                    return;
+                }
                 svP.setNgaySinh(ins);
                 if (jradioNam.isSelected()) {
                     svP.setGioiTinh(1);
@@ -1003,82 +917,18 @@ public final class ThongTinSV extends javax.swing.JPanel {
             //Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Đã phát sinh lỗi.");
         } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Đã phát sinh lỗi.");
         }
     }//GEN-LAST:event_btnLuuActionPerformed
-
-    private void btnNhapExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhapExcelActionPerformed
-        // TODO add your handling code here:
-        JFileChooser jFChooser = new JFileChooser();
-        // jFChooser.setFileFilter(new FileNameExtensionFilter(null,"xls"));
-        int add = jFChooser.showOpenDialog(jFChooser);
-        if (add == JFileChooser.APPROVE_OPTION) {
-            try {
-                File addFile = jFChooser.getSelectedFile();
-                Workbook excel = Workbook.getWorkbook(addFile);
-                for (int sheets = 0; sheets < excel.getNumberOfSheets(); sheets++) {
-                    Sheet sheet = excel.getSheet(sheets);
-                    int columns = sheet.getColumns();
-                    int rows = sheet.getRows();
-                    Object[] values = new Object[columns];
-                    for (int row = 0; row < rows; row++) {
-                        for (int column = 0; column < columns; column++) {
-//                            if (row==0) {
-//                               model.addColumn(sheet.getCell(column, 0).getContents());
-//                            }
-                            values[column] = sheet.getCell(column, row).getContents();
-                        }
-                        model.addRow(values);
-                    }
-                }
-                model.removeRow(0);
-                btnNhapExcel.setEnabled(false);
-                btnXoa.setEnabled(true);
-                btnHuy.setEnabled(true);
-                btnLuuDS.setEnabled(true);
-            } catch (IOException | BiffException ex) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-    }//GEN-LAST:event_btnNhapExcelActionPerformed
-
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        // TODO add your handling code here:
-        model = (DefaultTableModel) tb_Excel.getModel();
-        while (model.getRowCount() > 0) {
-            model.removeRow(0);
-        }
-        btnNhapExcel.setEnabled(true);
-        btnXoa.setEnabled(false);
-        btnLuuDS.setEnabled(false);
-        btnHuy.setEnabled(false);
-    }//GEN-LAST:event_btnHuyActionPerformed
-
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-
-        if (model.getRowCount() < 1) {
-            btnNhapExcel.setEnabled(true);
-            btnHuy.setEnabled(false);
-            btnLuuDS.setEnabled(false);
-            btnXoa.setEnabled(false);
-        } else {
-            int selectRow = tb_Excel.getSelectedRow();
-            if (selectRow != -1) {
-                model.removeRow(selectRow);
-            }
-        }
-    }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnXuaDS18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuaDS18ActionPerformed
         // TODO add your handling code here:
         clsExportExcel clsE = new clsExportExcel();
         try {
-            clsE.exportTable(tbSinhVien, new File(clsE.jChooserPath(ThongTinSV.this)));
+            clsE.exportTable(tbSinhVien, new File(clsE.jChooserPath(FrmStudentManager.this)));
         } catch (IOException ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnXuaDS18ActionPerformed
 
@@ -1108,7 +958,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
             cboNganh.setEnabled(false);
 
         } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -1170,7 +1020,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
             try {
                 bindingData(rowSelected);
             } catch (ParseException ex) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             setBtnThemSelect(false);
@@ -1195,65 +1045,86 @@ public final class ThongTinSV extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
-    private void txtHoTenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHoTenFocusLost
-        // TODO add your handling code here:
-        if (txtHoTen.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sinh viên");
-        }
-    }//GEN-LAST:event_txtHoTenFocusLost
-
-    private void txtTinhFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTinhFocusLost
-        if (txtTinh.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tỉnh của sinh viên");
-        }
-    }//GEN-LAST:event_txtTinhFocusLost
-
-    private void txtHuyenFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHuyenFocusLost
-        // TODO add your handling code here:
-        if (txtHuyen.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin huyện của sinh viên");
-        }
-    }//GEN-LAST:event_txtHuyenFocusLost
-
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLamMoiActionPerformed
         try {
             LoadTable();
         } catch (Exception ex) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnLamMoiActionPerformed
 
     private void btnXoaSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSVActionPerformed
         // TODO add your handling code here:
-        if (tbSinhVien.getSelectedRow() > 0) {
+        if (tbSinhVien.getSelectedRow() >= 0) {
             try {
-                String mssv = tbSinhVien.getValueAt(tbSinhVien.getSelectedRow(), 0).toString();
-                svP.setMssv(mssv);
-                int DeleteStudent = svBLL.DeleteStudent(svP);
-                if (DeleteStudent > 0) {
-                    JOptionPane.showMessageDialog(this, "Xóa thành công sinh viên.");
-                    LoadTable();
+                int ySn = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sinh viên này?", "THÔNG BÁO", JOptionPane.YES_NO_OPTION);
+                if (ySn == JOptionPane.YES_OPTION) {
+                    String mssv = tbSinhVien.getValueAt(tbSinhVien.getSelectedRow(), 0).toString();
+                    svP.setMssv(mssv);
+                    int DeleteStudent = svBLL.DeleteStudent(svP);
+                    if (DeleteStudent > 0) {
+                        JOptionPane.showMessageDialog(this, "Xóa thành công sinh viên.");
+                        LoadTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Không thể xóa sinh viên, đã phát sinh lỗi");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Không thể xóa sinh viên, đã phát sinh lỗi");
+                    return;
                 }
+
             } catch (Exception ex) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "Không thể xóa sinh viên, đã phát sinh lỗi");
             }
         }
     }//GEN-LAST:event_btnXoaSVActionPerformed
 
+    private void sfTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfTimKiemActionPerformed
+        // TODO add your handling code here:
+        for (int i = 0; i < dtm.getRowCount(); i++) {
+            for (int j = 0; j < dtm.getColumnCount(); j++) {
+                if (chkPhanBiet.getModel().isSelected()) {//có phân biệt hoa thường
+                    if (String.valueOf(dtm.getValueAt(i, j)).indexOf(sfTimKiem.getText()) >= 0) {
+                        tbSinhVien.setRowSelectionInterval(i, i);
+                        tbSinhVien.scrollRowToVisible(i);
+                        return;
+                    }
+                } else {//khong phân biet
+                    if (String.valueOf(dtm.getValueAt(i, j)).toUpperCase().indexOf(sfTimKiem.getText().toUpperCase()) >= 0) {
+                        tbSinhVien.setRowSelectionInterval(i, i);
+                        tbSinhVien.scrollRowToVisible(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_sfTimKiemActionPerformed
+
+    private void chkPhanBietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPhanBietActionPerformed
+        sfTimKiem.setText("");
+    }//GEN-LAST:event_chkPhanBietActionPerformed
+
+    private void dateNgaySinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateNgaySinhActionPerformed
+        try {
+            // TODO add your handling code here:
+            java.sql.Date ins = new java.sql.Date(formatDate.parse(dateNgaySinh.getEditor().getText()).getTime());
+            if ((Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) < reguP.getMinStudentYearOld()) {
+                JOptionPane.showMessageDialog(this, "Tuổi sinh viên phải lớn hơn " + reguP.getMinStudentYearOld());
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_dateNgaySinhActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton btnCapNhat;
-    private org.jdesktop.swingx.JXButton btnHuy;
     private org.jdesktop.swingx.JXButton btnHuyTT;
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
-    private org.jdesktop.swingx.JXButton btnLuuDS;
-    private org.jdesktop.swingx.JXButton btnNhapExcel;
     private org.jdesktop.swingx.JXButton btnThem;
     private org.jdesktop.swingx.JXButton btnTim;
-    private org.jdesktop.swingx.JXButton btnXoa;
     private org.jdesktop.swingx.JXButton btnXoaSV;
     private org.jdesktop.swingx.JXButton btnXuaDS18;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1261,12 +1132,11 @@ public final class ThongTinSV extends javax.swing.JPanel {
     private javax.swing.JComboBox cboNganh;
     private javax.swing.JComboBox cbxDoiTuong;
     private javax.swing.JComboBox cbxTrangThai;
+    private javax.swing.JCheckBox chkPhanBiet;
     private org.jdesktop.swingx.JXDatePicker dateNgaySinh;
-    private org.jdesktop.swingx.JXPanel excelcontrolPanel;
     private org.jdesktop.swingx.JXPanel fullPanel;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXPanel jXPanel1;
-    private org.jdesktop.swingx.JXSearchField jXSearchField1;
     private javax.swing.JRadioButton jradioNam;
     private javax.swing.JRadioButton jradioNu;
     private org.jdesktop.swingx.JXLabel lbDoiTuong;
@@ -1281,13 +1151,11 @@ public final class ThongTinSV extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXLabel lbTinh;
     private org.jdesktop.swingx.JXLabel lbTrangThai;
     private org.jdesktop.swingx.JXPanel leftPanel;
-    private org.jdesktop.swingx.JXPanel leftbottomPanel;
     private org.jdesktop.swingx.JXPanel lefttopPanel;
     private org.jdesktop.swingx.JXPanel rightPanel;
-    private javax.swing.JScrollPane table;
+    private org.jdesktop.swingx.JXSearchField sfTimKiem;
     private javax.swing.JScrollPane tableThongTin;
     private org.jdesktop.swingx.JXTable tbSinhVien;
-    private org.jdesktop.swingx.JXTable tb_Excel;
     private org.jdesktop.swingx.JXPanel topPanel18;
     private org.jdesktop.swingx.JXTextField txtHoTen;
     private org.jdesktop.swingx.JXTextField txtHuyen;

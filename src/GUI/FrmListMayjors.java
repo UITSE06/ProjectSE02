@@ -413,7 +413,7 @@ public class FrmListMayjors extends javax.swing.JPanel {
                 cboKhoa.setSelectedItem(tblDSNganh.getStringAt(row, 2));
                 spNumSemester.setValue(Integer.parseInt(tblDSNganh.getStringAt(row, 3)));
             } catch (NumberFormatException e) {
-                Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }

@@ -35,16 +35,15 @@ public class FrmPaymentFee extends javax.swing.JPanel {
     private int percentReduce = 0;
     private String idSemesterYear = "";
     private String idRegisterForm = "";
-    private int sumMoneyPaid = 0;//BigDecimal.ZERO;
-    private int sumMoneyDebt = 0;//BigDecimal.ZERO;
-    private int sumMoneyReduced = 0;//BigDecimal.ZERO;
-    //private BigDecimal sumMoneyReduced = BigDecimal.ZERO;
+    private int sumMoneyPaid = 0;
+    private int sumMoneyDebt = 0;
+    private int sumMoneyReduced = 0;
     private int moneyStudentPay;
 
     public FrmPaymentFee() {
         initComponents();
         txtIdStudent.setDocument(new ClsLimitDocument_BLL(20));
-        txtMoneyStudentPay.setDocument(new ClsLimitDocument_BLL(15));
+        txtMoneyStudentPay.setDocument(new ClsDigitsDocument_BLL(15));
         LoadData();
     }
 
@@ -520,7 +519,22 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Số tiền thu không được lớn hơn số tiền đang nợ!");
             return;
         }
+        if (moneyStudentPay % 1000 > 0 || moneyStudentPay < 1000) {
+            JOptionPane.showMessageDialog(this, "Số tiền thu nhỏ nhất là 1000 VNĐ\nVà có phần lẻ nhỏ nhất là 1000 VNĐ");
+            return;
+        }
         //tinh tien
+        //kiểm tra xem số tiền sv đóng có bằng số tiền sv đang nợ hay không?
+        //nếu không thì không giảm học phí cho lần đóng học phí này 
+        if (moneyStudentPay != sumMoneyDebt && sumMoneyReduced > 0) {
+            //reset lai tiền nợ lúc đầu, không giảm học phí theo quy định
+            sumMoneyDebt += sumMoneyReduced;
+            sumMoneyReduced = 0;//không giảm học phí
+            txtSumMoneyReduced.setText("0");
+            //hiển thì thông báo
+            JOptionPane.showMessageDialog(this, "Sinh viên chưa hoàn thành học phí nên không được "
+                    + "\ngiảm học phí theo quy định trong lần thu học phí này");
+        }
         sumMoneyDebt -= moneyStudentPay;//giam bot no di
         txtSumMoneyDebt.setText(sumMoneyDebt + "");//+ "" để chuyen qua String
 
@@ -542,7 +556,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             txtMoneyStudentPay.setEditable(false);
             btnGetMoney.setEnabled(false);
             //reset lai bien luu tien, de cho lan thu hoc phi sau
-            percentReduce = 0;
+            //percentReduce = 0;
             sumMoneyPaid = 0;
             sumMoneyDebt = 0;
             sumMoneyReduced = 0;
@@ -566,6 +580,9 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             btnSearch_New.setText(label1);
         } else {//neu la nut Sinh vien moi
             NewStudent();
+            //bat cac cbo hoc ki va nam hoc
+            cboSemester.setEnabled(true);
+            cboFirstYear.setEnabled(true);
         }
     }//GEN-LAST:event_btnSearch_NewActionPerformed
 
@@ -608,6 +625,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
                 btnSearch_New.setText("Sinh viên mới");
             }
         }
+
     }//GEN-LAST:event_txtIdStudentKeyPressed
 
     private void txtMoneyStudentPayKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMoneyStudentPayKeyPressed
@@ -616,7 +634,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         } else {
             btnGetMoney.setEnabled(true);
         }
-        //neu bam phim enter thi 
+        //neu bam phim enter thi
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
                 GetMoneyActionPerform();
@@ -704,6 +722,9 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             NewStudent();
             return false;
         } else {
+            //tat cac cbo hoc ki va nam hoc
+            cboSemester.setEnabled(false);
+            cboFirstYear.setEnabled(false);
             clsStudent_Public stPublic = new clsStudent_Public();
             stPublic.setMssv(txtIdStudent.getText());
             ClsRegisterCourses_BLL rcBLL = new ClsRegisterCourses_BLL();
@@ -727,29 +748,34 @@ public class FrmPaymentFee extends javax.swing.JPanel {
 
                         sumMoneyPaid = rs.getInt(3);
                         txtSumMoneyPaid.setText(sumMoneyPaid + "");
+                        //tong so tien duoc giam neu dong đủ hoc phi, trước hạn được giảm
                         //neu so tien da dong > 0, tuc la da dong hoc phi 1 lan roi, thi lan nay khong giam hoc phi nua
-                        if (txtSumMoneyPaid.getText().equals("0")) {//tong tien duoc giam, là căn cứ vào tổng số tiền sv phải đóng
-                            float tempMoney = sumMoneyMustPay * ((float) percentReduce / 100);
-                            int tempMoneyInt = 0;//bien de luu tien sau khi lam tron
-                            //nếu phần lẻ sau dâu phẩy lớn hơn 1 thì cộng 1 vào phần trước dâu phẩy
-                            String[] st = String.valueOf(tempMoney).split("\\.");
-                            tempMoneyInt = Integer.parseInt(st[0]);//gan bang so o truoc dau phay
-                            if (Integer.parseInt(st[1]) > 0) {
-                                tempMoneyInt += 1;//da lam trong phan sau dau phay                                
-                            }
-                            //neu so tien le nho hơn 1000 dong, thì làm tron thanh 1000 dong
-                            if (tempMoneyInt % 1000 >= 500) {//>=500d thi lam tron thanh 1000d
-                                tempMoneyInt = (tempMoneyInt / 1000) * 1000 + 1000;//da lam tron, so tien nho nhat la 1000 đồng
-                            } else {//<500d thi bo phan le di
-                                tempMoneyInt = (tempMoneyInt / 1000) * 1000;
-                            }
-                            sumMoneyReduced = tempMoneyInt;
+                        // if (txtSumMoneyPaid.getText().equals("0")) {//tong tien duoc giam, là căn cứ vào tổng số tiền sv phải đóng
+                        float tempMoney = sumMoneyMustPay * ((float) percentReduce / 100);
+                        int tempMoneyInt = 0;//bien de luu tien sau khi lam tron
+                        //nếu phần lẻ sau dâu phẩy lớn hơn 1 thì cộng 1 vào phần trước dâu phẩy
+                        String[] st = String.valueOf(tempMoney).split("\\.");
+                        tempMoneyInt = Integer.parseInt(st[0]);//gan bang so o truoc dau phay
+                        if (Integer.parseInt(st[1]) > 0) {
+                            tempMoneyInt += 1;//da lam trong phan sau dau phay                                
                         }
+                        //neu so tien le nho hơn 1000 dong, thì làm tron thanh 1000 dong
+                        if (tempMoneyInt % 1000 >= 500) {//>=500d thi lam tron thanh 1000d
+                            tempMoneyInt = (tempMoneyInt / 1000) * 1000 + 1000;//da lam tron, so tien nho nhat la 1000 đồng
+                        } else {//<500d thi bo phan le di
+                            tempMoneyInt = (tempMoneyInt / 1000) * 1000;
+                        }
+                        sumMoneyReduced = tempMoneyInt;
+                        // }
                         txtSumMoneyReduced.setText(sumMoneyReduced + "");
-                        sumMoneyDebt = (sumMoneyMustPay - sumMoneyPaid) - sumMoneyReduced;
+                        if (sumMoneyMustPay == sumMoneyPaid) {//neu da het no thi k giam hoc phi nua
+                            sumMoneyDebt = 0;
+                        } else {//luôn giảm học phí nếu chưa hết nợ// nếu tiền được giảm khác 0
+                            sumMoneyDebt = (sumMoneyMustPay - sumMoneyPaid) - sumMoneyReduced;
+                        }
                         txtSumMoneyDebt.setText(sumMoneyDebt + "");
-
-                        idRegisterForm = rs.getString(4);
+                        
+                        idRegisterForm = rs.getString(4);//lay ma phieu dang ki
                         txtMoneyStudentPay.setEditable(true);
                     } else {
                         JOptionPane.showMessageDialog(this, "Sinh viên chưa đăng kí môn học");

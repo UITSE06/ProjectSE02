@@ -690,7 +690,9 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
             idSemesterYear = syBLL.GetIdSemesterYear(syPublic);//neu da ton tai hoc ki roi, thi lay ma hoc ki len
             //kiem tra cac deadline
             //lay thoi han dang ki, ...
-            if(idSemesterYear.isEmpty()) return false;//không lấy được mã học kì năm học, false thêm mới cái khác
+            if (idSemesterYear.isEmpty()) {
+                return false;//không lấy được mã học kì năm học, false thêm mới cái khác
+            }
             ResultSet rs = lcBLL.GetAllDeadline(idSemesterYear);
             if (rs.next()) {
                 dtpDeadlineRegister.setDate(rs.getDate(1));
@@ -716,29 +718,8 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
                             dtm.removeRow(i);
                         }
                     }
-                } else {
-                    isViewOnly = false;
-                        //lay du lieu mon hoc de cap nhat
-                    //xoa dữ liệu hiện tại trong bảng nếu có
-                    if (dtm.getRowCount() > 0) {
-                        for (int i = dtm.getRowCount() - 1; i > 0; i--) {
-                            dtm.removeRow(i);
-                        }
-                    }
-                    //load lai du lieu
-                    rs = ccBLL.LoadCoursesToOpen();
-                    while (rs.next()) {
-                        Vector data_rows = new Vector();
-                        data_rows.add(false);
-                        data_rows.add(rs.getObject(1));
-                        data_rows.add(rs.getObject(2));
-                        data_rows.add(rs.getObject(3));
-                        data_rows.add(rs.getObject(4));
-                        data_rows.add(rs.getObject(5));
-                        data_rows.add(rs.getObject(6));
-                        dtm.addRow(data_rows);
-                        btnChooseAll.setEnabled(true);
-                    }
+                } else {//cho phep chinh sua
+                    AllowToUpdateOrInsertNew();
                 }
 // kiem tra ma hoc ki nam hoc co trong bang DANHSACHMONHOCMO hay chua?
                 ClsListCoursesOpened_Public lcPulic = new ClsListCoursesOpened_Public();
@@ -757,39 +738,12 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
                         data_rows.add(rs.getObject(6));
                         dtmOpened.addRow(data_rows);
                     }
+                    //AllowToUpdateOrInsertNew();
                     return true;//tra ve true de biet lan nay chi cap nhat danh sach thoi
                 }
             }
         } else { //nếu chưa có học kì năm học đang chọn thì enable cac component de them hoc ki và môn học
-            isViewOnly = false;
-            dtpDeadlineRegister.setEditable(true);
-            dtpDeadlinePayFee.setEditable(true);
-            dtpDeadlineReduceFee.setEditable(true);
-            spReducePercent.setEnabled(true);
-            dtpBeginRegister.setEditable(true);
-            btnOpenCourses.setEnabled(false);
-            btnChooseAll.setEnabled(true);
-            //lay du lieu mon hoc de mo
-            //xoa dữ liệu hiện tại trong bảng nếu có
-            if (dtm.getRowCount() > 0) {
-                for (int i = dtm.getRowCount() - 1; i > 0; i--) {
-                    dtm.removeRow(i);
-                }
-            }
-            //load lai du lieu
-            ResultSet rs = ccBLL.LoadCoursesToOpen();
-            while (rs.next()) {
-                Vector data_rows = new Vector();
-                data_rows.add(false);
-                data_rows.add(rs.getObject(1));
-                data_rows.add(rs.getObject(2));
-                data_rows.add(rs.getObject(3));
-                data_rows.add(rs.getObject(4));
-                data_rows.add(rs.getObject(5));
-                data_rows.add(rs.getObject(6));
-                dtm.addRow(data_rows);
-                btnChooseAll.setEnabled(true);
-            }
+            AllowToUpdateOrInsertNew();
         }
         return false; //lan nay la them moi danh sach        
     }
@@ -800,6 +754,38 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
             for (int i = a - 1; i >= 0; i--) {
                 dtmOpened.removeRow(i);
             }
+        }
+    }
+
+    private void AllowToUpdateOrInsertNew() throws Exception {
+        isViewOnly = false;
+        dtpDeadlineRegister.setEditable(true);
+        dtpDeadlinePayFee.setEditable(true);
+        dtpDeadlineReduceFee.setEditable(true);
+        spReducePercent.setEnabled(true);
+        dtpBeginRegister.setEditable(true);
+        btnOpenCourses.setEnabled(false);
+        btnChooseAll.setEnabled(true);
+            //lay du lieu mon hoc de mo
+        //xoa dữ liệu hiện tại trong bảng nếu có
+        if (dtm.getRowCount() > 0) {
+            for (int i = dtm.getRowCount() - 1; i >= 0; i--) {
+                dtm.removeRow(i);
+            }
+        }
+        //load lai du lieu
+        ResultSet rs = ccBLL.LoadCoursesToOpen();
+        while (rs.next()) {
+            Vector data_rows = new Vector();
+            data_rows.add(false);
+            data_rows.add(rs.getObject(1));
+            data_rows.add(rs.getObject(2));
+            data_rows.add(rs.getObject(3));
+            data_rows.add(rs.getObject(4));
+            data_rows.add(rs.getObject(5));
+            data_rows.add(rs.getObject(6));
+            dtm.addRow(data_rows);
+            btnChooseAll.setEnabled(true);
         }
     }
 

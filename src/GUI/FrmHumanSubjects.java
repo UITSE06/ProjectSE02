@@ -395,7 +395,7 @@ public class FrmHumanSubjects extends javax.swing.JPanel {
             txtNameOfHSubjects.setText(String.valueOf(dtm.getValueAt(row, 1)));
             spReduceFeeRatio.setValue((int) dtm.getValueAt(row, 2));
         } catch (Exception e) {
-            Logger.getLogger(ThongTinSV.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 
