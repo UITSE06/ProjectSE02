@@ -358,7 +358,7 @@
             <Property name="text" type="java.lang.String" value="Database: "/>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
+        <Component class="org.jdesktop.swingx.JXLabel" name="lbNameData">
           <Properties>
             <Property name="text" type="java.lang.String" value="QUANLYSINHVIEN"/>
           </Properties>
