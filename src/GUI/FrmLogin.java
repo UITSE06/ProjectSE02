@@ -418,6 +418,7 @@ public class FrmLogin extends javax.swing.JFrame {
         } catch (Exception ex) {
             // Thanh Thai
             // mới thêm chỗ này nữa
+            // Nếu k sẽ k login được
             isLogging = false;
             JOptionPane.showMessageDialog(this, "Kết nối thất bại");
             Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
