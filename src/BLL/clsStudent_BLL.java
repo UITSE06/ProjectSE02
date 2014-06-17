@@ -79,4 +79,13 @@ public class clsStudent_BLL {
     public ResultSet getMaxMSSV(clsStudent_Public p) throws Exception{
         return stDAL.getMaxMSSV(p);
     }
+    
+    
+    public ResultSet CHECK_IDMAYJORS(clsStudent_Public p) throws Exception{
+        return stDAL.CHECK_IDMAYJORS(p);
+    }
+    
+    public ResultSet CHECK_IDMOBJECT(clsStudent_Public p) throws Exception{
+        return stDAL.CHECK_IDMOBJECT(p);
+    }
 }

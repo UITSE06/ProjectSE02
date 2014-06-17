@@ -377,7 +377,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
             }
         });
         tblListCourseCanBeRegister.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblListCourseCanBeRegister.setEditable(false);
         tblListCourseCanBeRegister.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblListCourseCanBeRegister);
 
@@ -701,11 +700,11 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                         }
                     }
                 }
-                //thay đổi nút đăng kí thành nút cập nhật nếu sinh viên đã đăng kí ít nhất 1 lần ở học kì này
+//thay đổi nút đăng kí thành nút cập nhật nếu sinh viên đã đăng kí ít nhất 1 lần ở học kì này
                 ClsRegisterForm_Public rfPublic = new ClsRegisterForm_Public();
                 rfPublic.setIdSemesterYears(idSemesterYear);
                 rfPublic.setIdStudent(txtMssv.getText());
-                //kiem tra xem sinhvien nay da dang ki mon hoc o hoc ki nay lan nao chua
+//kiem tra xem sinhvien nay da dang ki mon hoc o hoc ki nay lan nao chua
                 maPhieuDangKy = rcBLL.CheckRegistedOrNot(rfPublic);//lay ma phieu dang ki cua sinh vien o hoc ki nay
                 if (maPhieuDangKy.isEmpty()) {
                     btnRegister.setText("Đăng kí");
@@ -721,6 +720,8 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                         data_rows.add(rs.getString(2));
                         data_rows.add(rs.getString(3));
                         data_rows.add(rs.getString(4));
+                        data_rows.add(rs.getString(5));
+                        data_rows.add(rs.getString(6));
                         dtmRegisted.addRow(data_rows);
                     }
                     CaculateMoneyAndCredit();
@@ -794,7 +795,9 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                     //lay tat ca gia tri vao add vao bang mon hoc se mo
                     Vector data_rows = new Vector();
                     data_rows.add(dtm.getValueAt(i, 1));
+                    data_rows.add(dtm.getValueAt(i, 2));
                     data_rows.add(dtm.getValueAt(i, 3));
+                    data_rows.add(dtm.getValueAt(i, 4));
                     data_rows.add(dtm.getValueAt(i, 5));
                     data_rows.add(dtm.getValueAt(i, 6));
                     dtmRegisted.addRow(data_rows);
@@ -884,7 +887,7 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         //tính tổng số tín chỉ
         int sumOfCredit = 0;
         for (int i = 0; i < dtmRegisted.getRowCount(); i++) {
-            int temp = Integer.parseInt(String.valueOf(dtmRegisted.getValueAt(i, 3)));
+            int temp = Integer.parseInt(String.valueOf(dtmRegisted.getValueAt(i, 5)));
             if (temp > 0) {
                 sumOfCredit += temp;
             }

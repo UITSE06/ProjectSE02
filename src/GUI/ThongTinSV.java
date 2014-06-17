@@ -79,7 +79,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
         btnHuy.setEnabled(false);
         btnXoa.setEnabled(false);
         btnLuuDS.setEnabled(false);
-        String[] titiles = {"STT", "Họ và Tên", "Tuổi", "Địa chỉ", "Mã số sinh viên"};
+        String[] titiles = {"Họ và tên", "Giới tính", "Ngày sinh", "Huyện", "Tỉnh", "Mã Ngành","Mã Đối Tượng"};
         model = new DefaultTableModel(titiles, 0);
         tb_Excel.setModel(model);
         dateNgaySinh.setFormats("dd-MM-yyyy");
@@ -417,6 +417,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
         btnHuyTT = new org.jdesktop.swingx.JXButton();
         btnXoaSV = new org.jdesktop.swingx.JXButton();
         btnLamMoi = new org.jdesktop.swingx.JXButton();
+        btnImportExcel = new org.jdesktop.swingx.JXButton();
         jXPanel1 = new org.jdesktop.swingx.JXPanel();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
 
@@ -436,8 +437,6 @@ public final class ThongTinSV extends javax.swing.JPanel {
 
         lbNgaySinh.setText("Ngày sinh: ");
         lbNgaySinh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        dateNgaySinh.setEditable(false);
 
         lbNganh.setText("Ngành:");
         lbNganh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -617,17 +616,6 @@ public final class ThongTinSV extends javax.swing.JPanel {
 
         leftbottomPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách thêm mới"));
 
-        tb_Excel.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         table.setViewportView(tb_Excel);
 
         btnNhapExcel.setText("Nhập Excel");
@@ -719,15 +707,6 @@ public final class ThongTinSV extends javax.swing.JPanel {
 
         rightPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sinh viên", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 12))); // NOI18N
 
-        tbSinhVien.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "MSSV", "Họ tên", "Ngày sinh", "Giới tính", "Huyện", "Tỉnh", "Ngành", "Đối tượng", "Năm nhập học", "Hình đại diện", "Khoa"
-            }
-        ));
-        tbSinhVien.setEditable(false);
         tbSinhVien.setName(""); // NOI18N
         tbSinhVien.getTableHeader().setReorderingAllowed(false);
         tableThongTin.setViewportView(tbSinhVien);
@@ -829,6 +808,13 @@ public final class ThongTinSV extends javax.swing.JPanel {
             }
         });
 
+        btnImportExcel.setText("Nhập từ Excel");
+        btnImportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout topPanel18Layout = new javax.swing.GroupLayout(topPanel18);
         topPanel18.setLayout(topPanel18Layout);
         topPanel18Layout.setHorizontalGroup(
@@ -837,6 +823,8 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(btnImportExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -848,7 +836,7 @@ public final class ThongTinSV extends javax.swing.JPanel {
                 .addComponent(btnHuyTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnXoaSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
+                .addGap(87, 87, 87)
                 .addComponent(jXSearchField1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -864,7 +852,8 @@ public final class ThongTinSV extends javax.swing.JPanel {
                     .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHuyTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoaSV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnImportExcel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1242,11 +1231,18 @@ public final class ThongTinSV extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaSVActionPerformed
 
+    private void btnImportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportExcelActionPerformed
+        // TODO add your handling code here:
+        frmImportExcel iEList = new frmImportExcel();
+        iEList.setVisible(true);
+    }//GEN-LAST:event_btnImportExcelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private org.jdesktop.swingx.JXButton btnCapNhat;
     private org.jdesktop.swingx.JXButton btnHuy;
     private org.jdesktop.swingx.JXButton btnHuyTT;
+    private org.jdesktop.swingx.JXButton btnImportExcel;
     private org.jdesktop.swingx.JXButton btnLamMoi;
     private org.jdesktop.swingx.JXButton btnLuu;
     private org.jdesktop.swingx.JXButton btnLuuDS;

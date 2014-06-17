@@ -142,4 +142,26 @@ public class clsStudent_DAL {
         cabCmd.setString(1, p.getIdStudent());
         return connect.excuteStore_Para(cabCmd);
     }
+    
+    /**
+     * HungNgoc
+     * Date 16-06-2014
+     * 
+     * @throws Exception 
+     */
+     public ResultSet CHECK_IDMOBJECT(clsStudent_Public p) throws Exception{
+        connect = new SQLServerConnector();
+        String strCall = "{call CHECK_IDMOBJECT(?)}";
+        CallableStatement cabCmd = connect.getCallableStatement(strCall);
+        cabCmd.setString(1, p.getIdObjects());
+        return connect.excuteStore_Para(cabCmd);
+     }
+     
+      public ResultSet CHECK_IDMAYJORS(clsStudent_Public p) throws Exception{
+        connect = new SQLServerConnector();
+        String strCall = "{call CHECK_IDMAYJORS(?)}";
+        CallableStatement cabCmd = connect.getCallableStatement(strCall);
+        cabCmd.setString(1, p.getIdMayjors());
+        return connect.excuteStore_Para(cabCmd);
+     }
 }

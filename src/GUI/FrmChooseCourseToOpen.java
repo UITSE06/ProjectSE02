@@ -50,6 +50,7 @@ public class FrmChooseCourseToOpen extends javax.swing.JPanel {
     public FrmChooseCourseToOpen() {
         initComponents();
         //chuyen thong tin nhung lop se mo qua bang danh sach mon hoc se mo
+        tblListCourse.setEditable(true);
         dtmOpened = (DefaultTableModel) tblListCourseOpened.getModel();
 
         tblListCourse.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
