@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author John
+ * @author THanhTHaiNguyen...T moi sua file nay
  */
 public class FrmConfig extends javax.swing.JFrame {
 
