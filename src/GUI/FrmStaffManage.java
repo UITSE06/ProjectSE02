@@ -47,7 +47,7 @@ import jxl.read.biff.BiffException;
 public final class FrmStaffManage extends javax.swing.JPanel {
 
     /**
-     * Creates new form DangKyMon
+     * Creates new fFrmStaffManageorm DangKyMon
      */
     private SQLServerConnector connect;
     private DefaultTableModel dtm;

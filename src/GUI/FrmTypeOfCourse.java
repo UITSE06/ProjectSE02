@@ -375,10 +375,13 @@ public class FrmTypeOfCourse extends javax.swing.JPanel {
                 data_rows.add(rs.getObject(4));
                 dtm.addRow(data_rows);
             }
-            tblListTypeOfCourse.setRowSelectionInterval(0, 0);
-            if(dtm.getRowCount() > 0){
+            /// Thanh Thai
+            if (tblListTypeOfCourse.getSelectedRow() >= 0) {
+                tblListTypeOfCourse.setRowSelectionInterval(0, 0);
+            }
+            if (dtm.getRowCount() > 0) {
                 btnXuatDS.setEnabled(true);
-            }else {//chưa có loại môn học nào thì tự động thêm 2 loại môn học mặc định
+            } else {//chưa có loại môn học nào thì tự động thêm 2 loại môn học mặc định
                 tcBLL.InsertTypeOfCourse();
             }
         } catch (Exception ex) {

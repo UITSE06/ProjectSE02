@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -51,18 +52,19 @@ public class FrmManageScore extends javax.swing.JPanel {
 
     // Hàm khởi tạo table bảng điểm
     private void initTable() {
-        String[] titleMH = {"Mã môn học", "Mã môn học lý thuyết", "Tên môn học", "Loại môn học", "Số tiết", "Điểm trung bình"};
-        dtm = new DefaultTableModel(titleMH, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column >= 5;
-            }
-        };
+//        String[] titleMH = {"Mã môn học", "Mã môn học lý thuyết", "Tên môn học", "Loại môn học", "Số tiết", "Điểm trung bình"};
+//        dtm = new DefaultTableModel(titleMH, 0) {
+//            @Override
+//            public boolean isCellEditable(int row, int column) {
+//                return column >= 5;
+//            }
+//        };
+        dtm = (DefaultTableModel) tbListCourses.getModel();
     }
 
     // Hàm set thuộc tính cho table bảng điểm
     private void setTableSinhVienModel() {
-        tbListCourses.setModel(dtm);
+        //tbListCourses.setModel(dtm);
         tbListCourses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // ẩn cột mã môn lý thuyết đi
         tbListCourses.getColumnModel().getColumn(1).setMinWidth(0);
@@ -97,8 +99,8 @@ public class FrmManageScore extends javax.swing.JPanel {
                     }
                 }
             });
-            // Chèn textFlied vào table
-            setTextFlied_tbListCourses();
+            //
+            //setTextFlied_tbListCourses();
         } catch (Exception ex) {
             Logger.getLogger(FrmManageScore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -297,12 +299,19 @@ public class FrmManageScore extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Môn Học", "MaMHLT", "Tên Môn Học", "MaLoaiMH", "Loại Môn Học", "Số Tín Chỉ", "Điểm Trung Bình"
+                "Mã Môn Học", "MaMHLT", "Tên Môn Học", "Loại Môn Học", "Số Tiết", "Điểm Trung Bình"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -513,7 +522,7 @@ public class FrmManageScore extends javax.swing.JPanel {
                     data_rows.add(rsCourses.getString(3));
                     data_rows.add(rsCourses.getString(4));
                     data_rows.add(rsCourses.getString(5));
-                    data_rows.add(rsCourses.getString(6));
+                    data_rows.add(rsCourses.getFloat(6));
                     dtm.addRow(data_rows);
                 }while(rsCourses.next());
                 btnLoadMH.setEnabled(false);
@@ -547,7 +556,8 @@ public class FrmManageScore extends javax.swing.JPanel {
                 Logger.getLogger(FrmManageScore.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        JOptionPane.showMessageDialog(this, "Thanh cong");
+        JOptionPane.showMessageDialog(this, "Thành công");
+        HuyThaoTac();
     }//GEN-LAST:event_btnLuuLaiActionPerformed
 
     // thực hiện hủy các thao tác trước đó

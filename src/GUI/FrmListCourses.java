@@ -455,7 +455,7 @@ public final class FrmListCourses extends javax.swing.JPanel {
                     while (delCourses.next()) {
                         if (delCourses.getInt(1) == 1) {
                             JOptionPane.showMessageDialog(this, "Xóa thành công môn học.");
-                            Load();
+                            loadDataTable();
                         } else {
                             JOptionPane.showMessageDialog(this, "Không thể xóa môn học, đã phát sinh lỗi");
                         }

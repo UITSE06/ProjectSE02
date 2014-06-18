@@ -860,7 +860,7 @@ public final class FrmStudentManager extends javax.swing.JPanel {
 
                 Calendar cal = Calendar.getInstance();
                 cal.getTime();
-                
+
                 java.sql.Date ins = new java.sql.Date(formatDate.parse(dateNgaySinh.getEditor().getText()).getTime());
                 if ((Calendar.getInstance().get(Calendar.YEAR) - ins.getYear() - 1900) < reguP.getMinStudentYearOld()) {
                     JOptionPane.showMessageDialog(this, "Tuổi sinh viên phải lớn hơn " + reguP.getMinStudentYearOld());
@@ -1018,7 +1018,10 @@ public final class FrmStudentManager extends javax.swing.JPanel {
 
         if (isBtnThemSelect()) {
             try {
-                bindingData(rowSelected);
+                // Thanh Thai
+                if (tbSinhVien.getSelectedRow() >= 0) {
+                    bindingData(rowSelected);
+                }
             } catch (ParseException ex) {
                 Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }

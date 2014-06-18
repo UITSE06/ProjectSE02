@@ -755,6 +755,7 @@ public class FrmInsertCourse extends javax.swing.JFrame {
                     if (ab < 0) {
                         //System.out.println("Thanh cong roi");
                         JOptionPane.showMessageDialog(this, "Thêm môn học thành công", "THÀNH CÔNG", JOptionPane.INFORMATION_MESSAGE);
+                        txtTenMonHoc.setText("");
                         dsMH.loadDataTable();
                     } else {
                         JOptionPane.showMessageDialog(this, "Thêm môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
@@ -780,6 +781,7 @@ public class FrmInsertCourse extends javax.swing.JFrame {
                     if (Update > 0) {
                         //System.out.println("Thanh cong roi");
                         JOptionPane.showMessageDialog(this, "Cập nhật môn học thành công", "THÀNH CÔNG", JOptionPane.INFORMATION_MESSAGE);
+                        txtTenMonHoc.setText("");
                         dsMH.loadDataTable();
                     } else {
                         JOptionPane.showMessageDialog(this, "Cập nhật môn học thất bại", "THẤT BẠI", JOptionPane.ERROR_MESSAGE);
