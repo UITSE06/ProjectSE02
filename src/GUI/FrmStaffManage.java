@@ -112,7 +112,7 @@ public final class FrmStaffManage extends javax.swing.JPanel {
             data_rows = new Vector();
             data_rows.add(rsNV.getObject(1));
             data_rows.add(rsNV.getObject(2));
-            data_rows.add(formatDate.format(rsNV.getObject(3)));
+            data_rows.add(formatDate.format(rsNV.getDate(3)));
             data_rows.add(rsNV.getObject(4));
             data_rows.add(rsNV.getObject(5));
             data_rows.add(rsNV.getObject(6));

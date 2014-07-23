@@ -39,6 +39,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import jxl.*;
 import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
 
 /**
  *
@@ -83,7 +84,7 @@ public final class FrmStudentManager extends javax.swing.JPanel {
         txtTinh.setDocument(new ClsTextOnlyDocument_BLL(50));
         String[] titiles = {"STT", "Họ và Tên", "Tuổi", "Địa chỉ", "Mã số sinh viên"};
         model = new DefaultTableModel(titiles, 0);
-//        tb_Excel.setModel(model);
+        tbSinhVien.setEditable(false);
         dateNgaySinh.setFormats("dd-MM-yyyy");
     }
 
@@ -106,7 +107,7 @@ public final class FrmStudentManager extends javax.swing.JPanel {
 
         cbxDoiTuong.setEnabled(b);
         cboNganh.setEnabled(b);
-        cboKhoa.setEnabled(b);
+        //cboKhoa.setEnabled(b);
         cbxTrangThai.setEnabled(b);
 
         btnTim.setEnabled(b);
@@ -724,7 +725,7 @@ public final class FrmStudentManager extends javax.swing.JPanel {
             }
         });
 
-        btnImportExcel.setText("jXButton1");
+        btnImportExcel.setText("Nhập Excel");
         btnImportExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnImportExcelActionPerformed(evt);
@@ -930,6 +931,8 @@ public final class FrmStudentManager extends javax.swing.JPanel {
             clsE.exportTable(tbSinhVien, new File(clsE.jChooserPath(FrmStudentManager.this)));
         } catch (IOException ex) {
             Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WriteException ex) {
+            Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnXuaDS18ActionPerformed
 
@@ -1019,7 +1022,9 @@ public final class FrmStudentManager extends javax.swing.JPanel {
 
         if (isBtnThemSelect()) {
             try {
-                bindingData(rowSelected);
+                if (tbSinhVien.getSelectedRow() >= 0) {
+                    bindingData(rowSelected);
+                }
             } catch (ParseException ex) {
                 Logger.getLogger(FrmStudentManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1042,6 +1047,7 @@ public final class FrmStudentManager extends javax.swing.JPanel {
             btnHuyTT.setEnabled(true);
             btnLuu.setEnabled(true);
             setComponents(true);
+            cboKhoa.setEnabled(false);
             txtMSSV.setEditable(false);
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed

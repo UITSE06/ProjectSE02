@@ -11,6 +11,8 @@ import GUI.Report.rpStateFee;
 import PUBLIC.*;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -35,54 +37,87 @@ public class frmMain extends javax.swing.JFrame {
         lbStaffName.setText(staffInfo.getTenNV());
         lbIdStaff.setText(staffInfo.getMaNV());
         lbPosition.setText(staffInfo.getChucVu());
+        //
+        lbNameData.setText(staffInfo.getTenCSDL());
     }
 
     private void SetComponentByAccess() {
-
+        DisableAllComponent();
         String[] listAcc = staffInfo.getMaPhanQuyen().split("\\,");
         for (int i = 0; i < listAcc.length; i++) {
             if ("1".equals(listAcc[i])) {
-                tabMinistry.setEnabled(true);
-            }
-            if ("2".equals(listAcc[i])) {
-                tabFinacial.setEnabled(true);
-            }
-            if ("3".equals(listAcc[i])) {
+                tabMinistry.setEnabled(true);//quan ly giao vu
                 tabStudentManage.setEnabled(true);
-                //miInfoStudent.setEnabled(false);
-                //miRegisterCourse.setEnabled(false);
                 miInputScore.setEnabled(true);
-            }
-            if ("4".equals(listAcc[i])) {
-                tabStudentManage.setEnabled(true);
-                //miInfoStudent.setEnabled(false);
                 miRegisterCourse.setEnabled(true);
-                //miInputScore.setEnabled(false);
+                miInfoStudent.setEnabled(true);
+                btnRegisterCourse.setEnabled(true);
+                btnInputScore.setEnabled(true);
+                btnStudentManage.setEnabled(true);
+                btnRegisterStatus.setEnabled(true);
             }
-            if ("5".equals(listAcc[i])) {
+            if ("2".equals(listAcc[i])) {//thu học phi
+                tabFinacial.setEnabled(true);
+                btnFeeStatus.setEnabled(true);
+            }
+            if ("3".equals(listAcc[i])) {//nhap bang diem
+                tabStudentManage.setEnabled(true);
+                miInputScore.setEnabled(true);
+                btnInputScore.setEnabled(true);
+               
+            }
+            if ("4".equals(listAcc[i])) {//dang ki mon hoc
+                tabStudentManage.setEnabled(true);
+                miRegisterCourse.setEnabled(true);
+                btnRegisterCourse.setEnabled(true);
+                btnRegisterStatus.setEnabled(true);
+            }
+            if ("5".equals(listAcc[i])) {//quan ly nhan vien
                 miListStaff.setEnabled(true);
+                
             }
-            if ("6".equals(listAcc[i])) {
+            if ("6".equals(listAcc[i])) {//thay doi quy dinh
                 tabAdministrator.setEnabled(true);
-                //miSystemConfig.setEnabled(false);
-                //miSetAccess.setEnabled(false);
                 miChangeRegulation.setEnabled(true);
             }
-            if ("7".equals(listAcc[i])) {
+            if ("7".equals(listAcc[i])) {//quan ly sinh vien
                 tabStudentManage.setEnabled(true);
-                //miRegisterCourse.setEnabled(false);
-                //miInputScore.setEnabled(false);
                 miInfoStudent.setEnabled(true);
+                btnStudentManage.setEnabled(true);
+                
             }
-            if ("8".equals(listAcc[i])) {
+            if ("8".equals(listAcc[i])) {//quan tri he thong
                 tabAdministrator.setEnabled(true);
                 miSystemConfig.setEnabled(true);
-                //miSetAccess.setEnabled(false);
-                //miChangeRegulation.setEnabled(false);
                 tabSystem.setEnabled(true);
                 miSetAccess.setEnabled(true);
+                btnRestoreDatebase.setEnabled(true);
+                btnBackupData.setEnabled(true);
             }
         }
+    }
+
+    private void DisableAllComponent() {
+        tabAdministrator.setEnabled(false);
+        tabFinacial.setEnabled(false);
+        tabMinistry.setEnabled(false);
+        tabStudentManage.setEnabled(false);
+        tabSystem.setEnabled(false);
+        ///
+        miChangeRegulation.setEnabled(false);
+        miInfoStudent.setEnabled(false); 
+        miInputScore.setEnabled(false);
+        miListStaff.setEnabled(false);
+        miRegisterCourse.setEnabled(false);
+        miSetAccess.setEnabled(false);
+        ///btn
+        btnFeeStatus.setEnabled(false);
+        btnInputScore.setEnabled(false);
+        btnRegisterCourse.setEnabled(false);
+        btnRegisterStatus.setEnabled(false);
+        btnRestoreDatebase.setEnabled(false);
+        btnStudentManage.setEnabled(false);
+        btnBackupData.setEnabled(false);
     }
 
     /**
@@ -97,7 +132,7 @@ public class frmMain extends javax.swing.JFrame {
         jXFrame1 = new org.jdesktop.swingx.JXFrame();
         st_Info = new org.jdesktop.swingx.JXStatusBar();
         jXLabel1 = new org.jdesktop.swingx.JXLabel();
-        jXLabel3 = new org.jdesktop.swingx.JXLabel();
+        lbNameData = new org.jdesktop.swingx.JXLabel();
         jXLabel4 = new org.jdesktop.swingx.JXLabel();
         lbStaffName = new org.jdesktop.swingx.JXLabel();
         jXLabel2 = new org.jdesktop.swingx.JXLabel();
@@ -108,11 +143,11 @@ public class frmMain extends javax.swing.JFrame {
         lb_Clock = new org.jdesktop.swingx.JXLabel();
         lb_Date = new org.jdesktop.swingx.JXLabel();
         btnRegisterCourse = new org.jdesktop.swingx.JXButton();
-        jXButton2 = new org.jdesktop.swingx.JXButton();
-        jXButton3 = new org.jdesktop.swingx.JXButton();
+        btnRegisterStatus = new org.jdesktop.swingx.JXButton();
+        btnFeeStatus = new org.jdesktop.swingx.JXButton();
         btnStudentManage = new org.jdesktop.swingx.JXButton();
         btnInputScore = new org.jdesktop.swingx.JXButton();
-        jXButton6 = new org.jdesktop.swingx.JXButton();
+        btnBackupData = new org.jdesktop.swingx.JXButton();
         btnRestoreDatebase = new org.jdesktop.swingx.JXButton();
         btnStaffInfo_ChangePass = new org.jdesktop.swingx.JXButton();
         btnLogOut = new org.jdesktop.swingx.JXButton();
@@ -124,7 +159,7 @@ public class frmMain extends javax.swing.JFrame {
         miRestore = new javax.swing.JMenuItem();
         tabMinistry = new javax.swing.JMenu();
         miListCourse = new javax.swing.JMenuItem();
-        mnTinhTrangDangKy = new javax.swing.JMenuItem();
+        miTinhTrangDangKy = new javax.swing.JMenuItem();
         miListMayjor = new javax.swing.JMenuItem();
         miListFacuty = new javax.swing.JMenuItem();
         miOpenCourses = new javax.swing.JMenuItem();
@@ -168,8 +203,8 @@ public class frmMain extends javax.swing.JFrame {
         jXLabel1.setText("Database: ");
         st_Info.add(jXLabel1);
 
-        jXLabel3.setText("QUANLYSINHVIEN");
-        st_Info.add(jXLabel3);
+        lbNameData.setText("QUANLYSINHVIEN");
+        st_Info.add(lbNameData);
 
         jXLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/employee.png"))); // NOI18N
         jXLabel4.setText("Nhân viên:");
@@ -205,21 +240,30 @@ public class frmMain extends javax.swing.JFrame {
         lb_Date.setText("Date");
         lb_Date.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
 
-        btnRegisterCourse.setBackground(new java.awt.Color(255, 255, 255));
         btnRegisterCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dk.png"))); // NOI18N
+        btnRegisterCourse.setToolTipText("Sinh viên đăng ký môn học");
         btnRegisterCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegisterCourseActionPerformed(evt);
             }
         });
 
-        jXButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/listicon.png"))); // NOI18N
+        btnRegisterStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/textedit-icon.png"))); // NOI18N
+        btnRegisterStatus.setToolTipText("Danh sách sinh viên");
+        btnRegisterStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterStatusActionPerformed(evt);
+            }
+        });
 
-        jXButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/money.png"))); // NOI18N
+        btnFeeStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dollar-folder-icon.png"))); // NOI18N
+        btnFeeStatus.setToolTipText("Thu học phí sinh viên");
+        btnFeeStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFeeStatusActionPerformed(evt);
+            }
+        });
 
-        btnStudentManage.setBackground(new java.awt.Color(255, 255, 255));
         btnStudentManage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/personal-information-icon.png"))); // NOI18N
         btnStudentManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,7 +271,6 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        btnInputScore.setBackground(new java.awt.Color(255, 255, 255));
         btnInputScore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search-Results.png"))); // NOI18N
         btnInputScore.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,13 +278,20 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        jXButton6.setBackground(new java.awt.Color(255, 255, 255));
-        jXButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Backupicon.png"))); // NOI18N
+        btnBackupData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Backup-IBM-Server-icon.png"))); // NOI18N
+        btnBackupData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackupDataActionPerformed(evt);
+            }
+        });
 
-        btnRestoreDatebase.setBackground(new java.awt.Color(255, 255, 255));
         btnRestoreDatebase.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/backup.png"))); // NOI18N
+        btnRestoreDatebase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestoreDatebaseActionPerformed(evt);
+            }
+        });
 
-        btnStaffInfo_ChangePass.setBackground(new java.awt.Color(255, 255, 255));
         btnStaffInfo_ChangePass.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Register-icon.png"))); // NOI18N
         btnStaffInfo_ChangePass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,7 +299,6 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        btnLogOut.setBackground(new java.awt.Color(255, 255, 255));
         btnLogOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout-icon.png"))); // NOI18N
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -265,15 +314,15 @@ public class frmMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnRegisterCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnRegisterStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFeeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnStudentManage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInputScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnBackupData, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRestoreDatebase, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -290,7 +339,7 @@ public class frmMain extends javax.swing.JFrame {
             jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jXPanel1Layout.createSequentialGroup()
                 .addGroup(jXPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jXButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBackupData, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRestoreDatebase, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStaffInfo_ChangePass, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -298,8 +347,8 @@ public class frmMain extends javax.swing.JFrame {
                         .addComponent(lb_Date, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lb_Clock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnRegisterCourse, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jXButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRegisterStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFeeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnStudentManage, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnInputScore, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 1, Short.MAX_VALUE))
@@ -315,6 +364,7 @@ public class frmMain extends javax.swing.JFrame {
         tabSystem.setEnabled(false);
         tabSystem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        miBackUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Backup-IBM-Server-icon.png"))); // NOI18N
         miBackUp.setText("Sao lưu CSDL");
         miBackUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -338,6 +388,7 @@ public class frmMain extends javax.swing.JFrame {
         tabMinistry.setEnabled(false);
         tabMinistry.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        miListCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/ibooks-icon _.png"))); // NOI18N
         miListCourse.setText("Danh sách môn học");
         miListCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -346,14 +397,16 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabMinistry.add(miListCourse);
 
-        mnTinhTrangDangKy.setText("Tình trạng đăng ký môn học");
-        mnTinhTrangDangKy.addActionListener(new java.awt.event.ActionListener() {
+        miTinhTrangDangKy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/textedit-icon.png"))); // NOI18N
+        miTinhTrangDangKy.setText("Tình trạng đăng ký môn học");
+        miTinhTrangDangKy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnTinhTrangDangKyActionPerformed(evt);
+                miTinhTrangDangKyActionPerformed(evt);
             }
         });
-        tabMinistry.add(mnTinhTrangDangKy);
+        tabMinistry.add(miTinhTrangDangKy);
 
+        miListMayjor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/contacts-icon.png"))); // NOI18N
         miListMayjor.setText("Danh sách ngành");
         miListMayjor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,6 +415,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabMinistry.add(miListMayjor);
 
+        miListFacuty.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/contacts-icon.png"))); // NOI18N
         miListFacuty.setText("Danh sách khoa");
         miListFacuty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -370,6 +424,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabMinistry.add(miListFacuty);
 
+        miOpenCourses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Courses-icon.png"))); // NOI18N
         miOpenCourses.setText("Mở môn học");
         miOpenCourses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +433,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabMinistry.add(miOpenCourses);
 
+        miTypeOfCourse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/research-icon.png"))); // NOI18N
         miTypeOfCourse.setText("Loại môn học");
         miTypeOfCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -386,6 +442,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabMinistry.add(miTypeOfCourse);
 
+        miHumanSubject.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Objects-more-icon.png"))); // NOI18N
         miHumanSubject.setText("Quản lý đối tượng");
         miHumanSubject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,6 +457,7 @@ public class frmMain extends javax.swing.JFrame {
         tabFinacial.setEnabled(false);
         tabFinacial.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        miGetFee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dollar-icon.png"))); // NOI18N
         miGetFee.setText("Thu học phí");
         miGetFee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -408,6 +466,7 @@ public class frmMain extends javax.swing.JFrame {
         });
         tabFinacial.add(miGetFee);
 
+        mnStateFee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/dollar-folder-icon.png"))); // NOI18N
         mnStateFee.setText("Tình trạng thu học phí");
         mnStateFee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -421,6 +480,7 @@ public class frmMain extends javax.swing.JFrame {
         tabStaffManage.setText("Nhân Viên");
         tabStaffManage.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        miListStaff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/PhotoBooth-icon.png"))); // NOI18N
         miListStaff.setText("Danh sách nhân viên");
         miListStaff.setEnabled(false);
         miListStaff.addActionListener(new java.awt.event.ActionListener() {
@@ -507,10 +567,17 @@ public class frmMain extends javax.swing.JFrame {
         tabHelp.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         miSoftwareInfo.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miSoftwareInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/information-icon.png"))); // NOI18N
         miSoftwareInfo.setText("Thông tin phần mềm");
+        miSoftwareInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSoftwareInfoActionPerformed(evt);
+            }
+        });
         tabHelp.add(miSoftwareInfo);
 
         miGuide.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        miGuide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/help-icon.png"))); // NOI18N
         miGuide.setText("Hướng dẫn sử dụng");
         miGuide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -619,9 +686,21 @@ public class frmMain extends javax.swing.JFrame {
 
     private void miGuideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miGuideActionPerformed
         // TODO add your handling code here:
+        String workingDir = System.getProperty("user.dir");
+        workingDir = workingDir + "\\ThaHuCo.pdf";
+        try {
+            if ((new File(workingDir)).exists()) {
+                Process p = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + workingDir);
+                p.waitFor();
+            } else {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy file");
+            }
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_miGuideActionPerformed
 
-    private void mnTinhTrangDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnTinhTrangDangKyActionPerformed
+    private void miTinhTrangDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miTinhTrangDangKyActionPerformed
         // TODO add your handling code here:
         rpRegisterSub rpDKM = new rpRegisterSub();
         if (TabbedPaneMain.getTabCount() == 0) {
@@ -635,7 +714,7 @@ public class frmMain extends javax.swing.JFrame {
                 TabbedPaneMain.setSelectedIndex(TabbedPaneMain.indexOfTab("Tình trạng đăng ký môn học   "));
             }
         }
-    }//GEN-LAST:event_mnTinhTrangDangKyActionPerformed
+    }//GEN-LAST:event_miTinhTrangDangKyActionPerformed
 
     private void miListMayjorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miListMayjorActionPerformed
         FrmListMayjors listMayjor = new FrmListMayjors();
@@ -822,10 +901,10 @@ public class frmMain extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_miRestoreActionPerformed
 
-    
+
     private void mnStateFeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnStateFeeActionPerformed
         // TODO add your handling code here:
-          rpStateFee rpStateF = new rpStateFee();
+        rpStateFee rpStateF = new rpStateFee();
         if (TabbedPaneMain.getTabCount() == 0) {
             TabbedPaneMain.addTab("Trạng thái thu học phí   ", null, rpStateF, "stateFee");
         } else {
@@ -878,6 +957,29 @@ public class frmMain extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Tệp đã tồn tại, Vui lòng nhập tên khác\nSao lưu cơ sở dữ liệu thất bại");
         }
     }//GEN-LAST:event_miBackUpActionPerformed
+
+    private void btnRegisterStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterStatusActionPerformed
+        miTinhTrangDangKyActionPerformed(evt);
+    }//GEN-LAST:event_btnRegisterStatusActionPerformed
+
+    private void btnFeeStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFeeStatusActionPerformed
+        mnStateFeeActionPerformed(evt);
+    }//GEN-LAST:event_btnFeeStatusActionPerformed
+
+    private void btnBackupDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackupDataActionPerformed
+        miBackUpActionPerformed(evt);
+    }//GEN-LAST:event_btnBackupDataActionPerformed
+
+    private void btnRestoreDatebaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestoreDatebaseActionPerformed
+        miRestoreActionPerformed(evt);
+    }//GEN-LAST:event_btnRestoreDatebaseActionPerformed
+
+    private void miSoftwareInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSoftwareInfoActionPerformed
+        JOptionPane.showMessageDialog(this, "Nhóm thực hiện:\n" + 
+                "11520305 - Trần Anh Quân\n" +
+                "11520357 - Nguyễn Thành Thái\n" + 
+                "11520573 - Huỳnh Ngọc Hưng", "Thông tin phần mềm", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_miSoftwareInfoActionPerformed
 
     private void setClocks() {
 
@@ -946,24 +1048,24 @@ public class frmMain extends javax.swing.JFrame {
     // private ClosableTabbedPane TabbePaneMain1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private GUI.ClosableTabbedPane TabbedPaneMain;
+    private org.jdesktop.swingx.JXButton btnBackupData;
+    private org.jdesktop.swingx.JXButton btnFeeStatus;
     private org.jdesktop.swingx.JXButton btnInputScore;
     private org.jdesktop.swingx.JXButton btnLogOut;
     private org.jdesktop.swingx.JXButton btnRegisterCourse;
+    private org.jdesktop.swingx.JXButton btnRegisterStatus;
     private org.jdesktop.swingx.JXButton btnRestoreDatebase;
     private org.jdesktop.swingx.JXButton btnStaffInfo_ChangePass;
     private org.jdesktop.swingx.JXButton btnStudentManage;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXButton jXButton2;
-    private org.jdesktop.swingx.JXButton jXButton3;
-    private org.jdesktop.swingx.JXButton jXButton6;
     private org.jdesktop.swingx.JXFrame jXFrame1;
     private org.jdesktop.swingx.JXLabel jXLabel1;
     private org.jdesktop.swingx.JXLabel jXLabel2;
-    private org.jdesktop.swingx.JXLabel jXLabel3;
     private org.jdesktop.swingx.JXLabel jXLabel4;
     private org.jdesktop.swingx.JXPanel jXPanel1;
     private org.jdesktop.swingx.JXLabel lbIdStaff;
+    private org.jdesktop.swingx.JXLabel lbNameData;
     private org.jdesktop.swingx.JXLabel lbPos;
     private org.jdesktop.swingx.JXLabel lbPosition;
     private org.jdesktop.swingx.JXLabel lbStaffName;
@@ -987,9 +1089,9 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem miSoftwareInfo;
     private javax.swing.JMenuItem miStaffInfo;
     private javax.swing.JMenuItem miSystemConfig;
+    private javax.swing.JMenuItem miTinhTrangDangKy;
     private javax.swing.JMenuItem miTypeOfCourse;
     private javax.swing.JMenuItem mnStateFee;
-    private javax.swing.JMenuItem mnTinhTrangDangKy;
     private org.jdesktop.swingx.JXStatusBar st_Info;
     private javax.swing.JMenu tabAdministrator;
     private javax.swing.JMenu tabFinacial;

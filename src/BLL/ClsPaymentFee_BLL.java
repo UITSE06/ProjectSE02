@@ -8,10 +8,12 @@ package BLL;
 
 import java.sql.ResultSet;
 import DAL.ClsPaymentFee_DAL;
+import DAL.SQLServerConnector;
 import PUBLIC.ClsPaymentFee_Public;
 import PUBLIC.ClsRegisterForm_Public;
 import PUBLIC.ClsSemesterYearPublic;
 import java.math.BigDecimal;
+import java.sql.Connection;
 
 /**
  *
@@ -34,5 +36,9 @@ public class ClsPaymentFee_BLL {
     
     public int ExcutePaymentFee(int sumMoneyPaid, ClsPaymentFee_Public p) throws Exception{
         return pfDAL.ExcutePaymentFee(sumMoneyPaid, p);
+    }
+    
+    public Connection GetConnection() throws Exception{
+        return pfDAL.GetConnection();
     }
 }

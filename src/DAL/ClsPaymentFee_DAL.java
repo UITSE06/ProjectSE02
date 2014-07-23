@@ -9,6 +9,7 @@ package DAL;
 import PUBLIC.*;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 
 /**
@@ -18,6 +19,9 @@ import java.sql.ResultSet;
 public class ClsPaymentFee_DAL {
     SQLServerConnector connect;
     CallableStatement cabCmd;
+    public Connection GetConnection() throws Exception{
+        return connect.getConnect();
+    }
     
     public ResultSet LoadFirstYear() throws Exception
     {

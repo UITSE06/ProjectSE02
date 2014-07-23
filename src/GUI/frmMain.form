@@ -43,6 +43,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miBackUp">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/Backup-IBM-Server-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Sao l&#x1b0;u CSDL"/>
               </Properties>
               <Events>
@@ -73,22 +76,31 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miListCourse">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/ibooks-icon _.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch m&#xf4;n h&#x1ecd;c"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miListCourseActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnTinhTrangDangKy">
+            <MenuItem class="javax.swing.JMenuItem" name="miTinhTrangDangKy">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/textedit-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng &#x111;&#x103;ng k&#xfd; m&#xf4;n h&#x1ecd;c"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnTinhTrangDangKyActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miTinhTrangDangKyActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miListMayjor">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/contacts-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch ng&#xe0;nh"/>
               </Properties>
               <Events>
@@ -97,6 +109,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miListFacuty">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/contacts-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch khoa"/>
               </Properties>
               <Events>
@@ -105,6 +120,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miOpenCourses">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/Courses-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="M&#x1edf; m&#xf4;n h&#x1ecd;c"/>
               </Properties>
               <Events>
@@ -113,6 +131,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miTypeOfCourse">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/research-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i m&#xf4;n h&#x1ecd;c"/>
               </Properties>
               <Events>
@@ -121,6 +142,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miHumanSubject">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/Objects-more-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; &#x111;&#x1ed1;i t&#x1b0;&#x1ee3;ng"/>
               </Properties>
               <Events>
@@ -140,6 +164,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miGetFee">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/dollar-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Thu h&#x1ecd;c ph&#xed;"/>
               </Properties>
               <Events>
@@ -148,6 +175,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnStateFee">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/dollar-folder-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xec;nh tr&#x1ea1;ng thu h&#x1ecd;c ph&#xed;"/>
               </Properties>
               <Events>
@@ -166,6 +196,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="miListStaff">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/PhotoBooth-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch nh&#xe2;n vi&#xea;n"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -287,13 +320,22 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="13" style="0"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/information-icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Th&#xf4;ng tin ph&#x1ea7;n m&#x1ec1;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="miSoftwareInfoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="miGuide">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="13" style="0"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Images/help-icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="H&#x1b0;&#x1edb;ng d&#x1eab;n s&#x1eed; d&#x1ee5;ng"/>
               </Properties>
@@ -366,7 +408,7 @@
             <Property name="text" type="java.lang.String" value="Database: "/>
           </Properties>
         </Component>
-        <Component class="org.jdesktop.swingx.JXLabel" name="jXLabel3">
+        <Component class="org.jdesktop.swingx.JXLabel" name="lbNameData">
           <Properties>
             <Property name="text" type="java.lang.String" value="QUANLYSINHVIEN"/>
           </Properties>
@@ -434,15 +476,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRegisterCourse" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton2" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnRegisterStatus" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnFeeStatus" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnStudentManage" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnInputScore" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jXButton6" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="btnBackupData" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRestoreDatebase" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -461,7 +503,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jXButton6" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="btnBackupData" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnRestoreDatebase" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnStaffInfo_ChangePass" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="btnLogOut" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
@@ -469,8 +511,8 @@
                           <Component id="lb_Date" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="lb_Clock" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btnRegisterCourse" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jXButton2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="jXButton3" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnRegisterStatus" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="btnFeeStatus" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btnStudentManage" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="btnInputScore" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
@@ -505,42 +547,39 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnRegisterCourse">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/dk.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Sinh vi&#xea;n &#x111;&#x103;ng k&#xfd; m&#xf4;n h&#x1ecd;c"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegisterCourseActionPerformed"/>
           </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton2">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnRegisterStatus">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Images/listicon.png"/>
+              <Image iconType="3" name="/Images/textedit-icon.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Danh s&#xe1;ch sinh vi&#xea;n"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegisterStatusActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton3">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnFeeStatus">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Images/money.png"/>
+              <Image iconType="3" name="/Images/dollar-folder-icon.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Thu h&#x1ecd;c ph&#xed; sinh vi&#xea;n"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFeeStatusActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnStudentManage">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/personal-information-icon.png"/>
             </Property>
@@ -551,9 +590,6 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnInputScore">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/Search-Results.png"/>
             </Property>
@@ -562,31 +598,28 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInputScoreActionPerformed"/>
           </Events>
         </Component>
-        <Component class="org.jdesktop.swingx.JXButton" name="jXButton6">
+        <Component class="org.jdesktop.swingx.JXButton" name="btnBackupData">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Images/Backupicon.png"/>
+              <Image iconType="3" name="/Images/Backup-IBM-Server-icon.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackupDataActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnRestoreDatebase">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/backup.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRestoreDatebaseActionPerformed"/>
+          </Events>
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnStaffInfo_ChangePass">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/Register-icon.png"/>
             </Property>
@@ -597,9 +630,6 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnLogOut">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Images/Logout-icon.png"/>
             </Property>

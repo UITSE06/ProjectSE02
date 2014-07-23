@@ -666,7 +666,7 @@
         </Component>
         <Component class="org.jdesktop.swingx.JXButton" name="btnImportExcel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jXButton1"/>
+            <Property name="text" type="java.lang.String" value="Nh&#x1ead;p Excel"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnImportExcelActionPerformed"/>

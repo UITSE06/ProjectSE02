@@ -73,9 +73,8 @@ public class ClsRegisterCourses_BLL {
     * tra ve false neu chua hoc mon tien quyet
     * true neu da hoc mon tien quyet, hoac mon hoc k co mon tien quyet
     */
-    public boolean CheckCourseRequest(String mssv, String maMonHoc) throws Exception {
-        ResultSet rs = rcDAL.CheckCourseRequest(mssv, maMonHoc);
-        return !rs.next();
+    public ResultSet CheckCourseRequest(String mssv, String maMonHoc) throws Exception {
+        return  rcDAL.CheckCourseRequest(mssv, maMonHoc);        
     }
     
     public ResultSet GetListCoureRegisted(ClsRegisterForm_Public p) throws Exception {

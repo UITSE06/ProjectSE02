@@ -3,23 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/clsScholastic_DAL.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/Report/rpStateFee.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/frmImportExcel.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/Report/rpRegisterSub.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/BLL/clsScholastic_BLL.java</file>
             <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/frmMain.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/DAL/clsStudent_DAL.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/PUBLIC/clsStudent_Public.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/FrmChooseCourseToOpen.java</file>
-            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/BLL/clsMayjors_BLL.java</file>
-=======
-            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/GUI/NhapMonHoc.java</file>
-            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/BLL/clsMayjors_BLL.java</file>
-            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/DAL/clsStaff_DAL.java</file>
-            <file>file:/C:/Users/John/SkyDrive/JavaProject/DoAnCuoiKy/ProjectSE02-HungNgoc/src/DAL/clsMayjors_DAL.java</file>
->>>>>>> aba2de1b5f754781502e7dd164806c1d4a12baf1
+            <file>file:/C:/Users/Hung/SkyDrive/Tai%20lieu%20hoc%20tap/Dev%20Project/Java/QLGiaoVu_DeMon/src/GUI/FrmPaymentFee.java</file>
         </group>
     </open-files>
 </project-private>

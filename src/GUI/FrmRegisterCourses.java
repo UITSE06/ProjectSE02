@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,17 +113,14 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                     }
                     if (dtmRegisted.getRowCount() > 0) {
                         btnCancelAllCourseRegisted.setEnabled(true);
-                        btnExportListRegisted.setEnabled(true);
                     } else {
                         btnCancelAllCourseRegisted.setEnabled(false);
-                        btnExportListRegisted.setEnabled(false);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(FrmHumanSubjects.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
-
         LoadFirstYear();
     }
 
@@ -167,7 +165,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         ControlPanel1 = new org.jdesktop.swingx.JXPanel();
         btnCancelCurrentCourse = new org.jdesktop.swingx.JXButton();
         btnCancelAllCourseRegisted = new org.jdesktop.swingx.JXButton();
-        btnExportListRegisted = new org.jdesktop.swingx.JXButton();
         txtSumFeeMustPay = new org.jdesktop.swingx.JXTextField();
         lbHoTen7 = new org.jdesktop.swingx.JXLabel();
         lbHoTen9 = new org.jdesktop.swingx.JXLabel();
@@ -435,14 +432,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
             }
         });
 
-        btnExportListRegisted.setText("Xuất danh sách môn học đã đăng kí");
-        btnExportListRegisted.setEnabled(false);
-        btnExportListRegisted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportListRegistedActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout ControlPanel1Layout = new javax.swing.GroupLayout(ControlPanel1);
         ControlPanel1.setLayout(ControlPanel1Layout);
         ControlPanel1Layout.setHorizontalGroup(
@@ -452,8 +441,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 .addComponent(btnCancelCurrentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCancelAllCourseRegisted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnExportListRegisted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ControlPanel1Layout.setVerticalGroup(
@@ -462,8 +449,7 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelAllCourseRegisted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelCurrentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnExportListRegisted, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnCancelCurrentCourse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         txtSumFeeMustPay.setEditable(false);
@@ -631,12 +617,21 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                 rs = syBLL.GetDeadlineToRegister(syPublic);
                 if (rs.next()) {
                     Calendar calToCompare = Calendar.getInstance();
+                    calToCompare.setTime(rs.getDate(1));
+                    int d = calToCompare.getTime().getDay();
+                    int m = calToCompare.getTime().getMonth();
+                    int y = calToCompare.getTime().getYear();
+                    Date dtCompare = new Date(y, m, d);
+                    //
                     Calendar cNow = Calendar.getInstance();
                     cNow.setTime(cNow.getTime());
+                    int d1 = cNow.getTime().getDay();
+                    int m1 = cNow.getTime().getMonth();
+                    int y1 = cNow.getTime().getYear();
+                    Date dtNow = new Date(y1,m1,d1);
                     //kiem tra xem da het han dang ki chưa?
-                    calToCompare.setTime(rs.getDate(1));
-                    calToCompare.roll(Calendar.DATE, true);//tang them 1 ngay
-                    if (!cNow.before(calToCompare)) {//neu ngay hien tai nho hon han dang ki
+                    if (!(cNow.before(calToCompare) || dtNow.compareTo(dtCompare) == 0)) {//neu ngay hien tai nho hon han dang ki
+                        //JOptionPane.showMessageDialog(this, "Con thoi gian dang ky");
                         JOptionPane.showMessageDialog(this, "Đã hết hạn đăng kí môn học trong học kì này");
                         //xoa tat ca cac mon hoc hien tai trong list da dang ki neu co
                         DeleteDataFromListCourseRegisted();
@@ -734,8 +729,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                         dtmRegisted.addRow(data_rows);
                     }
                     CaculateMoneyAndCredit();
-                    //cho phep bam nut xuat danh sach mon hoc
-                    btnExportListRegisted.setEnabled(true);
                 }
 
             } else {
@@ -770,7 +763,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         }
         btnRegister.setEnabled(false);
         btnCancelAll.setEnabled(false);
-        btnExportListRegisted.setEnabled(false);
     }//GEN-LAST:event_btnCancelAllActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
@@ -812,19 +804,25 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
                     dtmRegisted.addRow(data_rows);
                 }
             }
-            //cho phep bam nut xuat danh sach mon hoc
-            btnExportListRegisted.setEnabled(true);
 ////////////////////////////////////////////////////////////////////////////////////
             //kiem tra mon hoc tien quyet
-            for (int i = 0; i < dtmRegisted.getRowCount(); i++) {
+            for (int i = dtmRegisted.getRowCount() - 1; i >= 0 ; i--) {
                 String maMonHoc = String.valueOf(dtmRegisted.getValueAt(i, 0));
-                if (!rcBLL.CheckCourseRequest(txtMssv.getText(), maMonHoc)) {
+                ResultSet rs = rcBLL.CheckCourseRequest(txtMssv.getText(), maMonHoc);
+                String listCourseRequire = "";
+                while(rs.next()){
+                    listCourseRequire += (rs.getString(1) + "\n");
+                }
+                if(!listCourseRequire.isEmpty()){
                     JOptionPane.showMessageDialog(this,
-                            "Bạn phải học và đậu các môn tiên quyết của môn:\n "
-                            + String.valueOf(dtmRegisted.getValueAt(i, 1)));
+                            "Để đăng kí môn: " + String.valueOf(dtmRegisted.getValueAt(i, 2))
+                    + "\nSinh viên phải học và đậu (các) môn:\n" + listCourseRequire, "Môn học bị hủy", JOptionPane.WARNING_MESSAGE);
                     //xoa mon khong du dieu kien mon hoc tien quyet
                     dtmRegisted.removeRow(i);
                 }
+            }
+            if(dtmRegisted.getRowCount() <= 0){
+                return;
             }
             ///////tinh tien va so tin chi
             if (!CaculateMoneyAndCredit()) {//neu không thỏa số lượng tín chỉ tối đa
@@ -959,7 +957,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         txtSumFeeMustPay.setText("0");
         btnCancelCurrentCourse.setEnabled(false);
         btnCancelAllCourseRegisted.setEnabled(false);
-        btnExportListRegisted.setEnabled(false);
     }
 
     private void cboHocKiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboHocKiActionPerformed
@@ -1186,10 +1183,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCancelAllCourseRegistedActionPerformed
 
-    private void btnExportListRegistedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportListRegistedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnExportListRegistedActionPerformed
-
     private void cboYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboYearActionPerformed
         CheckStudentAndLoadCourse();
     }//GEN-LAST:event_cboYearActionPerformed
@@ -1209,7 +1202,6 @@ public class FrmRegisterCourses extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXButton btnCancelAll;
     private org.jdesktop.swingx.JXButton btnCancelAllCourseRegisted;
     private org.jdesktop.swingx.JXButton btnCancelCurrentCourse;
-    private org.jdesktop.swingx.JXButton btnExportListRegisted;
     private org.jdesktop.swingx.JXButton btnRegister;
     private org.jdesktop.swingx.JXButton btnSearchStudent;
     private javax.swing.JComboBox cboHocKi;

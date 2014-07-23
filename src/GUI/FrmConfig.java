@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author John
+ * @author THanhTHaiNguyen...T moi sua file nay
  */
 public class FrmConfig extends javax.swing.JFrame {
 
@@ -264,38 +264,43 @@ public class FrmConfig extends javax.swing.JFrame {
         } else {
             // nếu chọn radio mở
             if (jrMo.isSelected()) {
-                if (encrypt.DecryptText(userName).equals("")) {
-                    try {
-                        String url = "jdbc:sqlserver://" + Server + ";databaseName=" + txtnameData.getText() + ";integratedSecurity=true";
-                        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                        // Khởi tạo kết nối
-                        this.connect = DriverManager.getConnection(url);
-                        // kết nối thành công, lưu thêm giá trị Database vô
-                        saveConnectString(txtnameData.getText());
-                        //enable bntMo
-                        btnMo.setEnabled(true);
-                    } catch (ClassNotFoundException | SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
-                        //Logger.getLogger(FrmConfig.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    readFileConnectionString();
+                    if (encrypt.DecryptText(userName).equals("")) {
+                        try {
+                            String url = "jdbc:sqlserver://" + Server + ";databaseName=" + txtnameData.getText() + ";integratedSecurity=true";
+                            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                            // Khởi tạo kết nối
+                            this.connect = DriverManager.getConnection(url);
+                            // kết nối thành công, lưu thêm giá trị Database vô
+                            saveConnectString(txtnameData.getText());
+                            //enable bntMo
+                            btnMo.setEnabled(true);
+                        } catch (ClassNotFoundException | SQLException ex) {
+                            JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
+                            //Logger.getLogger(FrmConfig.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    } else {// nếu kết nối dùng tài khoản sa
+                        SQLServerDataSource ds = new SQLServerDataSource();
+                        ds.setServerName(Server);
+                        ds.setPortNumber(1433);
+                        ds.setDatabaseName(txtnameData.getText());
+                        ds.setUser(encrypt.DecryptText(userName));
+                        ds.setPassword(encrypt.DecryptText(passWord));
+                        try {
+                            this.connect = ds.getConnection();
+                            // Nếu kết nối thành công, tiến hành lưu vào file
+                            saveConnectString(txtnameData.getText());
+                            // enable button Mo
+                            btnMo.setEnabled(true);
+                        } catch (SQLServerException ex) {
+                            Logger.getLogger(FrmProperties.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } catch (IOException ex) {
                     
-                } else {// nếu kết nối dùng tài khoản sa
-                    SQLServerDataSource ds = new SQLServerDataSource();
-                    ds.setServerName(Server);
-                    ds.setPortNumber(1433);
-                    ds.setDatabaseName(txtnameData.getText());
-                    ds.setUser(encrypt.DecryptText(userName));
-                    ds.setPassword(encrypt.DecryptText(passWord));
-                    try {
-                        this.connect = ds.getConnection();
-                        // Nếu kết nối thành công, tiến hành lưu vào file
-                        saveConnectString(txtnameData.getText());
-                        // enable button Mo
-                        btnMo.setEnabled(true);
-                    } catch (SQLServerException ex) {
-                        Logger.getLogger(FrmProperties.class.getName()).log(Level.SEVERE, null, ex);
-                        JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
-                    }
                 }
             }
         }
@@ -324,39 +329,48 @@ public class FrmConfig extends javax.swing.JFrame {
         } else {
             // nếu chọn radio tạo mới
             if (jrTao.isSelected()) {
-                if (encrypt.DecryptText(userName).equals("")) {
-                    try {
-                        String url = "jdbc:sqlserver://" + Server + ";integratedSecurity=true";
-                        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                        // Khởi tạo kết nối
-                        this.connect = DriverManager.getConnection(url);
-                        // Thực hiện tạo mới cơ sở dữ liệu
+                try {
+                    readFileConnectionString();
+                    if (encrypt.DecryptText(userName).equals("")) {
+                        try {
+                            String url = "jdbc:sqlserver://" + Server + ";integratedSecurity=true";
+                            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                            // Khởi tạo kết nối
+                            this.connect = DriverManager.getConnection(url);
+                            // Thực hiện tạo mới cơ sở dữ liệu
+                            
+                            
+                            // kết nối thành công, lưu thêm giá trị Database vô
+                            saveConnectString(txtnameData.getText());
+                            //enable bntMo
+                            btnMo.setEnabled(true);
+                        } catch (ClassNotFoundException | SQLException ex) {
+                            JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
+                            //Logger.getLogger(FrmConfig.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         
-                        // kết nối thành công, lưu thêm giá trị Database vô
-                        saveConnectString(txtnameData.getText());
-                        //enable bntMo
-                        btnMo.setEnabled(true);
-                    } catch (ClassNotFoundException | SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
-                        //Logger.getLogger(FrmConfig.class.getName()).log(Level.SEVERE, null, ex);
+                    } else {// nếu kết nối dùng tài khoản sa
+                        SQLServerDataSource ds = new SQLServerDataSource();
+                        ds.setServerName(Server);
+                        ds.setPortNumber(1433);
+                        ds.setDatabaseName(txtnameData.getText());
+                        ds.setUser(encrypt.DecryptText(userName));
+                        ds.setPassword(encrypt.DecryptText(passWord));
+                        try {
+                            this.connect = ds.getConnection();
+                            // Nếu kết nối thành công, tiến hành lưu vào file
+                            
+                            ///Thực hiện tạo mới CSDL
+                            
+                            saveConnectString(txtnameData.getText());
+                            // enable button Mo
+                            btnMo.setEnabled(true);
+                        } catch (SQLServerException ex) {
+                            JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                    
-                } else {// nếu kết nối dùng tài khoản sa
-                    SQLServerDataSource ds = new SQLServerDataSource();
-                    ds.setServerName(Server);
-                    ds.setPortNumber(1433);
-                    ds.setDatabaseName(txtnameData.getText());
-                    ds.setUser(encrypt.DecryptText(userName));
-                    ds.setPassword(encrypt.DecryptText(passWord));
-                    try {
-                        this.connect = ds.getConnection();
-                        // Nếu kết nối thành công, tiến hành lưu vào file
-                        saveConnectString(txtnameData.getText());
-                        // enable button Mo
-                        btnMo.setEnabled(true);
-                    } catch (SQLServerException ex) {
-                        JOptionPane.showMessageDialog(this, "Vui lòng liên hệ quản trị viên.", "KHÔNG THỂ KẾT NỐI.", JOptionPane.ERROR_MESSAGE);
-                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(FrmConfig.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

@@ -514,8 +514,6 @@
                       <Component id="btnCancelCurrentCourse" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnCancelAllCourseRegisted" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnExportListRegisted" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -527,7 +525,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnCancelAllCourseRegisted" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnCancelCurrentCourse" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnExportListRegisted" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -550,15 +547,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelAllCourseRegistedActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="org.jdesktop.swingx.JXButton" name="btnExportListRegisted">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t danh s&#xe1;ch m&#xf4;n h&#x1ecd;c &#x111;&#xe3; &#x111;&#x103;ng k&#xed;"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExportListRegistedActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

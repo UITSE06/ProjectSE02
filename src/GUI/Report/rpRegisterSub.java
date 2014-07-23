@@ -295,6 +295,8 @@ public class rpRegisterSub extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 selectedData = "";
                 getNameStudent = "";
+                modelCondition = new DefaultComboBoxModel(fAddtoArrr_fill_cbCondition().toArray());
+                cbCoFilter.setModel(modelCondition);
                 fGetData();
             }
         });
@@ -312,6 +314,8 @@ public class rpRegisterSub extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
                 selectedData = "";
                 getNameStudent = "";
+                modelCondition = new DefaultComboBoxModel(fAddtoArrr_fill_cbCondition().toArray());
+                cbCoFilter.setModel(modelCondition);
                 fGetData();
             }
         });
@@ -986,10 +990,11 @@ public class rpRegisterSub extends javax.swing.JPanel {
             parameter.put("rpStateRegister", String.valueOf(_stateRegister));
             parameter.put("rpSemeterText", String.valueOf(semeter));
             // InputStream input = new FileInputStream(new File("C:\\Users\\Hung\\SkyDrive\\Tai lieu hoc tap\\Dev Project\\Java\\QLGiaoVu_DeMon\\src\\GUI\\Report\\rp_RegisterSubject.jrxml"));
-            InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_RegisterSubject.jrxml");
-            JasperDesign design = JRXmlLoader.load(input);
-            JasperReport report = JasperCompileManager.compileReport(design);
-            JasperPrint jpr = JasperFillManager.fillReport(report, parameter, conn.getConnect());
+            InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_RegisterSubject.jasper");
+            //JasperDesign design = JRXmlLoader.load(input);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(input);
+            //JasperReport report = JasperCompileManager.compileReport(design);
+            JasperPrint jpr = JasperFillManager.fillReport(jasperReport, parameter, conn.getConnect());
             JasperViewer.viewReport(jpr, false);
 
         } catch (Exception ex) {
@@ -1088,11 +1093,11 @@ public class rpRegisterSub extends javax.swing.JPanel {
                 regFormPublic.setY2(_year2);
             }
             rs = regFormBLL.SEARCH_STUDENT(regFormPublic, stPublic);
-            do{
-                
+            do {
+
                 fSetTableListStudent();
                 fFillDataToTBListStudent1();
-            }while(rs.next());
+            } while (rs.next());
         } catch (SQLException ex) {
             Logger.getLogger(rpRegisterSub.class.getName()).log(Level.SEVERE, null, ex);
         }

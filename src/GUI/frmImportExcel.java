@@ -162,8 +162,8 @@ public class frmImportExcel extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnNhapExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
-                .addComponent(btCheckData, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btCheckData, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jXButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
@@ -310,7 +310,7 @@ public class frmImportExcel extends javax.swing.JFrame {
                         btnNhapExcel.setEnabled(false);
                         btnXoa.setEnabled(true);
                         btnHuy.setEnabled(true);
-                        btnLuuDS.setEnabled(true);
+                        btnLuuDS.setEnabled(false);
                         btnNhapExcel.setEnabled(false);
                         jXButton1.setEnabled(true);
                          btCheckData.setEnabled(true);
@@ -511,10 +511,9 @@ public class frmImportExcel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Dữ liệu bị lỗi.\nBạn vui lòng kiểm tra dữ liệu tại dòng số "+countError+".\nXin cảm ơn!", "Lỗi!", JOptionPane.ERROR_MESSAGE);
             btnNhapExcel.setEnabled(true);
             btnLuuDS.setEnabled(false);
-            btnLuuDS.setEnabled(false);
             jXButton1.setEnabled(false);
-            btnHuy.setEnabled(false);
-            btnXoa.setEnabled(false);
+            btnHuy.setEnabled(true);
+            btnXoa.setEnabled(true);
              btCheckData.setEnabled(true);
         }
     }//GEN-LAST:event_btCheckDataActionPerformed

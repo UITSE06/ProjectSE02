@@ -128,13 +128,11 @@
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="txtMaNV" alignment="2" max="32767" attributes="0"/>
-                              <Group type="103" alignment="2" groupAlignment="2" attributes="0">
-                                  <Component id="cbxChucVu" alignment="2" max="32767" attributes="0"/>
-                                  <Component id="txtDiaChi" alignment="2" min="-2" pref="170" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="cbxChucVu" alignment="2" max="32767" attributes="0"/>
                               <Component id="dateNgaySinh" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtDiaChi" alignment="2" min="-2" pref="170" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jradioNam" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -254,9 +252,6 @@
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXDatePicker" name="dateNgaySinh">
-                  <Properties>
-                    <Property name="editable" type="boolean" value="false"/>
-                  </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dateNgaySinhActionPerformed"/>
                   </Events>
@@ -484,15 +479,6 @@
                   <SubComponents>
                     <Component class="org.jdesktop.swingx.JXTable" name="tb_Excel">
                       <Properties>
-                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="5" rowCount="0">
-                            <Column editable="true" title="STT" type="java.lang.Object"/>
-                            <Column editable="true" title="H&#x1ecd; v&#xe0; T&#xea;n" type="java.lang.Object"/>
-                            <Column editable="true" title="Tu&#x1ed5;i" type="java.lang.Object"/>
-                            <Column editable="true" title="&#x110;&#x1ecb;a ch&#x1ec9;" type="java.lang.Object"/>
-                            <Column editable="true" title="M&#xe3; s&#x1ed1; sinh vi&#xea;n" type="java.lang.Object"/>
-                          </Table>
-                        </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -631,15 +617,6 @@
               <SubComponents>
                 <Component class="org.jdesktop.swingx.JXTable" name="tbNhanVien">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="5" rowCount="0">
-                        <Column editable="true" title="M&#xe3; nh&#xe2;n vi&#xea;n" type="java.lang.Object"/>
-                        <Column editable="true" title="H&#x1ecd; t&#xea;n" type="java.lang.Object"/>
-                        <Column editable="true" title="Ng&#xe0;y sinh" type="java.lang.Object"/>
-                        <Column editable="true" title="Gi&#x1edb;i t&#xed;nh" type="java.lang.Object"/>
-                        <Column editable="true" title="&#x110;&#x1ecb;a ch&#x1ec9;" type="java.lang.Object"/>
-                      </Table>
-                    </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="1">
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
@@ -669,7 +646,6 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
-                    <Property name="editable" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="" noResource="true"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>

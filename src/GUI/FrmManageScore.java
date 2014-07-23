@@ -10,17 +10,29 @@ import java.awt.event.KeyEvent;
 import BLL.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.swingx.JXTextField;
+import DAL.SQLServerConnector;
 
 /**
  *
@@ -37,6 +49,7 @@ public class FrmManageScore extends javax.swing.JPanel {
     private final ClsRegisterCourses_BLL rcBLL = new ClsRegisterCourses_BLL();
     private final ClsSemesterYear_BLL syBLL = new ClsSemesterYear_BLL();
 
+    SQLServerConnector conn;
     private JXTextField txtDTB;
 
     /**
@@ -51,18 +64,19 @@ public class FrmManageScore extends javax.swing.JPanel {
 
     // Hàm khởi tạo table bảng điểm
     private void initTable() {
-        String[] titleMH = {"Mã môn học", "Mã môn học lý thuyết", "Tên môn học", "Loại môn học", "Số tiết", "Điểm trung bình"};
-        dtm = new DefaultTableModel(titleMH, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column >= 5;
-            }
-        };
+//        String[] titleMH = {"Mã môn học", "Mã môn học lý thuyết", "Tên môn học", "Loại môn học", "Số tiết", "Điểm trung bình"};
+//        dtm = new DefaultTableModel(titleMH, 0) {
+//            @Override
+//            public boolean isCellEditable(int row, int column) {
+//                return column >= 5;
+//            }
+//        };
+        dtm = (DefaultTableModel) tbListCourses.getModel();
     }
 
     // Hàm set thuộc tính cho table bảng điểm
     private void setTableSinhVienModel() {
-        tbListCourses.setModel(dtm);
+        //tbListCourses.setModel(dtm);
         tbListCourses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // ẩn cột mã môn lý thuyết đi
         tbListCourses.getColumnModel().getColumn(1).setMinWidth(0);
@@ -97,8 +111,8 @@ public class FrmManageScore extends javax.swing.JPanel {
                     }
                 }
             });
-            // Chèn textFlied vào table
-            setTextFlied_tbListCourses();
+            //
+            //setTextFlied_tbListCourses();
         } catch (Exception ex) {
             Logger.getLogger(FrmManageScore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -297,12 +311,19 @@ public class FrmManageScore extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Môn Học", "MaMHLT", "Tên Môn Học", "MaLoaiMH", "Loại Môn Học", "Số Tín Chỉ", "Điểm Trung Bình"
+                "Mã Môn Học", "MaMHLT", "Tên Môn Học", "Loại Môn Học", "Số Tiết", "Điểm Trung Bình"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Float.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -513,7 +534,7 @@ public class FrmManageScore extends javax.swing.JPanel {
                     data_rows.add(rsCourses.getString(3));
                     data_rows.add(rsCourses.getString(4));
                     data_rows.add(rsCourses.getString(5));
-                    data_rows.add(rsCourses.getString(6));
+                    data_rows.add(rsCourses.getFloat(6));
                     dtm.addRow(data_rows);
                 }while(rsCourses.next());
                 btnLoadMH.setEnabled(false);
@@ -536,6 +557,10 @@ public class FrmManageScore extends javax.swing.JPanel {
                 bdP.setMaMon(tbListCourses.getValueAt(i, 0).toString());
                 bdP.setMssv(txtMssv.getText());
                 float a = Float.parseFloat(tbListCourses.getValueAt(i, 5).toString());
+                if(a > 10 || a < 0){
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập lại điểm tại dòng " + (i+1), "THÔNG BÁO", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 bdP.setDiemTB(a);
                 bdP.setNam1(Integer.parseInt(cboNam1.getSelectedItem().toString()));
                 bdP.setNam2(Integer.parseInt(txtNam2.getText()));
@@ -547,7 +572,8 @@ public class FrmManageScore extends javax.swing.JPanel {
                 Logger.getLogger(FrmManageScore.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        JOptionPane.showMessageDialog(this, "Thanh cong");
+        JOptionPane.showMessageDialog(this, "Thành công");
+        HuyThaoTac();
     }//GEN-LAST:event_btnLuuLaiActionPerformed
 
     // thực hiện hủy các thao tác trước đó
@@ -574,8 +600,52 @@ public class FrmManageScore extends javax.swing.JPanel {
     }//GEN-LAST:event_btnHuyTTActionPerformed
 
     private void btnXuatBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatBDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXuatBDActionPerformed
+ try {
+            // TODO add your handling code here:
+            String _mssv = txtMssv.getText();
+            String _HoTen = txtHoTen.getText();
+            String _Khoa = txtKhoa.getText();
+            String _Nganh = txtNganh.getText();
+            String _Namhoc = (String) cboNam1.getSelectedItem() +"-"+ txtNam2.getText();
+            Integer _nam1 = Integer.parseInt((String) cboNam1.getSelectedItem());
+            Integer _nam2 = Integer.parseInt(txtNam2.getText());
+            Integer hocky = Integer.parseInt((String) cboHocKi.getSelectedItem());
+            String _hocky = (String) cboHocKi.getSelectedItem();
+            Integer _tinchi = 0;
+            float _diemtrungbinh = 0;
+            float _diem1 = 0;
+            for(int i = 0; i< tbListCourses.getRowCount(); i++)
+            {
+                 Integer _tc = Integer.valueOf(tbListCourses.getValueAt(i, 4).toString());
+                float _diem =  Float.parseFloat(tbListCourses.getValueAt(i, 5).toString());
+                _tinchi = _tinchi+_tc;
+                _diem1 += _diem*_tc;
+            }
+            _diemtrungbinh = _diem1/_tinchi;
+           // String _hocky = cboHocKi.getName();
+            HashMap<String,Object> parameter = new HashMap<>();
+            
+            parameter.put("mssv",_mssv);
+            parameter.put("nameStudent_RP",_HoTen);
+            parameter.put("facultyName_RP",_Khoa);
+            parameter.put("scholactis",_Namhoc);
+            parameter.put("mayjorsName_RP",_Nganh);
+            parameter.put("semeter",_hocky);
+            parameter.put("hockyRP",hocky);
+            parameter.put("nam1",_nam1);
+            parameter.put("nam2",_nam2); 
+            parameter.put("tongtc",_tinchi);
+            parameter.put("diemtb",_diemtrungbinh);
+            //conn = pfBLL.GetConnection();]
+            conn = new SQLServerConnector();
+            InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_Score.jrxml");
+            JasperDesign design = JRXmlLoader.load(input);
+            JasperReport report = JasperCompileManager.compileReport(design);
+            JasperPrint jpr = JasperFillManager.fillReport(report, parameter, conn.getConnect());
+            JasperViewer.viewReport(jpr, false);
+        } catch (Exception ex) {
+            Logger.getLogger(FrmManageScore.class.getName()).log(Level.SEVERE, null, ex);
+        }    }//GEN-LAST:event_btnXuatBDActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

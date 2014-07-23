@@ -8,11 +8,14 @@ package GUI;
 import BLL.*;
 import PUBLIC.*;
 import java.awt.event.KeyEvent;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,6 +23,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -39,6 +50,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
     private int sumMoneyDebt = 0;
     private int sumMoneyReduced = 0;
     private int moneyStudentPay;
+    Connection conn;
 
     public FrmPaymentFee() {
         initComponents();
@@ -97,6 +109,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         txtSumMoneyReduced = new org.jdesktop.swingx.JXTextField();
         HoTen16 = new org.jdesktop.swingx.JXLabel();
         HoTen6 = new org.jdesktop.swingx.JXLabel();
+        btExport = new org.jdesktop.swingx.JXButton();
         TopPanel = new org.jdesktop.swingx.JXPanel();
         Title = new org.jdesktop.swingx.JXLabel();
 
@@ -324,50 +337,63 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         HoTen6.setText("Tổng tiền còn nợ:");
         HoTen6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        btExport.setText("Xuất phiếu thu");
+        btExport.setEnabled(false);
+        btExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ControlPanel1Layout = new javax.swing.GroupLayout(ControlPanel1);
         ControlPanel1.setLayout(ControlPanel1Layout);
         ControlPanel1Layout.setHorizontalGroup(
             ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(ControlPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ControlPanel1Layout.createSequentialGroup()
-                        .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(HoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HoTen4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HoTen5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HoTen6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ControlPanel1Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(btnGetMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(btExport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(ControlPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSumMoneyDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(HoTen10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(HoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(HoTen3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(HoTen4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(HoTen5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(HoTen6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSumMoneyDebt, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HoTen10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSumMoneyPaid, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HoTen9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSumMoneyRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HoTen7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSumMoneyMustPay, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(HoTen8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(ControlPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtMoneyStudentPay, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(HoTen11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(ControlPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSumMoneyPaid, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(HoTen15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15)
+                                .addComponent(txtSumMoneyReduced, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(HoTen9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(ControlPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSumMoneyRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(HoTen7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(ControlPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSumMoneyMustPay, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(HoTen8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(ControlPanel1Layout.createSequentialGroup()
-                                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(btnGetMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                                    .addComponent(txtMoneyStudentPay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(HoTen11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(ControlPanel1Layout.createSequentialGroup()
-                        .addComponent(HoTen15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(txtSumMoneyReduced, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(HoTen16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(HoTen16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(14, 14, 14))
         );
         ControlPanel1Layout.setVerticalGroup(
@@ -403,8 +429,10 @@ public class FrmPaymentFee extends javax.swing.JPanel {
                     .addComponent(HoTen5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMoneyStudentPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(HoTen11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGetMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(ControlPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGetMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btExport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -446,7 +474,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             .addGroup(FullPanelLayout.createSequentialGroup()
                 .addGap(2, 2, 2)
                 .addComponent(TopInFull, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         Title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -561,6 +589,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             sumMoneyDebt = 0;
             sumMoneyReduced = 0;
             moneyStudentPay = 0;
+            btExport.setEnabled(true);
         } else {
             JOptionPane.showMessageDialog(this, "Thu học phí thất bại!");
         }
@@ -644,6 +673,50 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtMoneyStudentPayKeyPressed
 
+    private void btExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExportActionPerformed
+
+        try {
+            // TODO add your handling code here:
+            HashMap<String, Object> parameter = new HashMap<String, Object>();
+            String _tongsotienphaidong = txtSumMoneyMustPay.getText();
+            String _sotiendangky = txtSumMoneyRegister.getText();
+            String _soduocgiam = txtSumMoneyReduced.getText();
+            String _sotienthu = txtMoneyStudentPay.getText();
+            String _sotienconno = txtSumMoneyDebt.getText();
+            String _tongtiendadong = txtSumMoneyPaid.getText();
+            String _mssv = txtIdStudent.getText();
+            String _tenkhoa = txtFacuty.getText();
+            String _tennganh = txtMayjor.getText();
+            String _tensv = txtNameOfStudent.getText();
+            String _semeter = (String) cboSemester.getSelectedItem();
+            String _namhoc = (String) cboFirstYear.getSelectedItem();
+            parameter.put("tongtienphaidong", _tongsotienphaidong);
+            parameter.put("tongtiendangky", _sotiendangky);
+            parameter.put("tongtiendadong", _tongtiendadong);
+            parameter.put("tongtienduocgiam", _soduocgiam);
+            parameter.put("sotienthu", _sotienthu);
+            parameter.put("sotienconno", _sotienconno);
+            parameter.put("rpMSSV", _mssv);
+            parameter.put("nameStudent_RP", _tensv);
+            parameter.put("facultyName_RP", _tenkhoa);
+            parameter.put("mayjorsName_RP", _tennganh);
+            parameter.put("semeter_RP", _semeter);
+            parameter.put("scholastic_RP", _namhoc);
+
+            conn = pfBLL.GetConnection();
+            InputStream input = this.getClass().getClassLoader().getResourceAsStream("GUI/Report/rp_PaymentFee.jrxml");
+            JasperDesign design = JRXmlLoader.load(input);
+            JasperReport report = JasperCompileManager.compileReport(design);
+            JasperPrint jpr = JasperFillManager.fillReport(report, parameter, conn);
+            JasperViewer.viewReport(jpr, false);
+            btExport.setEnabled(false);
+        } catch (JRException ex) {
+            Logger.getLogger(FrmPaymentFee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(FrmPaymentFee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btExportActionPerformed
+
     private void LoadSemesterInfo() {
         if (cboFirstYear.getSelectedIndex() == 0 || cboSemester.getSelectedIndex() == 0) {
             return;
@@ -655,31 +728,31 @@ public class FrmPaymentFee extends javax.swing.JPanel {
         try {
             ResultSet rs = pfBLL.LoadAllDeadline(syPublic);
             if (rs.next()) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                Calendar calNow = Calendar.getInstance();
-                calNow.setTime(calNow.getTime());
-                //Date deadlineToRegister = ;
+
                 Calendar deadlineToRegister = Calendar.getInstance();
                 deadlineToRegister.setTime(rs.getDate(5));
-                deadlineToRegister.roll(Calendar.DATE, true);//tăng thêm 1 ngày
+                //
+                Calendar calNow = Calendar.getInstance();
+                calNow.setTime(calNow.getTime());
 
-                //Calendar.getInstance().before(deadlineToRegister);
-                if (deadlineToRegister.after(calNow)) {
+                //deadlineToRegister.roll(Calendar.DATE, true);//tăng thêm 1 ngày
+                if (deadlineToRegister.after(calNow) || deadlineToRegister.getTime().getDay() == calNow.getTime().getDay()) {
                     JOptionPane.showMessageDialog(this, "Chưa hết hạn đăng kí môn học\nKhông được thu học phí");
                     ClearText();
                     return;
                 }
 
                 Date deadlineToPayFee = rs.getDate(1);
-                if (deadlineToPayFee.before(Calendar.getInstance().getTime())) {
+                if (!(deadlineToPayFee.after(Calendar.getInstance().getTime()) || deadlineToPayFee.getDay() == Calendar.getInstance().getTime().getDay())) {
                     JOptionPane.showMessageDialog(this, "Đã hết hạn đóng học phí");
                     ClearText();
                     return;
                 }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 txtDeadlineToPayFee.setText(sdf.format(deadlineToPayFee));
 
                 Date deadlineReduce = rs.getDate(2);
-                if (deadlineReduce.after(Calendar.getInstance().getTime())) {
+                if ((deadlineReduce.after(Calendar.getInstance().getTime()) || deadlineReduce.getDay() == Calendar.getInstance().getTime().getDay())) {
                     percentReduce = rs.getInt(3);
                 }
                 txtDeadlineReduceFee.setText(sdf.format(deadlineReduce));
@@ -722,9 +795,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
             NewStudent();
             return false;
         } else {
-            //tat cac cbo hoc ki va nam hoc
-            cboSemester.setEnabled(false);
-            cboFirstYear.setEnabled(false);
+
             clsStudent_Public stPublic = new clsStudent_Public();
             stPublic.setIdStudent(txtIdStudent.getText());
             ClsRegisterCourses_BLL rcBLL = new ClsRegisterCourses_BLL();
@@ -774,17 +845,25 @@ public class FrmPaymentFee extends javax.swing.JPanel {
                             sumMoneyDebt = (sumMoneyMustPay - sumMoneyPaid) - sumMoneyReduced;
                         }
                         txtSumMoneyDebt.setText(sumMoneyDebt + "");
-                        
+
                         idRegisterForm = rs.getString(4);//lay ma phieu dang ki
                         txtMoneyStudentPay.setEditable(true);
+                        //tat cac cbo hoc ki va nam hoc
+                        cboSemester.setEnabled(false);
+                        cboFirstYear.setEnabled(false);
                     } else {
                         JOptionPane.showMessageDialog(this, "Sinh viên chưa đăng kí môn học");
-                        //NewStudent();
+                        //bat cac cbo hoc ki va nam hoc
+                        cboSemester.setEnabled(true);
+                        cboFirstYear.setEnabled(true);
                         return false;
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Mã số sinh viên không hợp lệ!");
                     NewStudent();
+                    //bat cac cbo hoc ki va nam hoc
+                    cboSemester.setEnabled(true);
+                    cboFirstYear.setEnabled(true);
                     return false;
                 }
             } catch (Exception ex) {
@@ -817,6 +896,7 @@ public class FrmPaymentFee extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXPanel TopLeft;
     private org.jdesktop.swingx.JXPanel TopLeft1;
     private org.jdesktop.swingx.JXPanel TopPanel;
+    private org.jdesktop.swingx.JXButton btExport;
     private org.jdesktop.swingx.JXButton btnGetMoney;
     private org.jdesktop.swingx.JXButton btnSearch_New;
     private javax.swing.JComboBox cboFirstYear;
